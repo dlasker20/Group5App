@@ -1,0 +1,142 @@
+NYT Most Popular API URIs
+
+URI Structure:
+
+http://api.nytimes.com/svc/mostpopular/{version}/{resource-type}/{section}[/share-types]/{time-period}[.response-format]?api-key={your-API-key}
+
+
+News Desks that we will use:
+Arts
+Blogs
+Business Day
+Food
+Opinion
+Sports
+U.S.
+World
+
+==================================
+
+Request URIs:
+
+REQUEST TO GET SECTION NAMES:
+
+http://api.nytimes.com/svc/mostpopular/v2/mostviewed/
+sections-list.json?api-key=b32dcf0a887c83fe37220653ad10c91b:8:71573066
+
+
+
+REQUEST TO GET: most viewed arts articles published in the past day.
+
+http://api.nytimes.com/svc/mostpopular/v2/mostviewed/Arts/1.json?api-key=b32dcf0a887c83fe37220653ad10c91b:8:71573066
+
+
+* Swap out "Arts" with another section name to change the news category
+* Swap out “1.json” with “7.json” or “30.json” to change time frame to past week or month
+
+===================================
+
+FULL LIST OF POSSIBLE SECTIONS:
+
+ {
+      "name": ""
+    },
+    {
+      "name": "Arts"
+    },
+    {
+      "name": "Automobiles"
+    },
+    {
+      "name": "Blogs"
+    },
+    {
+      "name": "Books"
+    },
+    {
+      "name": "Business Day"
+    },
+    {
+      "name": "Crosswords\/Games"
+    },
+    {
+      "name": "Education"
+    },
+    {
+      "name": "Fashion & Style"
+    },
+    {
+      "name": "Feeds"
+    },
+    {
+      "name": "Food"
+    },
+    {
+      "name": "Health"
+    },
+    {
+      "name": "Home & Garden"
+    },
+    {
+      "name": "Job Market"
+    },
+    {
+      "name": "Magazine"
+    },
+    {
+      "name": "membercenter"
+    },
+    {
+      "name": "Movies"
+    },
+    {
+      "name": "Multimedia"
+    },
+    {
+      "name": "N.Y. \/ Region"
+    },
+    {
+      "name": "NYT Now"
+    },
+    {
+      "name": "Opinion"
+    },
+    {
+      "name": "Real Estate"
+    },
+    {
+      "name": "Science"
+    },
+    {
+      "name": "Sports"
+    },
+    {
+      "name": "Style"
+    },
+    {
+      "name": "Sunday Review"
+    },
+    {
+      "name": "T Magazine"
+    },
+    {
+      "name": "Technology"
+    },
+    {
+      "name": "The Upshot"
+    },
+    {
+      "name": "Theater"
+    },
+    {
+      "name": "Travel"
+    },
+    {
+      "name": "U.S."
+    },
+    {
+      "name": "World"
+    },
+    {
+      "name": "Your Money"
+    }
