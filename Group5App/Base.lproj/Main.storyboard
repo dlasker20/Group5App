@@ -101,9 +101,9 @@
                                     <constraint firstAttribute="height" constant="49" id="k4g-T7-tYL"/>
                                 </constraints>
                                 <items>
-                                    <tabBarItem title="Delete" id="ulR-Tq-3Ap"/>
-                                    <tabBarItem title="Add" id="QWS-Oz-gS1"/>
-                                    <tabBarItem title="Days" id="o4H-WP-e2e"/>
+                                    <tabBarItem title="Delete" image="delete" id="ulR-Tq-3Ap"/>
+                                    <tabBarItem title="Add" image="add" id="QWS-Oz-gS1"/>
+                                    <tabBarItem title="Days" image="forward" id="o4H-WP-e2e"/>
                                 </items>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -462,8 +462,8 @@
                                 <rect key="frame" x="0.0" y="551" width="600" height="49"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <tabBarItem title="Delete" id="Lzl-1n-Psl"/>
-                                    <tabBarItem title="Add" id="tpL-3z-wsK"/>
+                                    <tabBarItem title="Delete" image="delete" id="Lzl-1n-Psl"/>
+                                    <tabBarItem title="Add" image="add" id="tpL-3z-wsK"/>
                                 </items>
                             </tabBar>
                         </subviews>
@@ -490,6 +490,11 @@
             <point key="canvasLocation" x="1077" y="1060"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="add" width="32" height="32"/>
+        <image name="delete" width="25" height="25"/>
+        <image name="forward" width="25" height="25"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="VgS-2B-Slj"/>
     </inferredMetricsTieBreakers>
