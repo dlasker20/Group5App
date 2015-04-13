@@ -32,3 +32,7 @@ class ArticlesViewController: UIViewController{
     
 
 }
+
+//Questions/TODOS
+//how to make tab bar hidden and then show up
+//unwind to 2 differnt spots selected day or days

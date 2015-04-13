@@ -18,6 +18,9 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vmu-yO-izH">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="30"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="RendezNews" id="M4e-rI-VfS">
                                         <barButtonItem key="rightBarButtonItem" image="calendar" id="6Pn-RH-rsX">
@@ -94,23 +97,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MPS-dp-Zpy">
-                                <rect key="frame" x="0.0" y="551" width="600" height="49"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="49" id="k4g-T7-tYL"/>
-                                </constraints>
-                                <items>
-                                    <tabBarItem title="Delete" image="delete" id="ulR-Tq-3Ap"/>
-                                    <tabBarItem title="Add" image="add" id="QWS-Oz-gS1"/>
-                                    <tabBarItem title="Days" image="days" id="o4H-WP-e2e"/>
-                                </items>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="k4g-T7-tYL"/>
-                                    </mask>
-                                </variation>
-                            </tabBar>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="leA-Mj-g0q">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
@@ -120,7 +106,11 @@
                                                 <segue destination="qNc-6U-ia4" kind="unwind" unwindAction="returnToArticles:" id="AiA-wj-e9t"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Vbf-TZ-8Lp"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Vbf-TZ-8Lp">
+                                            <connections>
+                                                <action selector="edit:" destination="YBF-Of-oHn" id="S2S-LA-ara"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -137,6 +127,25 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MPS-dp-Zpy">
+                                <rect key="frame" x="0.0" y="551" width="600" height="49"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="N5h-ce-BZQ"/>
+                                    <constraint firstAttribute="height" constant="49" id="k4g-T7-tYL"/>
+                                </constraints>
+                                <items>
+                                    <tabBarItem title="Delete" image="delete" id="ulR-Tq-3Ap"/>
+                                    <tabBarItem title="Add" image="add" id="QWS-Oz-gS1"/>
+                                    <tabBarItem title="Days" image="days" id="o4H-WP-e2e"/>
+                                </items>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="N5h-ce-BZQ"/>
+                                        <exclude reference="k4g-T7-tYL"/>
+                                    </mask>
+                                </variation>
+                            </tabBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -150,15 +159,19 @@
                             <constraint firstAttribute="bottom" secondItem="MPS-dp-Zpy" secondAttribute="bottom" id="kFz-zQ-CLT"/>
                             <constraint firstAttribute="trailing" secondItem="1Vj-ea-PIl" secondAttribute="trailing" id="pBI-fj-qNR"/>
                             <constraint firstItem="MPS-dp-Zpy" firstAttribute="leading" secondItem="Zmg-lk-eyV" secondAttribute="leading" id="tUD-h0-19j"/>
+                            <constraint firstItem="MPS-dp-Zpy" firstAttribute="top" secondItem="1Vj-ea-PIl" secondAttribute="bottom" id="u5d-Jp-m3Z"/>
                             <constraint firstAttribute="trailing" secondItem="MPS-dp-Zpy" secondAttribute="trailing" id="xFx-We-tPO"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="FTJ-qd-pSy"/>
+                                <exclude reference="u5d-Jp-m3Z"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="editButton" destination="Vbf-TZ-8Lp" id="Uvu-p1-d7p"/>
+                        <outlet property="tabBar" destination="MPS-dp-Zpy" id="rQ8-hf-pxL"/>
                         <segue destination="irG-Z5-JL0" kind="show" identifier="showDays" id="k5Q-HT-Lyq"/>
                         <segue destination="KXB-3e-rBX" kind="show" identifier="showScheduler1" id="qMU-sb-n2S"/>
                     </connections>
@@ -184,8 +197,16 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Scheduler" id="C7a-4x-J5f">
-                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="mh2-D3-o75"/>
-                                        <barButtonItem key="rightBarButtonItem" title="Save" id="Iab-ho-Qkf"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="mh2-D3-o75">
+                                            <connections>
+                                                <segue destination="jUU-Zn-uqf" kind="unwind" unwindAction="returnToDaySelected:" id="IDr-ne-sQc"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Save" id="Iab-ho-Qkf">
+                                            <connections>
+                                                <segue destination="jUU-Zn-uqf" kind="unwind" unwindAction="returnToDaySelected:" id="kny-PE-noA"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -193,7 +214,7 @@
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="181" id="CEl-gX-CvI">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pickDay" rowHeight="181" id="CEl-gX-CvI">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CEl-gX-CvI" id="ZZO-zy-r7l">
@@ -218,7 +239,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="75" id="VqO-Bw-IKQ">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="topicCell" rowHeight="75" id="VqO-Bw-IKQ">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VqO-Bw-IKQ" id="8K8-wc-txt">
@@ -257,7 +278,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="75" id="sT6-Sh-slx">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="typeCell" rowHeight="75" id="sT6-Sh-slx">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sT6-Sh-slx" id="Fyu-Ng-8ZU">
@@ -290,7 +311,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="75" id="4X2-bH-xqv">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notifyCell" rowHeight="75" id="4X2-bH-xqv">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4X2-bH-xqv" id="9dd-4K-P3u">
@@ -334,6 +355,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RNx-99-9LV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="jUU-Zn-uqf" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="380" y="1838"/>
         </scene>
@@ -353,8 +375,16 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Day Picker" id="l31-rl-Usg">
-                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="SL4-v2-oaY"/>
-                                        <barButtonItem key="rightBarButtonItem" title="Save" id="tqn-Gy-z8i"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="SL4-v2-oaY">
+                                            <connections>
+                                                <segue destination="3oC-Ky-6KZ" kind="unwind" unwindAction="returnToScheduler:" id="5YE-4V-a0R"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Save" id="tqn-Gy-z8i">
+                                            <connections>
+                                                <segue destination="3oC-Ky-6KZ" kind="unwind" unwindAction="returnToScheduler:" id="uPZ-q1-u3d"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -385,6 +415,7 @@
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R8E-TH-yd8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="3oC-Ky-6KZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1102" y="1840"/>
         </scene>
@@ -451,8 +482,16 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Days" id="NXY-bf-mIx">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="icI-hw-ZuA"/>
-                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="ZwD-rO-QpZ"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="icI-hw-ZuA">
+                                            <connections>
+                                                <segue destination="Jv2-fq-Ws9" kind="unwind" identifier="back" unwindAction="returnToDaySelected:" id="Z3S-1k-KMi"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="ZwD-rO-QpZ">
+                                            <connections>
+                                                <action selector="edit:" destination="irG-Z5-JL0" id="hXA-a4-eE5"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -493,10 +532,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="editButton" destination="ZwD-rO-QpZ" id="dTW-Tc-BbO"/>
+                        <outlet property="tabBar" destination="LjC-PG-fTN" id="tgz-6X-J5i"/>
                         <segue destination="KXB-3e-rBX" kind="show" identifier="showScheduler2" id="VgS-2B-Slj"/>
+                        <segue destination="Jv2-fq-Ws9" kind="unwind" identifier="sendDayBack" unwindAction="returnToDaySelected:" id="s1N-Sf-djM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hvP-5k-8Ff" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Jv2-fq-Ws9" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1077" y="1060"/>
         </scene>
@@ -508,6 +551,6 @@
         <image name="delete" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="VgS-2B-Slj"/>
+        <segue reference="qMU-sb-n2S"/>
     </inferredMetricsTieBreakers>
 </document>
