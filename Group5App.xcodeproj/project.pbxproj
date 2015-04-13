@@ -18,6 +18,9 @@
 		3724E37C1AD840ED004FE06D /* DaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3724E37B1AD840ED004FE06D /* DaysViewController.swift */; };
 		3724E37E1AD84105004FE06D /* SchedulerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3724E37D1AD84105004FE06D /* SchedulerViewController.swift */; };
 		3724E3801AD84124004FE06D /* DayPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3724E37F1AD84124004FE06D /* DayPickerViewController.swift */; };
+		499A53B11ADC6983006C916B /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499A53AE1ADC6983006C916B /* Article.swift */; };
+		499A53B21ADC6983006C916B /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499A53AF1ADC6983006C916B /* ImageData.swift */; };
+		499A53B31ADC6983006C916B /* parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499A53B01ADC6983006C916B /* parser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +49,9 @@
 		3724E37B1AD840ED004FE06D /* DaysViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DaysViewController.swift; sourceTree = "<group>"; };
 		3724E37D1AD84105004FE06D /* SchedulerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerViewController.swift; sourceTree = "<group>"; };
 		3724E37F1AD84124004FE06D /* DayPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayPickerViewController.swift; sourceTree = "<group>"; };
+		499A53AE1ADC6983006C916B /* Article.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		499A53AF1ADC6983006C916B /* ImageData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
+		499A53B01ADC6983006C916B /* parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = parser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +93,7 @@
 		3724E3501AD0A605004FE06D /* Group5App */ = {
 			isa = PBXGroup;
 			children = (
+				499A53AD1ADC6983006C916B /* Parse_Object_Files */,
 				3724E3531AD0A605004FE06D /* AppDelegate.swift */,
 				3724E3751AD8409D004FE06D /* ArticlesViewController.swift */,
 				3724E3771AD840B7004FE06D /* WebViewController.swift */,
@@ -125,6 +132,16 @@
 				3724E3681AD0A605004FE06D /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		499A53AD1ADC6983006C916B /* Parse_Object_Files */ = {
+			isa = PBXGroup;
+			children = (
+				499A53AE1ADC6983006C916B /* Article.swift */,
+				499A53AF1ADC6983006C916B /* ImageData.swift */,
+				499A53B01ADC6983006C916B /* parser.swift */,
+			);
+			path = Parse_Object_Files;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,8 +248,11 @@
 				3724E3541AD0A605004FE06D /* AppDelegate.swift in Sources */,
 				3724E37E1AD84105004FE06D /* SchedulerViewController.swift in Sources */,
 				3724E3801AD84124004FE06D /* DayPickerViewController.swift in Sources */,
+				499A53B11ADC6983006C916B /* Article.swift in Sources */,
+				499A53B21ADC6983006C916B /* ImageData.swift in Sources */,
 				3724E3781AD840B7004FE06D /* WebViewController.swift in Sources */,
 				3724E3761AD8409D004FE06D /* ArticlesViewController.swift in Sources */,
+				499A53B31ADC6983006C916B /* parser.swift in Sources */,
 				3724E37C1AD840ED004FE06D /* DaysViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
