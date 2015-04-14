@@ -44,3 +44,5 @@ class ArticlesViewController: UIViewController{
 //2) Layout constraints for scheduler and how to get to show up
 //3) Hide tab bar after certain actions/segues
 //4) Make table cells selectable to delete
+//5) Icons or words
+//6) How to get all nav view controller stuff to say back

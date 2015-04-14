@@ -190,12 +190,12 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Scheduler" id="C7a-4x-J5f">
-                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="mh2-D3-o75">
+                                        <barButtonItem key="leftBarButtonItem" image="cancel" id="mh2-D3-o75">
                                             <connections>
                                                 <segue destination="jUU-Zn-uqf" kind="unwind" identifier="canceledSchedulerToDay" unwindAction="returnToDaySelected:" id="wxD-Fp-mzP"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Save" id="Iab-ho-Qkf">
+                                        <barButtonItem key="rightBarButtonItem" image="save" id="Iab-ho-Qkf">
                                             <connections>
                                                 <segue destination="jUU-Zn-uqf" kind="unwind" identifier="savedSchedule" unwindAction="returnToDaySelected:" id="1gf-7d-0Sx"/>
                                             </connections>
@@ -390,12 +390,12 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Day Picker" id="l31-rl-Usg">
-                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="SL4-v2-oaY">
+                                        <barButtonItem key="leftBarButtonItem" image="cancel" id="SL4-v2-oaY">
                                             <connections>
                                                 <segue destination="3oC-Ky-6KZ" kind="unwind" identifier="cancelDayPicker" unwindAction="returnToScheduler:" id="wce-13-Q3R"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Save" id="tqn-Gy-z8i">
+                                        <barButtonItem key="rightBarButtonItem" image="save" id="tqn-Gy-z8i">
                                             <connections>
                                                 <segue destination="3oC-Ky-6KZ" kind="unwind" identifier="saveDayPicker" unwindAction="returnToScheduler:" id="5XJ-Vl-mcv"/>
                                             </connections>
@@ -539,10 +539,12 @@
     <resources>
         <image name="add" width="32" height="32"/>
         <image name="calendar" width="25" height="25"/>
+        <image name="cancel" width="25" height="25"/>
         <image name="days" width="25" height="25"/>
         <image name="delete" width="25" height="25"/>
+        <image name="save" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qMU-sb-n2S"/>
+        <segue reference="VgS-2B-Slj"/>
     </inferredMetricsTieBreakers>
 </document>
