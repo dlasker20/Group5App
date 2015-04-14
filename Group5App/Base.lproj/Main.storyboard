@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
@@ -54,6 +54,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="L9t-hl-ZWV"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="lxr-Ln-war"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -74,6 +78,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="articleTableView" destination="cB8-MP-gZJ" id="VIg-1M-Het"/>
                         <segue destination="F3Y-R0-2An" kind="show" identifier="showStory" id="AcG-zU-597"/>
                         <segue destination="YBF-Of-oHn" kind="show" identifier="showDaySelected" id="5jI-Fu-2z5"/>
                     </connections>
