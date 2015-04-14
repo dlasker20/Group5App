@@ -13,10 +13,11 @@ class WebViewController: UIViewController {
     var article:Article?
     
     
+    @IBOutlet weak var webViewer: UIWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navBar.title = article!.section
+        self.title = article!.section
         
         let requestString = article!.url
         
