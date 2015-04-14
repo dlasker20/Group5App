@@ -10,16 +10,22 @@ import UIKit
 
 class WebViewController: UIViewController {
 
+    var article:Article?
+    
+    
+    @IBOutlet weak var webViewer: UIWebView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.title = article!.section
+        
+        let requestString = article!.url
+        
+        if requestString != nil{
+            let requestURL = NSURL(string: requestString!)
+            let request = NSURLRequest(URL: requestURL!)
+            webViewer.loadRequest(request)
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
 }
