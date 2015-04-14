@@ -21,7 +21,11 @@ class SchedulerViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    //Logic to send data to different views via segues and their specific ids
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+    }
+    
     @IBAction func returnToScheduler(segue: UIStoryboardSegue) {
         
     }

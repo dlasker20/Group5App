@@ -43,10 +43,6 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate {
                 self.editButton.title = "Edit"
             }
     }
-
-    @IBAction func returnToDaySelected(segue: UIStoryboardSegue) {
-        
-    }
     
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
         if(item.title == "Delete")
@@ -62,5 +58,16 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate {
             performSegueWithIdentifier("showDays", sender: self)
         }
     }
+    
+    //Logic to send data to different views via segues and their specific ids
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+    }
+    
+    
+    @IBAction func returnToDaySelected(segue: UIStoryboardSegue) {
+        
+    }
+
 
 }

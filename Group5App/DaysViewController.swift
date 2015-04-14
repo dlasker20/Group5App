@@ -44,10 +44,6 @@ class DaysViewController: UIViewController,UITabBarDelegate {
         }
 
     }
-
-    @IBAction func returnToDays(segue: UIStoryboardSegue) {
-        
-    }
     
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
         if(item.title == "Delete")
@@ -58,6 +54,15 @@ class DaysViewController: UIViewController,UITabBarDelegate {
         {
             performSegueWithIdentifier("showScheduler2", sender: self)
         }
+    }
+    
+    //Logic to send data to different views via segues and their specific ids
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+    }
+    
+    @IBAction func returnToDays(segue: UIStoryboardSegue) {
+        
     }
 
 

@@ -25,6 +25,11 @@ class ArticlesViewController: UIViewController{
         performSegueWithIdentifier("showDaySelected", sender: self)
     }
     
+    //Logic to send data to different views via segues and their specific ids
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+    }
+    
     
     @IBAction func returnToArticles(segue: UIStoryboardSegue) {
         
@@ -34,5 +39,8 @@ class ArticlesViewController: UIViewController{
 }
 
 //Questions/TODOS
-//how to make tab bar hidden and then show up
-//unwind to 2 differnt spots selected day or days
+//1) unwind 1 button to 2 differnt spots selected day or days when cancel from scheduler (currently just
+//   have an exit segue on cancel with an id that goes back to day selected)
+//2) Layout constraints for scheduler and how to get to show up
+//3) Hide tab bar after certain actions/segues
+//4) Make table cells selectable to delete
