@@ -103,9 +103,12 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
 }
 
 //Questions/TODOS
-//1) unwind 1 button to 2 differnt spots selected day or days when cancel from scheduler (currently just
-//   have an exit segue on cancel with an id that goes back to day selected)
+//1) unwind 1 button to 2 differnt spots selected day or days when cancel/save from scheduler (currently just have an exit segue on cancel/save with an id that goes back to day selected) *causes something to get printed actually
 //2) Layout constraints for scheduler and how to get to show up
-//3) Hide tab bar after certain actions/segues
+//3) Hide tab bar after certain actions/segues?
 //4) Make table cells selectable to delete
 //6) How to get all nav view controller stuff to say back
+//7) remove print statements
+//8) Set up NSKeyArchiver and figure out what need to store
+//9) Figure out what data I need to pass to Lorenzo and what he needs to pass back to me
+//10) Loading gif when articles loading in and show and load in new when pull down to a certain point
