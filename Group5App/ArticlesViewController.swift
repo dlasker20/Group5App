@@ -8,21 +8,35 @@
 
 import UIKit
 
+class CustomTableViewCell : UITableViewCell {
+
+    @IBOutlet weak var cellImage: UIImageView!
+    @IBOutlet weak var cellHeadline: UILabel!
+    @IBOutlet weak var cellDetail: UILabel!
+    
+}
+
 class ArticlesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
-    
+    @IBOutlet weak var cellImage: UIImageView!
     @IBOutlet weak var articleTableView: UITableView!
     
     //declare instance of parser class
     let parseConnect = parser()
     //declare reuseidentifier as constant
     let reuseidentifier = "articleCell"
+    
+    let customReuse = "customCell"
+    
     let webViewSegue = "showStory"
     
     let urlString = "http://api.nytimes.com/svc/mostpopular/v2/mostviewed/Arts/1.json?api-key=b32dcf0a887c83fe37220653ad10c91b:8:71573066"
     
     //article to be sent to web view
     var selectedArticle:Article? = nil
+    
+    //cache for downloaded images
+    var imageCache = [String : UIImage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +48,10 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
             articleTableView.reloadData()
         }*/
         
-        println("view did load")
+        //tell table to use custom cell described in CustomTableViewCell.xib
+        var nib = UINib(nibName: "CustomTableViewCell", bundle: nil)
+        articleTableView.registerNib(nib, forCellReuseIdentifier: customReuse)
+        
         parseConnect.load(urlString) {
             (companies, errorString) -> Void in
             if let unwrappedErrorString = errorString {
@@ -58,12 +75,23 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         return parseConnect.articles.count
     }
     
+    /*func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }*/
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(customReuse, forIndexPath: indexPath) as! CustomTableViewCell
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(reuseidentifier, forIndexPath: indexPath) as! UITableViewCell
         
-        cell.textLabel?.text = parseConnect.articles[indexPath.row].title
-        cell.detailTextLabel?.text = parseConnect.articles[indexPath.row].section
+        self.articleTableView.estimatedRowHeight = 44.0
+        self.articleTableView.rowHeight = UITableViewAutomaticDimension
+
+        
+        var rnum = 1+(arc4random()%4)
+        let pic = UIImage(named: "dummy\(rnum)")
+        cell.cellImage?.image = pic
+        cell.cellHeadline?.text = parseConnect.articles[indexPath.row].title
+        cell.cellDetail?.text = parseConnect.articles[indexPath.row].section
         
         return cell
     }
