@@ -57,11 +57,10 @@ class parser{
                                 //look into each individual story/article object
                                 if let title = articleData["title"] as? NSString {
                                     //constructs an object, which calls the constructor, since it was built in to the class
+                                    //<<<<<later: put code to convert ASCII in parsed title here>>>>>
                                     let section = articleData["section"] as? NSString
                                     let articleURL = articleData["url"] as? NSString
                                     let newEntry = Article(forTitle: title as String, forSection: section! as String, forURL: articleURL! as String)
-                                    
-                                    
                                     //now access the array of media objects
                                     if let mediaData = articleData["media"] as? NSArray {
                                         //loop through the companies
@@ -103,7 +102,7 @@ class parser{
     }
     
 
-    
+
     
     
     
