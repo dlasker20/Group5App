@@ -14,30 +14,30 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Headline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VHc-xT-ANF">
-                        <rect key="frame" x="105" y="5" width="68" height="21"/>
+                        <rect key="frame" x="89" y="10" width="68" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Section" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PSF-8u-Yer">
-                        <rect key="frame" x="105" y="29" width="49" height="17"/>
+                        <rect key="frame" x="89" y="36" width="49" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="75" placeholderIntrinsicHeight="75" translatesAutoresizingMaskIntoConstraints="NO" id="XQ3-HT-PKk">
-                        <rect key="frame" x="20" y="0.0" width="75" height="96"/>
+                        <rect key="frame" x="4" y="4" width="75" height="88"/>
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="XQ3-HT-PKk" firstAttribute="top" secondItem="5FX-8Q-uSu" secondAttribute="top" id="HX2-nA-8Rp"/>
+                    <constraint firstItem="XQ3-HT-PKk" firstAttribute="top" secondItem="5FX-8Q-uSu" secondAttribute="top" constant="4" id="HX2-nA-8Rp"/>
                     <constraint firstItem="VHc-xT-ANF" firstAttribute="leading" secondItem="XQ3-HT-PKk" secondAttribute="trailing" constant="10" id="LZ1-GM-19o"/>
-                    <constraint firstItem="PSF-8u-Yer" firstAttribute="top" secondItem="VHc-xT-ANF" secondAttribute="bottom" constant="3" id="Mgm-XD-CBu"/>
-                    <constraint firstItem="XQ3-HT-PKk" firstAttribute="leading" secondItem="5FX-8Q-uSu" secondAttribute="leading" constant="20" id="PTK-UE-Zgd"/>
+                    <constraint firstItem="PSF-8u-Yer" firstAttribute="top" secondItem="VHc-xT-ANF" secondAttribute="bottom" constant="5" id="Mgm-XD-CBu"/>
+                    <constraint firstItem="XQ3-HT-PKk" firstAttribute="leading" secondItem="5FX-8Q-uSu" secondAttribute="leading" constant="4" id="PTK-UE-Zgd"/>
                     <constraint firstItem="XQ3-HT-PKk" firstAttribute="leading" secondItem="5FX-8Q-uSu" secondAttribute="leadingMargin" id="WOn-lg-l6o"/>
                     <constraint firstItem="PSF-8u-Yer" firstAttribute="leading" secondItem="XQ3-HT-PKk" secondAttribute="trailing" constant="10" id="oRA-oA-AHt"/>
-                    <constraint firstAttribute="bottom" secondItem="XQ3-HT-PKk" secondAttribute="bottom" id="unG-3G-rsj"/>
-                    <constraint firstItem="VHc-xT-ANF" firstAttribute="top" secondItem="5FX-8Q-uSu" secondAttribute="top" constant="5" id="yvv-7T-y3j"/>
+                    <constraint firstAttribute="bottom" secondItem="XQ3-HT-PKk" secondAttribute="bottom" constant="4" id="unG-3G-rsj"/>
+                    <constraint firstItem="VHc-xT-ANF" firstAttribute="top" secondItem="5FX-8Q-uSu" secondAttribute="top" constant="10" id="yvv-7T-y3j"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
@@ -50,7 +50,7 @@
                 <outlet property="cellHeadline" destination="VHc-xT-ANF" id="mav-F8-U1N"/>
                 <outlet property="cellImage" destination="XQ3-HT-PKk" id="Yz6-yh-ePp"/>
             </connections>
-            <point key="canvasLocation" x="517" y="259.5"/>
+            <point key="canvasLocation" x="552" y="269.5"/>
         </tableViewCell>
     </objects>
 </document>
