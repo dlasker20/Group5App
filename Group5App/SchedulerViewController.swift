@@ -9,6 +9,11 @@
 import UIKit
 
 class SchedulerViewController: UIViewController,UITableViewDataSource, UITableViewDelegate {
+    
+    let topics = ["hello","hi"]
+    
+    let types = ["hello","hi"]
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +96,13 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if(indexPath.section == 0 && indexPath.row == 0)
+        {
+            performSegueWithIdentifier("showDayPicker", sender: self)
+        }
     }
     
 

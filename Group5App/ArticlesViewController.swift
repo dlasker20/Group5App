@@ -139,4 +139,4 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
 //7) remove print statements
 //8) Set up NSKeyArchiver and figure out what need to store
 //9) Figure out what data I need to pass to Lorenzo and what he needs to pass back to me
-//10) Loading gif when articles loading in and show and load in new when pull down to a certain point
+//10) Loading gif when articles loading in. Also show and load in new when pull down to a certain point
