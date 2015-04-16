@@ -8,17 +8,20 @@
 
 import UIKit
 
-class SchedulerViewController: UIViewController,UITableViewDataSource, UITableViewDelegate {
+class SchedulerViewController: UIViewController,UITableViewDataSource, UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate {
     
-    let topics = ["hello","hi"]
+    let topics = ["Arts","Sports","Technology"]
     
-    let types = ["hello","hi"]
+    let types = ["National","Short"]
     
-
+    let topicsPicker = 0
+    let typesPicker = 1
+    
+    var daysPicked:UITableViewCell?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,6 +29,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         // Dispose of any resources that can be recreated.
     }
     
+    //Table view stuff
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 4
     }
@@ -57,6 +61,8 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                 {
                     case 0:
                         cell = tableView.dequeueReusableCellWithIdentifier("pickDay", forIndexPath: indexPath) as! UITableViewCell
+                        
+                        daysPicked = cell
                     
                     default:
                         cell = tableView.dequeueReusableCellWithIdentifier("pickTime", forIndexPath: indexPath) as! UITableViewCell
@@ -99,11 +105,55 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
         if(indexPath.section == 0 && indexPath.row == 0)
         {
             performSegueWithIdentifier("showDayPicker", sender: self)
         }
+
     }
+    
+    //Picker View stuff
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 2
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        
+        if(component == topicsPicker)
+        {
+            return topics.count
+        }
+        else
+        {
+            return types.count
+        }
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        if(component == topicsPicker)
+        {
+            return topics[row]
+        }
+        else
+        {
+            return types[row]
+        }
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        if(component == topicsPicker)
+        {
+            
+        }
+        else
+        {
+            
+        }
+        
+    }
+
     
 
     

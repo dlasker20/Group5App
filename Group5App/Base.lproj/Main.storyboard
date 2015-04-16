@@ -282,8 +282,8 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rdo-nJ-nYa" id="8dK-R1-Q2G">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Topic" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IUg-hW-S1W">
-                                                    <rect key="frame" x="262" y="11" width="41" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Topic &amp; Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IUg-hW-S1W">
+                                                    <rect key="frame" x="262" y="11" width="98" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -305,6 +305,10 @@
                                             <subviews>
                                                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Emu-iN-5Bc">
                                                     <rect key="frame" x="0.0" y="-44" width="600" height="162"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="KXB-3e-rBX" id="EuF-Re-kbn"/>
+                                                        <outlet property="delegate" destination="KXB-3e-rBX" id="Dkr-8K-Bt4"/>
+                                                    </connections>
                                                 </pickerView>
                                             </subviews>
                                             <constraints>
@@ -358,6 +362,10 @@
                                             <subviews>
                                                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4TC-8D-ApH">
                                                     <rect key="frame" x="0.0" y="-44" width="600" height="162"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="KXB-3e-rBX" id="hKz-Pn-NhW"/>
+                                                        <outlet property="delegate" destination="KXB-3e-rBX" id="5aL-Tu-HKI"/>
+                                                    </connections>
                                                 </pickerView>
                                             </subviews>
                                             <constraints>
@@ -401,14 +409,14 @@
                                                 <constraint firstItem="syK-aI-baj" firstAttribute="leading" secondItem="9dd-4K-P3u" secondAttribute="leading" constant="25" id="GbX-md-cab"/>
                                                 <constraint firstItem="syK-aI-baj" firstAttribute="top" secondItem="9dd-4K-P3u" secondAttribute="topMargin" id="KQ9-Ff-FYy"/>
                                                 <constraint firstItem="ei2-aB-qYk" firstAttribute="leading" secondItem="syK-aI-baj" secondAttribute="trailing" constant="50" id="Kul-Iz-76E"/>
-                                                <constraint firstAttribute="trailing" secondItem="ei2-aB-qYk" secondAttribute="trailing" constant="7" id="Lan-e2-0zY"/>
+                                                <constraint firstAttribute="trailing" secondItem="ei2-aB-qYk" secondAttribute="trailing" constant="10" id="Lan-e2-0zY"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="ei2-aB-qYk" secondAttribute="bottom" id="Zgd-g1-eQj"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="ei2-aB-qYk" secondAttribute="bottom" id="aRS-yY-Cbi"/>
                                                 <constraint firstItem="ei2-aB-qYk" firstAttribute="centerY" secondItem="syK-aI-baj" secondAttribute="centerY" id="bLK-we-72V"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="syK-aI-baj" secondAttribute="bottom" id="gwf-QZ-kgo"/>
                                                 <constraint firstItem="ei2-aB-qYk" firstAttribute="top" secondItem="9dd-4K-P3u" secondAttribute="topMargin" id="iyS-YU-o7x"/>
                                                 <constraint firstItem="ei2-aB-qYk" firstAttribute="top" secondItem="9dd-4K-P3u" secondAttribute="topMargin" id="mTt-7a-UZg"/>
-                                                <constraint firstItem="syK-aI-baj" firstAttribute="leading" secondItem="9dd-4K-P3u" secondAttribute="leading" constant="7" id="nK8-jW-Wha"/>
+                                                <constraint firstItem="syK-aI-baj" firstAttribute="leading" secondItem="9dd-4K-P3u" secondAttribute="leading" constant="10" id="nK8-jW-Wha"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
