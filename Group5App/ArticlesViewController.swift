@@ -75,9 +75,6 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         return parseConnect.articles.count
     }
     
-    /*func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }*/
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(customReuse, forIndexPath: indexPath) as! CustomTableViewCell
@@ -89,11 +86,18 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         
         var rnum = 1+(arc4random()%4)
         let pic = UIImage(named: "dummy\(rnum)")
+        
+        
+        
         cell.cellImage?.image = pic
         cell.cellHeadline?.text = parseConnect.articles[indexPath.row].title
         cell.cellDetail?.text = parseConnect.articles[indexPath.row].section
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
