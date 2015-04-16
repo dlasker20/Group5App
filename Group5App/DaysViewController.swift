@@ -58,6 +58,11 @@ class DaysViewController: UIViewController,UITabBarDelegate {
     
     //Logic to send data to different views via segues and their specific ids
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == "showScheduler2")
+        {
+            let destinationViewController = segue.destinationViewController as! SchedulerViewController
+            destinationViewController.prevViewController = "days"
+        }
         
     }
     

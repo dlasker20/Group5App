@@ -17,7 +17,10 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     let topicsPicker = 0
     let typesPicker = 1
     
-    var daysPicked:UITableViewCell?
+    var daysPickedDetail:UITableViewCell?
+    var daysPickedText = ""
+    
+    var prevViewController = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +34,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     //Table view stuff
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 4
+        return 3
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -41,9 +44,6 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                 return 2
             
             case 1:
-                return 2
-            
-            case 2:
                 return 2
             
             default:
@@ -62,7 +62,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                     case 0:
                         cell = tableView.dequeueReusableCellWithIdentifier("pickDay", forIndexPath: indexPath) as! UITableViewCell
                         
-                        daysPicked = cell
+                        daysPickedDetail = cell
                     
                     default:
                         cell = tableView.dequeueReusableCellWithIdentifier("pickTime", forIndexPath: indexPath) as! UITableViewCell
@@ -72,20 +72,10 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                 switch indexPath.row
                 {
                     case 0:
-                        cell = tableView.dequeueReusableCellWithIdentifier("topicTitle", forIndexPath: indexPath) as! UITableViewCell
+                        cell = tableView.dequeueReusableCellWithIdentifier("topicTypeTitle", forIndexPath: indexPath) as! UITableViewCell
                     
                     default:
-                        cell = tableView.dequeueReusableCellWithIdentifier("topicCell", forIndexPath: indexPath) as! UITableViewCell
-                }
-            
-            case 2:
-                switch indexPath.row
-                {
-                    case 0:
-                        cell = tableView.dequeueReusableCellWithIdentifier("typeTitle", forIndexPath: indexPath) as! UITableViewCell
-                
-                    default:
-                        cell = tableView.dequeueReusableCellWithIdentifier("typeCell", forIndexPath: indexPath) as! UITableViewCell
+                        cell = tableView.dequeueReusableCellWithIdentifier("topicTypeCell", forIndexPath: indexPath) as! UITableViewCell
                 }
             
             default:
@@ -154,15 +144,40 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         
     }
 
+    //No data sent back since just a cancel
+    @IBAction func cancel(sender: AnyObject) {
+        if(prevViewController == "daySelected")
+        {
+            performSegueWithIdentifier("backToDaySelected", sender: self)
+        }
+        else
+        {
+            performSegueWithIdentifier("backToDays", sender: self)
+        }
+    }
     
+    //Data needs to be sent back
+    @IBAction func save(sender: AnyObject) {
+        
+        
+        if(prevViewController == "daySelected")
+        {
+            performSegueWithIdentifier("backToDaySelected", sender: self )
+        }
+        else
+        {
+            performSegueWithIdentifier("backToDays", sender: self)
+        }
+    }
 
     
     //Logic to send data to different views via segues and their specific ids
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
+        //send data back to daySelected or days or send nothing back if cancel
     }
     
     @IBAction func returnToScheduler(segue: UIStoryboardSegue) {
+        daysPickedDetail?.detailTextLabel?.text = daysPickedText
         
     }
 

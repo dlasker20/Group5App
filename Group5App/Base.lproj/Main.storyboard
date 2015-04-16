@@ -211,12 +211,12 @@
                                     <navigationItem title="Scheduler" id="C7a-4x-J5f">
                                         <barButtonItem key="leftBarButtonItem" image="cancel" id="mh2-D3-o75">
                                             <connections>
-                                                <segue destination="jUU-Zn-uqf" kind="unwind" identifier="canceledSchedulerToDay" unwindAction="returnToDaySelected:" id="wxD-Fp-mzP"/>
+                                                <action selector="cancel:" destination="KXB-3e-rBX" id="ZZA-dJ-kG1"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" image="save" id="Iab-ho-Qkf">
                                             <connections>
-                                                <segue destination="jUU-Zn-uqf" kind="unwind" identifier="savedSchedule" unwindAction="returnToDaySelected:" id="1gf-7d-0Sx"/>
+                                                <action selector="save:" destination="KXB-3e-rBX" id="rg5-v4-X8v"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -276,7 +276,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="topicTitle" id="Rdo-nJ-nYa">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="topicTypeTitle" id="Rdo-nJ-nYa">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rdo-nJ-nYa" id="8dK-R1-Q2G">
@@ -297,7 +297,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="topicCell" rowHeight="75" id="VqO-Bw-IKQ">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="topicTypeCell" rowHeight="75" id="VqO-Bw-IKQ">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VqO-Bw-IKQ" id="8K8-wc-txt">
@@ -329,59 +329,6 @@
                                                     <exclude reference="dgg-cH-7ba"/>
                                                     <exclude reference="gtC-vS-whs"/>
                                                     <exclude reference="mXv-du-v93"/>
-                                                </mask>
-                                            </variation>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="typeTitle" id="ugI-0m-Hbx">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ugI-0m-Hbx" id="XBb-cm-Ar5">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bgc-Nc-OTa">
-                                                    <rect key="frame" x="282" y="14" width="36" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Bgc-Nc-OTa" firstAttribute="leading" secondItem="XBb-cm-Ar5" secondAttribute="leading" id="jPo-Ex-USR"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Bgc-Nc-OTa" secondAttribute="bottom" id="tJO-u7-4vS"/>
-                                                <constraint firstAttribute="trailing" secondItem="Bgc-Nc-OTa" secondAttribute="trailing" id="uUV-Ar-vd0"/>
-                                                <constraint firstItem="Bgc-Nc-OTa" firstAttribute="top" secondItem="XBb-cm-Ar5" secondAttribute="topMargin" id="xR6-TZ-8W1"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="typeCell" rowHeight="75" id="sT6-Sh-slx">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sT6-Sh-slx" id="Fyu-Ng-8ZU">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4TC-8D-ApH">
-                                                    <rect key="frame" x="0.0" y="-44" width="600" height="162"/>
-                                                    <connections>
-                                                        <outlet property="dataSource" destination="KXB-3e-rBX" id="hKz-Pn-NhW"/>
-                                                        <outlet property="delegate" destination="KXB-3e-rBX" id="5aL-Tu-HKI"/>
-                                                    </connections>
-                                                </pickerView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="4TC-8D-ApH" secondAttribute="trailing" constant="25" id="4bf-X6-ilO"/>
-                                                <constraint firstItem="4TC-8D-ApH" firstAttribute="leading" secondItem="Fyu-Ng-8ZU" secondAttribute="leading" id="9fl-aI-VJg"/>
-                                                <constraint firstAttribute="centerY" secondItem="4TC-8D-ApH" secondAttribute="centerY" constant="-18" id="U4x-7i-OYm"/>
-                                                <constraint firstAttribute="trailing" secondItem="4TC-8D-ApH" secondAttribute="trailing" id="dVC-HH-hIm"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="4TC-8D-ApH" secondAttribute="bottom" id="hTX-qH-nA5"/>
-                                                <constraint firstItem="4TC-8D-ApH" firstAttribute="top" secondItem="Fyu-Ng-8ZU" secondAttribute="topMargin" id="ovZ-5T-aXc"/>
-                                                <constraint firstAttribute="centerY" secondItem="4TC-8D-ApH" secondAttribute="centerY" id="xJb-q1-GXd"/>
-                                            </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="4bf-X6-ilO"/>
-                                                    <exclude reference="U4x-7i-OYm"/>
-                                                    <exclude reference="xJb-q1-GXd"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -453,6 +400,8 @@
                     </view>
                     <connections>
                         <segue destination="a4N-Fh-vN6" kind="showDetail" identifier="showDayPicker" id="Bkp-OD-umK"/>
+                        <segue destination="jUU-Zn-uqf" kind="unwind" identifier="backToDaySelected" unwindAction="returnToDaySelected:" id="Zod-0y-Gfk"/>
+                        <segue destination="jUU-Zn-uqf" kind="unwind" identifier="backToDays" unwindAction="returnToDays:" id="VIa-Ng-0m5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RNx-99-9LV" userLabel="First Responder" sceneMemberID="firstResponder"/>

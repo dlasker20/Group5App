@@ -58,6 +58,6 @@ class DayPickerViewController: UIViewController,UITableViewDataSource, UITableVi
     //Logic to send data to different views via segues and their specific ids
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let destinationViewController = segue.destinationViewController as! SchedulerViewController
-        destinationViewController.daysPicked?.detailTextLabel?.text = "Monday"
+        destinationViewController.daysPickedText = "Monday"
     }
 }
