@@ -77,23 +77,38 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        
         let cell = tableView.dequeueReusableCellWithIdentifier(customReuse, forIndexPath: indexPath) as! CustomTableViewCell
         
         
         self.articleTableView.estimatedRowHeight = 44.0
         self.articleTableView.rowHeight = UITableViewAutomaticDimension
-
         
         var rnum = 1+(arc4random()%4)
         let pic = UIImage(named: "dummy\(rnum)")
         
+        let articleImageURL = parseConnect.articles[indexPath.row].image?.url
+        println(articleImageURL)
         
+        var imgURL: NSURL = NSURL(string: articleImageURL!)!
+        let request: NSURLRequest = NSURLRequest(URL: imgURL)
+        NSURLConnection.sendAsynchronousRequest(
+            request, queue: NSOperationQueue.mainQueue(),
+            completionHandler: {(response: NSURLResponse!,data: NSData!,error: NSError!) -> Void in
+                if error == nil {
+                    cell.cellImage.image = UIImage(data: data)!
+                    cell.setNeedsLayout()
+                    cell.layoutIfNeeded()
+                }
+        })
         
-        cell.cellImage?.image = pic
         cell.cellHeadline?.text = parseConnect.articles[indexPath.row].title
         cell.cellDetail?.text = parseConnect.articles[indexPath.row].section
         
         return cell
+        
+        
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -132,16 +147,8 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
 
+
+
+
 }
 
-//Questions/TODOS
-//1) unwind 1 button to 2 differnt spots selected day or days when cancel/save from scheduler (currently just have an exit segue on cancel/save with an id that goes back to day selected) *causes something to get printed actually
-//2) Layout constraints for scheduler and how to get to show up
-//3) Hide tab bar after certain actions/segues?
-//4) Make table cells selectable to delete
-//6) How to get all nav view controller stuff to say back
-//7) remove print statements
-//8) Set up NSKeyArchiver and figure out what need to store
-//9) Figure out what data I need to pass to Lorenzo and what he needs to pass back to me
-//10) Loading gif when articles loading in. Also show and load in new when pull down to a certain point
-//11)Topic and type in one cell for simplicity and to save space???
