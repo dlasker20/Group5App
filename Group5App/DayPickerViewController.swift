@@ -10,7 +10,12 @@ import UIKit
 
 class DayPickerViewController: UIViewController,UITableViewDataSource, UITableViewDelegate {
     
+    
+    @IBOutlet weak var daysTable: UITableView!
+    
     let days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+    
+    var daysSet = [7]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,5 +64,18 @@ class DayPickerViewController: UIViewController,UITableViewDataSource, UITableVi
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let destinationViewController = segue.destinationViewController as! SchedulerViewController
         destinationViewController.daysPickedText = "Monday"
+        
+        
+        for(var i = 0; i < 7; i++)
+        {
+            if(daysTable.cellForRowAtIndexPath( NSIndexPath(forRow: i, inSection: 0))?.accessoryType == .Checkmark)
+            {
+                destinationViewController.daysSet[i] = true
+            }
+            else
+            {
+                destinationViewController.daysSet[i] = false
+            }
+        }
     }
 }

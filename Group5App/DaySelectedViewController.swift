@@ -14,6 +14,8 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     @IBOutlet weak var editButton: UIBarButtonItem!
     
+    @IBOutlet weak var tabHeight: NSLayoutConstraint!
+    
     var tabBarShown = false
 
     
@@ -32,12 +34,14 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
        
             if(self.tabBarShown == false)
             {
+                tabHeight.constant = 49
                 self.tabBar.hidden = false
                 self.tabBarShown = true
                 self.editButton.title = "Done"
             }
             else
             {
+                tabHeight.constant = 0
                 self.tabBar.hidden = true
                 self.tabBarShown = false
                 self.editButton.title = "Edit"
@@ -65,7 +69,7 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return 15
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

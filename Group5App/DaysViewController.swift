@@ -14,6 +14,7 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     
     @IBOutlet weak var editButton: UIBarButtonItem!
     
+    @IBOutlet weak var tabHeight: NSLayoutConstraint!
      var tabBarShown = false
     
     override func viewDidLoad() {
@@ -32,12 +33,14 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     @IBAction func edit(sender: AnyObject) {
         if(self.tabBarShown == false)
         {
+            tabHeight.constant = 49
             self.tabBar.hidden = false
             self.tabBarShown = true
             self.editButton.title = "Done"
         }
         else
         {
+            tabHeight.constant = 0
             self.tabBar.hidden = true
             self.tabBarShown = false
             self.editButton.title = "Edit"
@@ -62,7 +65,7 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return 15
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

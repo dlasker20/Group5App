@@ -121,27 +121,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MPS-dp-Zpy">
-                                <rect key="frame" x="0.0" y="551" width="600" height="49"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" id="N5h-ce-BZQ"/>
-                                    <constraint firstAttribute="height" constant="49" id="k4g-T7-tYL"/>
-                                </constraints>
-                                <items>
-                                    <tabBarItem title="Delete" image="delete" id="ulR-Tq-3Ap"/>
-                                    <tabBarItem title="Add" image="add" id="QWS-Oz-gS1"/>
-                                    <tabBarItem title="Days" image="days" id="o4H-WP-e2e"/>
-                                </items>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="N5h-ce-BZQ"/>
-                                        <exclude reference="k4g-T7-tYL"/>
-                                    </mask>
-                                </variation>
-                            </tabBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="1Vj-ea-PIl">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="timeCell" textLabel="axx-4B-B1O" detailTextLabel="PXP-5d-kMc" style="IBUITableViewCellStyleSubtitle" id="uB8-Ib-NhR">
@@ -171,12 +152,26 @@
                                     <outlet property="delegate" destination="YBF-Of-oHn" id="jzp-HC-NsV"/>
                                 </connections>
                             </tableView>
+                            <tabBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MPS-dp-Zpy">
+                                <rect key="frame" x="0.0" y="600" width="600" height="0.0"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="8pc-q9-tl9"/>
+                                </constraints>
+                                <items>
+                                    <tabBarItem title="Delete" image="delete" id="ulR-Tq-3Ap"/>
+                                    <tabBarItem title="Add" image="add" id="QWS-Oz-gS1"/>
+                                    <tabBarItem title="Days" image="days" id="o4H-WP-e2e"/>
+                                </items>
+                            </tabBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="MPS-dp-Zpy" firstAttribute="top" secondItem="1Vj-ea-PIl" secondAttribute="bottom" id="4cK-9c-fC0"/>
                             <constraint firstAttribute="bottom" secondItem="MPS-dp-Zpy" secondAttribute="bottom" id="FTJ-qd-pSy"/>
                             <constraint firstItem="1Vj-ea-PIl" firstAttribute="leading" secondItem="Zmg-lk-eyV" secondAttribute="leading" id="UmH-Xo-uzd"/>
                             <constraint firstItem="MPS-dp-Zpy" firstAttribute="top" secondItem="1Vj-ea-PIl" secondAttribute="bottom" id="aQp-M2-MS7"/>
+                            <constraint firstAttribute="bottom" secondItem="1Vj-ea-PIl" secondAttribute="bottom" id="fLm-nb-r8m"/>
                             <constraint firstAttribute="bottom" secondItem="MPS-dp-Zpy" secondAttribute="bottom" id="kFz-zQ-CLT"/>
                             <constraint firstItem="1Vj-ea-PIl" firstAttribute="top" secondItem="Zmg-lk-eyV" secondAttribute="top" id="mbg-jt-ieT"/>
                             <constraint firstAttribute="trailing" secondItem="1Vj-ea-PIl" secondAttribute="trailing" id="pBI-fj-qNR"/>
@@ -186,7 +181,9 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="fLm-nb-r8m"/>
                                 <exclude reference="FTJ-qd-pSy"/>
+                                <exclude reference="aQp-M2-MS7"/>
                                 <exclude reference="u5d-Jp-m3Z"/>
                             </mask>
                         </variation>
@@ -203,6 +200,7 @@
                     <connections>
                         <outlet property="editButton" destination="Vbf-TZ-8Lp" id="Uvu-p1-d7p"/>
                         <outlet property="tabBar" destination="MPS-dp-Zpy" id="rQ8-hf-pxL"/>
+                        <outlet property="tabHeight" destination="8pc-q9-tl9" id="BcW-rx-dW8"/>
                         <segue destination="irG-Z5-JL0" kind="show" identifier="showDays" id="k5Q-HT-Lyq"/>
                         <segue destination="KXB-3e-rBX" kind="showDetail" identifier="showScheduler1" id="qMU-sb-n2S"/>
                     </connections>
@@ -493,6 +491,9 @@
                             <constraint firstAttribute="bottom" secondItem="2FP-qu-dLA" secondAttribute="bottom" id="yt4-S2-dsV"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="daysTable" destination="2FP-qu-dLA" id="XMC-9D-IgU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R8E-TH-yd8" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="3oC-Ky-6KZ" userLabel="Exit" sceneMemberID="exit"/>
@@ -550,16 +551,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LjC-PG-fTN">
-                                <rect key="frame" x="0.0" y="551" width="600" height="49"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <items>
-                                    <tabBarItem title="Delete" image="delete" id="Lzl-1n-Psl"/>
-                                    <tabBarItem title="Add" image="add" id="tpL-3z-wsK"/>
-                                </items>
-                            </tabBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ch9-Gm-S99">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dayCell" textLabel="271-Km-DA8" detailTextLabel="8Wp-3Z-mTl" style="IBUITableViewCellStyleSubtitle" id="08e-M3-IDf">
@@ -589,6 +582,17 @@
                                     <outlet property="delegate" destination="irG-Z5-JL0" id="r9v-IH-wt3"/>
                                 </connections>
                             </tableView>
+                            <tabBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LjC-PG-fTN">
+                                <rect key="frame" x="0.0" y="600" width="600" height="0.0"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="B8c-i7-6Vb"/>
+                                </constraints>
+                                <items>
+                                    <tabBarItem title="Delete" image="delete" id="Lzl-1n-Psl"/>
+                                    <tabBarItem title="Add" image="add" id="tpL-3z-wsK"/>
+                                </items>
+                            </tabBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -622,6 +626,7 @@
                     <connections>
                         <outlet property="editButton" destination="ZwD-rO-QpZ" id="dTW-Tc-BbO"/>
                         <outlet property="tabBar" destination="LjC-PG-fTN" id="tgz-6X-J5i"/>
+                        <outlet property="tabHeight" destination="B8c-i7-6Vb" id="KgK-56-ZZR"/>
                         <segue destination="KXB-3e-rBX" kind="showDetail" identifier="showScheduler2" id="VgS-2B-Slj"/>
                         <segue destination="Jv2-fq-Ws9" kind="unwind" identifier="backToDayWithDay" unwindAction="returnToDaySelected:" id="u8U-Gc-3kM"/>
                     </connections>
@@ -641,6 +646,6 @@
         <image name="save" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qMU-sb-n2S"/>
+        <segue reference="VgS-2B-Slj"/>
     </inferredMetricsTieBreakers>
 </document>
