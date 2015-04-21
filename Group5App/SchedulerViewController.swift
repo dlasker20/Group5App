@@ -22,9 +22,21 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     var prevViewController = ""
     
+    var mySchedule: Schedule?
+    var path: String! //file path for saving data (LP)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
+        //Setup Path (LP)
+        path = fileInDocumentsDirectory("schedule.plist")
+        
+        //Load data from saved file on view load (LP)
+        if let schedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! Schedule? {
+            
+            //add to UI
+            
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -156,9 +168,34 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         }
     }
     
+    //Documents Directory (LP)
+    func documentsDirectory() -> String {
+        let documentsFolderPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
+        return documentsFolderPath
+    }
+    
+    func fileInDocumentsDirectory(filename: String) -> String {
+        return documentsDirectory().stringByAppendingPathComponent(filename)
+    }
+    
     //Data needs to be sent back
     @IBAction func save(sender: AnyObject) {
+        //NSkeyedArchiver (LP)
         
+        //path-> documents directory (LP)
+        println("save: \(path)")
+        
+        var success = false
+        
+        if let schedule = mySchedule {
+            success = NSKeyedArchiver.archiveRootObject(schedule, toFile:path)
+            
+            if success {
+                println("Saved successfully")
+            } else {
+                println("Error saving data file")
+            }
+        }
         
         if(prevViewController == "daySelected")
         {
