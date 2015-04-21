@@ -24,6 +24,7 @@
 		49E380E31ADDC54F001CFEFD /* asciiConvert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E380E21ADDC54F001CFEFD /* asciiConvert.swift */; };
 		49E380E51ADDFFA0001CFEFD /* dummy-images in Resources */ = {isa = PBXBuildFile; fileRef = 49E380E41ADDFFA0001CFEFD /* dummy-images */; };
 		49E380E71ADE0911001CFEFD /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49E380E61ADE0911001CFEFD /* CustomTableViewCell.xib */; };
+		536C50931AE6C2F0007D6940 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536C50921AE6C2F0007D6940 /* Schedule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		49E380E21ADDC54F001CFEFD /* asciiConvert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = asciiConvert.swift; sourceTree = "<group>"; };
 		49E380E41ADDFFA0001CFEFD /* dummy-images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "dummy-images"; sourceTree = "<group>"; };
 		49E380E61ADE0911001CFEFD /* CustomTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
+		536C50921AE6C2F0007D6940 /* Schedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				49E380E41ADDFFA0001CFEFD /* dummy-images */,
 				499A53AD1ADC6983006C916B /* Parse_Object_Files */,
 				3724E3531AD0A605004FE06D /* AppDelegate.swift */,
+				536C50921AE6C2F0007D6940 /* Schedule.swift */,
 				3724E3751AD8409D004FE06D /* ArticlesViewController.swift */,
 				3724E3771AD840B7004FE06D /* WebViewController.swift */,
 				3724E3791AD840E0004FE06D /* DaySelectedViewController.swift */,
@@ -261,6 +264,7 @@
 				3724E37E1AD84105004FE06D /* SchedulerViewController.swift in Sources */,
 				3724E3801AD84124004FE06D /* DayPickerViewController.swift in Sources */,
 				499A53B11ADC6983006C916B /* Article.swift in Sources */,
+				536C50931AE6C2F0007D6940 /* Schedule.swift in Sources */,
 				499A53B21ADC6983006C916B /* ImageData.swift in Sources */,
 				3724E3781AD840B7004FE06D /* WebViewController.swift in Sources */,
 				3724E3761AD8409D004FE06D /* ArticlesViewController.swift in Sources */,
