@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DaySelectedViewController: UIViewController,UITabBarDelegate {
+class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewDataSource, UITableViewDelegate  {
 
     @IBOutlet weak var tabBar: UITabBar!
     
@@ -58,6 +58,39 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate {
             performSegueWithIdentifier("showDays", sender: self)
         }
     }
+    
+    //Code for table
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 20
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("timeCell", forIndexPath: indexPath) as! UITableViewCell
+        
+        cell.imageView?.image = UIImage(named: "arts")!
+        cell.textLabel?.text = "8:15 PM"
+        cell.detailTextLabel?.text = "Arts"
+    
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        if(cell?.accessoryType == .Checkmark)
+        {
+            cell?.accessoryType = .None
+        }
+        else
+        {
+            cell?.accessoryType = .Checkmark
+        }
+    }
+
     
     //Logic to send data to different views via segues and their specific ids
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
