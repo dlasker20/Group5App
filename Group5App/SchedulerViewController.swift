@@ -14,6 +14,8 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     let types = ["National","Short"]
     
+    var daysSet = [7]
+    
     let topicsPicker = 0
     let typesPicker = 1
     
@@ -166,6 +168,15 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         {
             performSegueWithIdentifier("backToDays", sender: self)
         }
+    }
+    
+    //Function to create schedule object form UI
+    func createScheduleFromUI()-> Schedule? {
+        var schedule: Schedule? = nil
+        
+        //schedule = Schedule(days: days, time: time, topic: topic, type: type)
+        
+        return schedule
     }
     
     //Documents Directory (LP)
