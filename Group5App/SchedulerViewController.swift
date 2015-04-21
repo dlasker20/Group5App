@@ -14,13 +14,15 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     let types = ["National","Short"]
     
-    var daysSet = [7]
+    var daysSet = Array(count: 7, repeatedValue: false)
     
     let topicsPicker = 0
     let typesPicker = 1
     
     var daysPickedDetail:UITableViewCell?
-    var daysPickedText = ""
+    let days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+    let daysAbrev = ["M","T","W","Th","F","S","Sn"]
+    
     
     var prevViewController = ""
     
@@ -219,14 +221,57 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     }
 
     
+    @IBAction func returnToScheduler(segue: UIStoryboardSegue) {
+        if(daysSet[0] && daysSet[1] && daysSet[2] && daysSet[3] && daysSet[4] && daysSet[5] && daysSet[6])
+        {
+            daysPickedDetail?.detailTextLabel?.text = "Everyday"
+        }
+        else if(daysSet[0] && daysSet[1] && daysSet[2] && daysSet[3] && daysSet[4] && !daysSet[5] && !daysSet[6])
+        {
+            daysPickedDetail?.detailTextLabel?.text = "Weekdays"
+        }
+        else if(!daysSet[0] && !daysSet[1] && !daysSet[2] && !daysSet[3] && !daysSet[4] && daysSet[5] && daysSet[6])
+        {
+            daysPickedDetail?.detailTextLabel?.text = "Weekends"
+        }
+        else
+        {
+            var count = 0
+            var index = 0
+            for(var i = 0; i < 7; i++)
+            {
+                if(daysSet[i])
+                {
+                    count++
+                    index = i
+                }
+            }
+            
+            if(count == 1)
+            {
+                 daysPickedDetail?.detailTextLabel?.text = days[index]
+            }
+            else
+            {
+                var abrevString = ""
+                for(var i = 0; i < 7; i++)
+                {
+                    if(daysSet[i])
+                    {
+                        abrevString = abrevString + " " + daysAbrev[i]
+                    }
+                }
+                
+                daysPickedDetail?.detailTextLabel?.text = abrevString
+            }
+        }
+        
+        
+    }
+    
     //Logic to send data to different views via segues and their specific ids
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         //send data back to daySelected or days or send nothing back if cancel
-    }
-    
-    @IBAction func returnToScheduler(segue: UIStoryboardSegue) {
-        daysPickedDetail?.detailTextLabel?.text = daysPickedText
-        
     }
 
 }

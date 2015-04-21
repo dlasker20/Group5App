@@ -15,7 +15,7 @@ class DayPickerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     let days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
     
-    var daysSet = [7]
+    var daysSet = Array(count: 7, repeatedValue: false)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +63,6 @@ class DayPickerViewController: UIViewController,UITableViewDataSource, UITableVi
     //Logic to send data to different views via segues and their specific ids
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let destinationViewController = segue.destinationViewController as! SchedulerViewController
-        destinationViewController.daysPickedText = "Monday"
         
         
         for(var i = 0; i < 7; i++)
