@@ -42,6 +42,11 @@ class DayPickerViewController: UIViewController,UITableViewDataSource, UITableVi
         
         cell.textLabel?.text = days[indexPath.row]
         
+        if(daysSet[indexPath.row])
+        {
+            cell.accessoryType = .Checkmark
+        }
+        
         return cell
     }
     
