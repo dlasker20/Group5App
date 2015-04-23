@@ -14,12 +14,19 @@ class CustomTableViewCell : UITableViewCell {
     @IBOutlet weak var cellHeadline: UILabel!
     @IBOutlet weak var cellDetail: UILabel!
     
+    
 }
 
 class ArticlesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     @IBOutlet weak var cellImage: UIImageView!
     @IBOutlet weak var articleTableView: UITableView!
+    
+    
+    //activity indicator variables
+    var container: UIView = UIView()
+    var loadingView: UIView = UIView()
+    var actInd: UIActivityIndicatorView = UIActivityIndicatorView()
     
     //declare instance of parser class
     let parseConnect = parser()
@@ -40,17 +47,12 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*parseConnect.connectNow()
-        println("parseConnect.connectNow called")
-        articleTableView.reloadData()
-        */
-        /*if(parseConnect.articles[0].title != nil){
-            articleTableView.reloadData()
-        }*/
-        
         //tell table to use custom cell described in CustomTableViewCell.xib
+        
         var nib = UINib(nibName: "CustomTableViewCell", bundle: nil)
         articleTableView.registerNib(nib, forCellReuseIdentifier: customReuse)
+        
+        showActivityIndicator(self.view)
         
         parseConnect.load(urlString) {
             (companies, errorString) -> Void in
@@ -63,8 +65,6 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
     }
-    
-    //table functions that need to be wired up to the parsed JSON data
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -85,12 +85,15 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         self.articleTableView.estimatedRowHeight = 44.0
         self.articleTableView.rowHeight = UITableViewAutomaticDimension
         
+        //set default images to load before the Asynchronous Request, in case images have long load time
         var rnum = 1+(arc4random()%4)
         let pic = UIImage(named: "dummy\(rnum)")
+        cell.cellImage.image = pic
         
+        
+        //use asynchronous request to load images from API
         let articleImageURL = parseConnect.articles[indexPath.row].image?.url
         println(articleImageURL)
-        
         var imgURL: NSURL = NSURL(string: articleImageURL!)!
         let request: NSURLRequest = NSURLRequest(URL: imgURL)
         NSURLConnection.sendAsynchronousRequest(
@@ -100,15 +103,16 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
                     cell.cellImage.image = UIImage(data: data)!
                     cell.setNeedsLayout()
                     cell.layoutIfNeeded()
+
+                    self.hideActivityIndicator(self.view)
                 }
+                
         })
         
         cell.cellHeadline?.text = parseConnect.articles[indexPath.row].title
         cell.cellDetail?.text = parseConnect.articles[indexPath.row].section
-        
+        ArticlesViewController().hideActivityIndicator(self.view)
         return cell
-        
-        
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -120,6 +124,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         performSegueWithIdentifier(webViewSegue, sender: self)
     }
     
+    //on segue, send article object containing url for webView
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == webViewSegue){
             let destinationViewController = segue.destinationViewController as! WebViewController
@@ -147,7 +152,46 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
 
-
+    func showActivityIndicator(uiView: UIView) {
+        //courtesey of eranga bandara
+        
+        container.frame = uiView.frame
+        container.center = uiView.center
+        container.backgroundColor = UIColorFromHex(0xffffff, alpha: 0.3)
+        
+        
+        loadingView.frame = CGRectMake(0, 0, 80, 80)
+        loadingView.center = uiView.center
+        loadingView.backgroundColor = UIColorFromHex(0x444444, alpha: 0.7)
+        loadingView.clipsToBounds = true
+        loadingView.layer.cornerRadius = 10
+        
+        
+        actInd.frame = CGRectMake(0.0, 0.0, 40.0, 40.0);
+        actInd.activityIndicatorViewStyle =
+            UIActivityIndicatorViewStyle.WhiteLarge
+        actInd.center = CGPointMake(loadingView.frame.size.width / 2,
+            loadingView.frame.size.height / 2);
+        loadingView.addSubview(actInd)
+        container.addSubview(loadingView)
+        uiView.addSubview(container)
+        actInd.startAnimating()
+    }
+    
+    func hideActivityIndicator(uiView: UIView) {
+        actInd.stopAnimating()
+        loadingView.removeFromSuperview()
+        container.removeFromSuperview()
+        
+    }
+    
+    func UIColorFromHex(rgbValue:UInt32, alpha:Double=1.0)->UIColor {
+        let red = CGFloat((rgbValue & 0xFF0000) >> 16)/256.0
+        let green = CGFloat((rgbValue & 0xFF00) >> 8)/256.0
+        let blue = CGFloat(rgbValue & 0xFF)/256.0
+        
+        return UIColor(red:red, green:green, blue:blue, alpha:CGFloat(alpha))
+    }
 
 
 }
