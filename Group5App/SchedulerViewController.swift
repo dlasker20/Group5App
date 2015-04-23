@@ -21,7 +21,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     var daysPickedDetail:UITableViewCell?
     let days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-    let daysAbrev = ["M","T","W","Th","F","S","Sn"]
+    let daysAbrev = ["Mon","Tues","Weds","Thurs","Fri","Sat","Sun"]
     
     
     var prevViewController = ""

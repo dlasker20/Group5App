@@ -89,6 +89,10 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
             cell?.accessoryType = .Checkmark
         }
     }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 60
+    }
 
     
     //Logic to send data to different views via segues and their specific ids

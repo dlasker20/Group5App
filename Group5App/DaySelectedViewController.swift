@@ -21,7 +21,7 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBar.hidden = true;
+        self.tabBar.hidden = true
         tabBar.delegate = self
     }
 
@@ -77,7 +77,7 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         let cell = tableView.dequeueReusableCellWithIdentifier("timeCell", forIndexPath: indexPath) as! UITableViewCell
         
         cell.imageView?.image = UIImage(named: "arts")!
-        cell.textLabel?.text = "8:15 PM"
+        cell.textLabel?.text = "8:15PM"
         cell.detailTextLabel?.text = "Arts"
     
         return cell
@@ -94,7 +94,11 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
             cell?.accessoryType = .Checkmark
         }
     }
-
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 60
+    }
+    
     
     //Logic to send data to different views via segues and their specific ids
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
