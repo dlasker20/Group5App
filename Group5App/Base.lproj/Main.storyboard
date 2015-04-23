@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="f7N-AA-pET">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="f7N-AA-pET">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -419,6 +419,9 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="notificationsSwitch" destination="ei2-aB-qYk" id="6eb-Al-lfJ"/>
+                        <outlet property="timeSelectedPicker" destination="gW9-P0-lu1" id="nQu-8R-jB8"/>
+                        <outlet property="topicNTypePickerView" destination="Emu-iN-5Bc" id="gHC-GE-oCZ"/>
                         <segue destination="a4N-Fh-vN6" kind="showDetail" identifier="showDayPicker" id="Bkp-OD-umK"/>
                         <segue destination="jUU-Zn-uqf" kind="unwind" identifier="backToDaySelected" unwindAction="returnToDaySelected:" id="Zod-0y-Gfk"/>
                         <segue destination="jUU-Zn-uqf" kind="unwind" identifier="backToDays" unwindAction="returnToDays:" id="VIa-Ng-0m5"/>

@@ -15,15 +15,17 @@ class Schedule: NSObject, NSCoding {
     var time: String
     var topic: String
     var type: String
+    var notifications: Bool
     
     //Initializer
-    init(days: [String], time: String, topic: String, type: String){
+    init(days: [String], time: String, topic: String, type: String, notifications: Bool){
         
         //set all properties to passed in values
         self.days = days
         self.time = time
         self.topic = topic
         self.type = type
+        self.notifications = notifications
         
         super.init()
     }
@@ -33,6 +35,7 @@ class Schedule: NSObject, NSCoding {
         self.time = decoder.decodeObjectForKey("time") as! String;
         self.topic = decoder.decodeObjectForKey("topic") as! String;
         self.type = decoder.decodeIntegerForKey("type") as! String;
+        self.notifications = decoder.decodeBoolForKey("notifications") as! Bool;
         
         super.init() // super.init(coder:decoder)
     }
@@ -43,5 +46,6 @@ class Schedule: NSObject, NSCoding {
         encoder.encodeObject(time, forKey: "time")
         encoder.encodeObject(topic, forKey: "topic")
         encoder.encodeObject(type, forKey: "type")
+        encoder.encodeObject(notifications, forKey: "notifications")
     }
 }

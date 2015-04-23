@@ -10,6 +10,11 @@ import UIKit
 
 class SchedulerViewController: UIViewController,UITableViewDataSource, UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate {
     
+    
+    @IBOutlet weak var timeSelectedPicker: UIDatePicker!
+    @IBOutlet weak var topicNTypePickerView: UIPickerView!
+    @IBOutlet weak var notificationsSwitch: UISwitch!
+    
     let topics = ["Arts","Sports","Technology"]
     
     let types = ["National","Short"]
@@ -176,7 +181,21 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     func createScheduleFromUI()-> Schedule? {
         var schedule: Schedule? = nil
         
-        //schedule = Schedule(days: days, time: time, topic: topic, type: type)
+        let topic = topics[topicNTypePickerView.selectedRowInComponent(0)]
+        
+        let type = types[topicNTypePickerView.selectedRowInComponent(1)]
+        
+        var daysSelected = [String]()
+        for ( var i = 0; i < 7; i++){
+            if(daysSet[i]){
+               daysSelected.append(days[i])
+            }
+        }
+        
+        self.timeSelectedPicker.description
+        println(self.timeSelectedPicker.description)
+        
+        //schedule = Schedule(days: daysSelected, time: "hi", topic: topic, type: type, notifications: notificationsSwitch)
         
         return schedule
     }

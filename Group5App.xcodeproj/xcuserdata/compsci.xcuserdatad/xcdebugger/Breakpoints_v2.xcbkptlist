@@ -6,7 +6,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Group5App/SchedulerViewController.swift"
@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "190"
             endingLineNumber = "190"
-            landmarkName = "save(_:)"
+            landmarkName = "fileInDocumentsDirectory(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,6 +31,84 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "25"
             endingLineNumber = "25"
+            landmarkName = "SchedulerViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Group5App.SchedulerViewController.prevViewController.getter : Swift.String"
+                  moduleName = "Group5App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/compsci/Documents/Projects/Group5App/Group5App/SchedulerViewController.swift"
+                  timestampString = "451504703.505718"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Group5App.SchedulerViewController.prevViewController.materializeForSet : Swift.String"
+                  moduleName = "Group5App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/compsci/Documents/Projects/Group5App/Group5App/SchedulerViewController.swift"
+                  timestampString = "451504703.506215"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Group5App.SchedulerViewController.init (Group5App.SchedulerViewController.Type)(nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;ObjectiveC.NSBundle&gt;) -&gt; Group5App.SchedulerViewController"
+                  moduleName = "Group5App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/compsci/Documents/Projects/Group5App/Group5App/SchedulerViewController.swift"
+                  timestampString = "451504703.506823"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "1446">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Group5App.SchedulerViewController.init (Group5App.SchedulerViewController.Type)(coder : ObjectiveC.NSCoder) -&gt; Group5App.SchedulerViewController"
+                  moduleName = "Group5App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/compsci/Documents/Projects/Group5App/Group5App/SchedulerViewController.swift"
+                  timestampString = "451504703.507058"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "1315">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Group5App/SchedulerViewController.swift"
+            timestampString = "451504791.955319"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "SchedulerViewController"
             landmarkType = "3">
          </BreakpointContent>
