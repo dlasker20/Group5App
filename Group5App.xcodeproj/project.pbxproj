@@ -18,6 +18,9 @@
 		3724E37C1AD840ED004FE06D /* DaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3724E37B1AD840ED004FE06D /* DaysViewController.swift */; };
 		3724E37E1AD84105004FE06D /* SchedulerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3724E37D1AD84105004FE06D /* SchedulerViewController.swift */; };
 		3724E3801AD84124004FE06D /* DayPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3724E37F1AD84124004FE06D /* DayPickerViewController.swift */; };
+		37A75D371AE9851500DE5E4B /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A75D361AE9851500DE5E4B /* DatePickerTableViewCell.swift */; };
+		37A75D391AE9852400DE5E4B /* PickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A75D381AE9852400DE5E4B /* PickerTableViewCell.swift */; };
+		37A75D3B1AE9853400DE5E4B /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A75D3A1AE9853400DE5E4B /* SwitchTableViewCell.swift */; };
 		499A53B11ADC6983006C916B /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499A53AE1ADC6983006C916B /* Article.swift */; };
 		499A53B21ADC6983006C916B /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499A53AF1ADC6983006C916B /* ImageData.swift */; };
 		499A53B31ADC6983006C916B /* parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499A53B01ADC6983006C916B /* parser.swift */; };
@@ -53,6 +56,9 @@
 		3724E37B1AD840ED004FE06D /* DaysViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DaysViewController.swift; sourceTree = "<group>"; };
 		3724E37D1AD84105004FE06D /* SchedulerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerViewController.swift; sourceTree = "<group>"; };
 		3724E37F1AD84124004FE06D /* DayPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayPickerViewController.swift; sourceTree = "<group>"; };
+		37A75D361AE9851500DE5E4B /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
+		37A75D381AE9852400DE5E4B /* PickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
+		37A75D3A1AE9853400DE5E4B /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		499A53AE1ADC6983006C916B /* Article.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		499A53AF1ADC6983006C916B /* ImageData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		499A53B01ADC6983006C916B /* parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = parser.swift; sourceTree = "<group>"; };
@@ -101,6 +107,7 @@
 		3724E3501AD0A605004FE06D /* Group5App */ = {
 			isa = PBXGroup;
 			children = (
+				37A75D351AE984E400DE5E4B /* cells */,
 				49E380E41ADDFFA0001CFEFD /* dummy-images */,
 				499A53AD1ADC6983006C916B /* Parse_Object_Files */,
 				3724E3531AD0A605004FE06D /* AppDelegate.swift */,
@@ -143,6 +150,16 @@
 				3724E3681AD0A605004FE06D /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		37A75D351AE984E400DE5E4B /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				37A75D361AE9851500DE5E4B /* DatePickerTableViewCell.swift */,
+				37A75D381AE9852400DE5E4B /* PickerTableViewCell.swift */,
+				37A75D3A1AE9853400DE5E4B /* SwitchTableViewCell.swift */,
+			);
+			name = cells;
 			sourceTree = "<group>";
 		};
 		499A53AD1ADC6983006C916B /* Parse_Object_Files */ = {
@@ -260,15 +277,18 @@
 			files = (
 				3724E37A1AD840E0004FE06D /* DaySelectedViewController.swift in Sources */,
 				3724E3541AD0A605004FE06D /* AppDelegate.swift in Sources */,
+				37A75D3B1AE9853400DE5E4B /* SwitchTableViewCell.swift in Sources */,
 				49E380E31ADDC54F001CFEFD /* asciiConvert.swift in Sources */,
 				3724E37E1AD84105004FE06D /* SchedulerViewController.swift in Sources */,
 				3724E3801AD84124004FE06D /* DayPickerViewController.swift in Sources */,
 				499A53B11ADC6983006C916B /* Article.swift in Sources */,
 				536C50931AE6C2F0007D6940 /* Schedule.swift in Sources */,
+				37A75D391AE9852400DE5E4B /* PickerTableViewCell.swift in Sources */,
 				499A53B21ADC6983006C916B /* ImageData.swift in Sources */,
 				3724E3781AD840B7004FE06D /* WebViewController.swift in Sources */,
 				3724E3761AD8409D004FE06D /* ArticlesViewController.swift in Sources */,
 				499A53B31ADC6983006C916B /* parser.swift in Sources */,
+				37A75D371AE9851500DE5E4B /* DatePickerTableViewCell.swift in Sources */,
 				3724E37C1AD840ED004FE06D /* DaysViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

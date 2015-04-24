@@ -10,10 +10,7 @@ import UIKit
 
 class SchedulerViewController: UIViewController,UITableViewDataSource, UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate {
     
-    
-    @IBOutlet weak var timeSelectedPicker: UIDatePicker!
-    @IBOutlet weak var topicNTypePickerView: UIPickerView!
-    @IBOutlet weak var notificationsSwitch: UISwitch!
+    @IBOutlet weak var tableView: UITableView!
     
     let topics = ["Arts","Sports","Technology"]
     
@@ -24,15 +21,24 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     let topicsPicker = 0
     let typesPicker = 1
     
-    var daysPickedDetail:UITableViewCell?
     let days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
     let daysAbrev = ["Mon","Tues","Weds","Thurs","Fri","Sat","Sun"]
     
     
     var prevViewController = ""
     
-    var mySchedule: Schedule?
+    
+    var mySchedule:NSMutableArray = NSMutableArray()
+    
     var path: String! //file path for saving data (LP)
+    
+    //Cell Variables
+    var daysPickedDetail: UITableViewCell?
+    var datePickerCell: DatePickerTableViewCell?
+    var picker: PickerTableViewCell?
+    var notify: SwitchTableViewCell?
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,11 +47,19 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         path = fileInDocumentsDirectory("schedule.plist")
         
         //Load data from saved file on view load (LP)
-        if let schedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! Schedule? {
-            
-            //add to UI
-            
+        
+        //DON'T UNARCHIVE UNLESS Day and Time sent
+        
+        //don't set if nothing set/sent for day or time
+        mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+        
+        //Test to see if stuff saved correctly
+        for(var i = 0; i < mySchedule.count; i++)
+        {
+            let hi = mySchedule[i] as! Schedule
+             println(hi.topicSet)
         }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -82,11 +96,23 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                 {
                     case 0:
                         cell = tableView.dequeueReusableCellWithIdentifier("pickDay", forIndexPath: indexPath) as! UITableViewCell
-                        
+                    
                         daysPickedDetail = cell
                     
+                        //need to change to day actually sent
+                        //if coming from days set day to one that has not been set yet. On the days viewController make sure to throw error before coming here if try to add more than 7 days
+                        //set to default if day or time not sent
+                    
+                    
                     default:
-                        cell = tableView.dequeueReusableCellWithIdentifier("pickTime", forIndexPath: indexPath) as! UITableViewCell
+           
+                        cell = tableView.dequeueReusableCellWithIdentifier("pickTime", forIndexPath: indexPath) as! DatePickerTableViewCell
+                        
+                        datePickerCell = cell as? DatePickerTableViewCell
+                        
+                        //need to change to date/time actually sent
+                        //set to default if day or time not sent
+                        (cell as! DatePickerTableViewCell).datePicker.date = NSDate()
                 }
             
             case 1:
@@ -96,7 +122,14 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                         cell = tableView.dequeueReusableCellWithIdentifier("topicTypeTitle", forIndexPath: indexPath) as! UITableViewCell
                     
                     default:
-                        cell = tableView.dequeueReusableCellWithIdentifier("topicTypeCell", forIndexPath: indexPath) as! UITableViewCell
+                        cell = tableView.dequeueReusableCellWithIdentifier("topicTypeCell", forIndexPath: indexPath) as! PickerTableViewCell
+                    
+                        picker = cell as? PickerTableViewCell
+                    
+                        //Need to set topic and type based of day and time sent
+                        //set to default if day or time not sent
+                    
+                    
                 }
             
             default:
@@ -104,7 +137,12 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                 {
                     
                     default:
-                        cell = tableView.dequeueReusableCellWithIdentifier("notifyCell", forIndexPath: indexPath) as! UITableViewCell
+                        cell = tableView.dequeueReusableCellWithIdentifier("notifyCell", forIndexPath: indexPath) as! SwitchTableViewCell
+                    
+                        notify = cell as? SwitchTableViewCell
+                    
+                        //Need to set notifications based of day and time sent
+                        //set to default if day or time not sent
                 }
         }
 
@@ -179,11 +217,12 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     //Function to create schedule object form UI
     func createScheduleFromUI()-> Schedule? {
+        
         var schedule: Schedule? = nil
         
-        let topic = topics[topicNTypePickerView.selectedRowInComponent(0)]
+        let topicSet = topics[picker!.topicNTypePickerView.selectedRowInComponent(0)]
         
-        let type = types[topicNTypePickerView.selectedRowInComponent(1)]
+        let typeSet = types[picker!.topicNTypePickerView.selectedRowInComponent(1)]
         
         var daysSelected = [String]()
         for ( var i = 0; i < 7; i++){
@@ -191,11 +230,12 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                daysSelected.append(days[i])
             }
         }
+    
+        let date = datePickerCell!.datePicker.date
         
-        self.timeSelectedPicker.description
-        println(self.timeSelectedPicker.description)
+        let notifySetting = notify!.notifySwitch.on
         
-        //schedule = Schedule(days: daysSelected, time: "hi", topic: topic, type: type, notifications: notificationsSwitch)
+        schedule = Schedule(days: daysSelected, time: date, topicSet: topicSet, typeSet: typeSet, notifications: notifySetting)
         
         return schedule
     }
@@ -219,14 +259,14 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         
         var success = false
         
-        if let schedule = mySchedule {
-            success = NSKeyedArchiver.archiveRootObject(schedule, toFile:path)
+        mySchedule.addObject(createScheduleFromUI()!)
+        
+        success = NSKeyedArchiver.archiveRootObject(mySchedule, toFile:path)
             
-            if success {
-                println("Saved successfully")
-            } else {
-                println("Error saving data file")
-            }
+        if success {
+            println("Saved successfully")
+        } else {
+            println("Error saving data file")
         }
         
         if(prevViewController == "daySelected")
@@ -241,17 +281,18 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
 
     
     @IBAction func returnToScheduler(segue: UIStoryboardSegue) {
+        
         if(daysSet[0] && daysSet[1] && daysSet[2] && daysSet[3] && daysSet[4] && daysSet[5] && daysSet[6])
         {
-            daysPickedDetail?.detailTextLabel?.text = "Everyday"
+            daysPickedDetail!.detailTextLabel?.text = "Everyday"
         }
         else if(daysSet[0] && daysSet[1] && daysSet[2] && daysSet[3] && daysSet[4] && !daysSet[5] && !daysSet[6])
         {
-            daysPickedDetail?.detailTextLabel?.text = "Weekdays"
+            daysPickedDetail!.detailTextLabel?.text = "Weekdays"
         }
         else if(!daysSet[0] && !daysSet[1] && !daysSet[2] && !daysSet[3] && !daysSet[4] && daysSet[5] && daysSet[6])
         {
-            daysPickedDetail?.detailTextLabel?.text = "Weekends"
+            daysPickedDetail!.detailTextLabel?.text = "Weekends"
         }
         else
         {
@@ -268,7 +309,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
             
             if(count == 1)
             {
-                 daysPickedDetail?.detailTextLabel?.text = days[index]
+                 daysPickedDetail!.detailTextLabel?.text = days[index]
             }
             else
             {
@@ -281,7 +322,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                     }
                 }
                 
-                daysPickedDetail?.detailTextLabel?.text = abrevString
+                daysPickedDetail!.detailTextLabel?.text = abrevString
             }
         }
         
@@ -303,3 +344,15 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     }
 
 }
+
+
+//TODO: Figure out how to check if record already exist and throw an error on create. Also how to edit and delte record (should make functions for these things and to also send type and topic back to andrew via a function call)
+
+//Add
+//Edit
+//ERROR MESSAGE IF CREATE CONFLICTS, SO DON'T ALLOW TO SAVE
+//Delete(Should be in daysSelected and Days instead of here???)
+//Send type and topic back based on time(Should just create function in Articles controller instead of here???)
+//set notifications
+//edit notifications when change
+//delete notifications when delete(hour or day) or turn off

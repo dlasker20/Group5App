@@ -53,6 +53,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         articleTableView.registerNib(nib, forCellReuseIdentifier: customReuse)
         
         showActivityIndicator(self.view)
+        articleTableView.hidden = true
         
         parseConnect.load(urlString) {
             (companies, errorString) -> Void in
@@ -105,6 +106,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
                     cell.layoutIfNeeded()
 
                     self.hideActivityIndicator(self.view)
+                    self.articleTableView.hidden = false
                 }
                 
         })

@@ -12,19 +12,19 @@ class Schedule: NSObject, NSCoding {
    
     //Properties
     var days: [String]
-    var time: String
-    var topic: String
-    var type: String
+    var time: NSDate
+    var topicSet: String
+    var typeSet: String
     var notifications: Bool
     
     //Initializer
-    init(days: [String], time: String, topic: String, type: String, notifications: Bool){
+    init(days: [String], time: NSDate, topicSet: String, typeSet: String, notifications: Bool){
         
         //set all properties to passed in values
         self.days = days
         self.time = time
-        self.topic = topic
-        self.type = type
+        self.topicSet = topicSet
+        self.typeSet = typeSet
         self.notifications = notifications
         
         super.init()
@@ -32,10 +32,10 @@ class Schedule: NSObject, NSCoding {
     
     required init(coder decoder: NSCoder) {
         self.days = decoder.decodeObjectForKey("days") as! [String];
-        self.time = decoder.decodeObjectForKey("time") as! String;
-        self.topic = decoder.decodeObjectForKey("topic") as! String;
-        self.type = decoder.decodeIntegerForKey("type") as! String;
-        self.notifications = decoder.decodeBoolForKey("notifications") as! Bool;
+        self.time = decoder.decodeObjectForKey("time") as! NSDate;
+        self.topicSet = decoder.decodeObjectForKey("topicSet") as! String;
+        self.typeSet = decoder.decodeObjectForKey("typeSet") as! String;
+        self.notifications = decoder.decodeObjectForKey("notifications") as! Bool;
         
         super.init() // super.init(coder:decoder)
     }
@@ -44,8 +44,8 @@ class Schedule: NSObject, NSCoding {
         
         encoder.encodeObject(days, forKey: "days")
         encoder.encodeObject(time, forKey: "time")
-        encoder.encodeObject(topic, forKey: "topic")
-        encoder.encodeObject(type, forKey: "type")
+        encoder.encodeObject(topicSet, forKey: "topicSet")
+        encoder.encodeObject(typeSet, forKey: "typeSet")
         encoder.encodeObject(notifications, forKey: "notifications")
     }
 }

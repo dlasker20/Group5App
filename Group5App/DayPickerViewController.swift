@@ -16,6 +16,9 @@ class DayPickerViewController: UIViewController,UITableViewDataSource, UITableVi
     let days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
     
     var daysSet = Array(count: 7, repeatedValue: false)
+    
+    //Variable to store cells
+    var cells = [UITableViewCell]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +42,8 @@ class DayPickerViewController: UIViewController,UITableViewDataSource, UITableVi
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("dayCell", forIndexPath: indexPath) as! UITableViewCell
+        
+        cells.append(cell)
         
         cell.textLabel?.text = days[indexPath.row]
         
@@ -72,7 +77,7 @@ class DayPickerViewController: UIViewController,UITableViewDataSource, UITableVi
         
         for(var i = 0; i < 7; i++)
         {
-            if(daysTable.cellForRowAtIndexPath( NSIndexPath(forRow: i, inSection: 0))?.accessoryType == .Checkmark)
+            if(cells[i].accessoryType == .Checkmark)
             {
                 destinationViewController.daysSet[i] = true
             }

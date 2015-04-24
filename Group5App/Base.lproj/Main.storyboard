@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="f7N-AA-pET">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="f7N-AA-pET">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -241,7 +241,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pickTime" rowHeight="181" id="CEl-gX-CvI">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pickTime" rowHeight="181" id="CEl-gX-CvI" customClass="DatePickerTableViewCell" customModule="Group5App" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CEl-gX-CvI" id="ZZO-zy-r7l">
@@ -269,6 +269,9 @@
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="datePicker" destination="gW9-P0-lu1" id="8Nm-CJ-5Ka"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="topicTypeTitle" id="Rdo-nJ-nYa">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -291,7 +294,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="topicTypeCell" rowHeight="75" id="VqO-Bw-IKQ">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="topicTypeCell" rowHeight="75" id="VqO-Bw-IKQ" customClass="PickerTableViewCell" customModule="Group5App" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VqO-Bw-IKQ" id="8K8-wc-txt">
@@ -326,8 +329,11 @@
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="topicNTypePickerView" destination="Emu-iN-5Bc" id="8IS-dM-MYS"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notifyCell" rowHeight="75" id="4X2-bH-xqv">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notifyCell" rowHeight="75" id="4X2-bH-xqv" customClass="SwitchTableViewCell" customModule="Group5App" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4X2-bH-xqv" id="9dd-4K-P3u">
@@ -373,6 +379,9 @@
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="notifySwitch" destination="ei2-aB-qYk" id="Fjs-Vc-wjA"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -419,9 +428,7 @@
                         </variation>
                     </view>
                     <connections>
-                        <outlet property="notificationsSwitch" destination="ei2-aB-qYk" id="6eb-Al-lfJ"/>
-                        <outlet property="timeSelectedPicker" destination="gW9-P0-lu1" id="nQu-8R-jB8"/>
-                        <outlet property="topicNTypePickerView" destination="Emu-iN-5Bc" id="gHC-GE-oCZ"/>
+                        <outlet property="tableView" destination="2rq-wX-76u" id="cF4-CG-ClH"/>
                         <segue destination="a4N-Fh-vN6" kind="showDetail" identifier="showDayPicker" id="Bkp-OD-umK"/>
                         <segue destination="jUU-Zn-uqf" kind="unwind" identifier="backToDaySelected" unwindAction="returnToDaySelected:" id="Zod-0y-Gfk"/>
                         <segue destination="jUU-Zn-uqf" kind="unwind" identifier="backToDays" unwindAction="returnToDays:" id="VIa-Ng-0m5"/>
