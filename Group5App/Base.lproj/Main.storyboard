@@ -87,7 +87,7 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="RendezNews" id="xKK-b0-pgJ">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="XOq-RN-qzT"/>
+                        <barButtonItem key="backBarButtonItem" title="Articles" id="XOq-RN-qzT"/>
                         <barButtonItem key="rightBarButtonItem" image="calendar" id="6Pn-RH-rsX">
                             <connections>
                                 <action selector="schedule:" destination="BYZ-38-t0r" id="V3h-QK-zTk"/>
@@ -194,6 +194,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="editButton" destination="Vbf-TZ-8Lp" id="Uvu-p1-d7p"/>
+                        <outlet property="myTable" destination="1Vj-ea-PIl" id="76f-OJ-1cX"/>
                         <outlet property="tabBar" destination="MPS-dp-Zpy" id="rQ8-hf-pxL"/>
                         <outlet property="tabHeight" destination="8pc-q9-tl9" id="BcW-rx-dW8"/>
                         <segue destination="irG-Z5-JL0" kind="show" identifier="showDays" id="k5Q-HT-Lyq"/>
@@ -651,7 +652,7 @@
                         <outlet property="tabBar" destination="LjC-PG-fTN" id="tgz-6X-J5i"/>
                         <outlet property="tabHeight" destination="B8c-i7-6Vb" id="KgK-56-ZZR"/>
                         <segue destination="KXB-3e-rBX" kind="showDetail" identifier="showScheduler2" id="VgS-2B-Slj"/>
-                        <segue destination="Jv2-fq-Ws9" kind="unwind" identifier="backToDayWithDay" unwindAction="returnToDaySelected:" id="u8U-Gc-3kM"/>
+                        <segue destination="Jv2-fq-Ws9" kind="unwind" identifier="returnToDaySelectedFromDays" unwindAction="returnToDaySelectedFromDays:" id="IR1-6f-DKC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hvP-5k-8Ff" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -669,6 +670,6 @@
         <image name="save" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qMU-sb-n2S"/>
+        <segue reference="VgS-2B-Slj"/>
     </inferredMetricsTieBreakers>
 </document>

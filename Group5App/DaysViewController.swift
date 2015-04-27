@@ -17,12 +17,24 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     @IBOutlet weak var tabHeight: NSLayoutConstraint!
      var tabBarShown = false
     
+    //variable to hold days to show
+    var daysToShow:NSMutableArray = NSMutableArray()
+    
+    var path: String! //file path for saving data (LP)
+    var mySchedule:NSMutableArray = NSMutableArray()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBar.hidden = true;
+        
         tabBar.delegate = self
+        self.tabBar.hidden = true
+        
+        //load in data
+        path = fileInDocumentsDirectory("schedule.plist")
+        mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+        
+        getDays()
 
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,6 +91,9 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        performSegueWithIdentifier("returnToDaySelectedFromDays", sender: self)
+        
         let cell = tableView.cellForRowAtIndexPath(indexPath)
         if(cell?.accessoryType == .Checkmark)
         {
@@ -102,12 +117,59 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
             let destinationViewController = segue.destinationViewController as! SchedulerViewController
             destinationViewController.prevViewController = "days"
         }
+        else
+        {
+            let destinationViewController = segue.destinationViewController as! DaySelectedViewController
+            //destinationViewController.sentDays = daysToShow
+            destinationViewController.sentDays = ["Monday","Tuesday"]
+        }
         
     }
     
     @IBAction func returnToDays(segue: UIStoryboardSegue) {
         
     }
+    
+    
+    //Functions for data
+    func getDays()
+    {
+        /*var weekDays = ["Monday","Tuesday","Wednesday","Thursday","Friday"]
+        var weekEnds = ["Saturday","Sunday"]
+        for(var i = 0; i < mySchedule.count; i++)
+        {
+             //TODO:SORT
+            var appointment = mySchedule[i] as! Schedule
+            var appointmentSet = NSSet(array: appointment.days as [AnyObject])
+            if(sentDaysSet.isSubsetOfSet(appointmentSet as Set<NSObject>) || appointmentSet.isSubsetOfSet(sentDaysSet as Set<NSObject>))
+            {
+                daysToShow.addObject(appointment)
+                //daysToShow = daysToSend.sortUsingComparator([$0.time < $1.time])
+            }
+            //Checks for Everyday
+            if(appointmentSet.count == 7)
+            {
+                daysToShow.addObject(appointment)
+            }
+            
+        }*/
+    }
+    
+    func deleteTimes()
+    {
+        
+    }
+    
+    //Documents Directory (LP)
+    func documentsDirectory() -> String {
+        let documentsFolderPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
+        return documentsFolderPath
+    }
+    
+    func fileInDocumentsDirectory(filename: String) -> String {
+        return documentsDirectory().stringByAppendingPathComponent(filename)
+    }
+
 
 
 }

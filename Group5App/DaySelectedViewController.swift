@@ -10,6 +10,8 @@ import UIKit
 
 class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewDataSource, UITableViewDelegate  {
 
+    @IBOutlet weak var myTable: UITableView!
+    
     @IBOutlet weak var tabBar: UITabBar!
     
     @IBOutlet weak var editButton: UIBarButtonItem!
@@ -17,12 +19,31 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     @IBOutlet weak var tabHeight: NSLayoutConstraint!
     
     var tabBarShown = false
-
+    
+    //variable to hold sent days
+    var sentDays:NSMutableArray = NSMutableArray()
+    
+    //variable to hold times to show
+    var timesToShow:NSMutableArray = NSMutableArray()
+    
+    var path: String! //file path for saving data (LP)
+    var mySchedule:NSMutableArray = NSMutableArray()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBar.hidden = true
+        
         tabBar.delegate = self
+        self.tabBar.hidden = true
+        
+        //load in data
+        getSchedule()
+        
+        //Set title
+        setTitle()
+        
+        //get times
+        getTimes()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -69,16 +90,22 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+        return timesToShow.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("timeCell", forIndexPath: indexPath) as! UITableViewCell
         
-        cell.imageView?.image = UIImage(named: "arts")!
-        cell.textLabel?.text = "8:15PM"
-        cell.detailTextLabel?.text = "Arts"
+        var appointment = timesToShow[indexPath.row] as! Schedule
+        
+        cell.imageView?.image = UIImage(named:appointment.topicSet)
+        
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .NoStyle
+        formatter.timeStyle = .ShortStyle
+        cell.textLabel?.text = formatter.stringFromDate(appointment.time)
+        
+        cell.detailTextLabel?.text = appointment.topicSet
     
         return cell
     }
@@ -106,14 +133,134 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         {
             let destinationViewController = segue.destinationViewController as! SchedulerViewController
             destinationViewController.prevViewController = "daySelected"
+            
+            if(sentDays.containsObject("Monday"))
+            {
+                destinationViewController.daysSet[0] = true
+            }
+            if(sentDays.containsObject("Tuesday"))
+            {
+                destinationViewController.daysSet[1] = true
+            }
+            if(sentDays.containsObject("Wednesday"))
+            {
+                destinationViewController.daysSet[2] = true
+            }
+            if(sentDays.containsObject("Thursday"))
+            {
+                destinationViewController.daysSet[3] = true
+            }
+            if(sentDays.containsObject("Friday"))
+            {
+                destinationViewController.daysSet[4] = true
+            }
+            if(sentDays.containsObject("Saturday"))
+            {
+                destinationViewController.daysSet[5] = true
+            }
+            if(sentDays.containsObject("Sunday"))
+            {
+                destinationViewController.daysSet[6] = true
+            }
+            
         }
+    
+        //TODO: editing one need to set object of Schedule selected
+
 
         
     }
     
     
     @IBAction func returnToDaySelected(segue: UIStoryboardSegue) {
+        setTitle()
+        getSchedule()
+        getTimes()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.myTable.reloadData()
+        })
+    }
+    
+    @IBAction func returnToDaySelectedFromDays(segue: UIStoryboardSegue) {
+        setTitle()
+        getSchedule()
+        getTimes()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.myTable.reloadData()
+        })
+    }
+    
+    //Get schedule
+    func getSchedule()
+    {
+        path = fileInDocumentsDirectory("schedule.plist")
+        mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+    }
+    
+    //Set title
+    func setTitle()
+    {
+        if(sentDays.count == 0)
+        {
+                self.title = "Today"
+                sentDays = [getToday()]
+        }
+        else if(sentDays.count == 1 && sentDays[0] as! String == getToday()){}
+        else
+        {
+            var title = ""
+            for(var i = 0; i < sentDays.count; i++)
+            {
+                title = title + " " + (sentDays[i] as! String)
+            }
+            self.title = title
+        }
+    }
+    
+    //Functions for data
+    func getTimes()
+    {
+        timesToShow.removeAllObjects()
+        var sentDaysSet = NSSet(array: sentDays as [AnyObject])
+        for(var i = 0; i < mySchedule.count; i++)
+        {
+            var appointment = mySchedule[i] as! Schedule
+            var appointmentSet = NSSet(array: appointment.days as [AnyObject])
+            if(sentDaysSet.isSubsetOfSet(appointmentSet as Set<NSObject>) || appointmentSet.isSubsetOfSet(sentDaysSet as Set<NSObject>))
+            {
+                timesToShow.addObject(appointment)
+                //TODO:SORT
+                //timesToShow = timesToShow.sortUsingComparator([$0.time < $1.time])
+            }
+           
+        }
+    }
+    
+    func deleteTimes()
+    {
         
+    }
+    
+    //Documents Directory (LP)
+    func documentsDirectory() -> String {
+        let documentsFolderPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
+        return documentsFolderPath
+    }
+    
+    func fileInDocumentsDirectory(filename: String) -> String {
+        return documentsDirectory().stringByAppendingPathComponent(filename)
+    }
+    
+    //Get Today's Date
+    func getToday()->String {
+        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+        let formatter  = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let todayDate = NSDate()
+        let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        let myComponents = myCalendar.components(.CalendarUnitWeekday, fromDate: todayDate)
+        let weekDay = myComponents.weekday
+        return days[weekDay-1]
     }
 
 

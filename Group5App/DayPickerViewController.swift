@@ -19,6 +19,8 @@ class DayPickerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     //Variable to store cells
     var cells = [UITableViewCell]()
+    
+    var numCheckmarks = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +52,7 @@ class DayPickerViewController: UIViewController,UITableViewDataSource, UITableVi
         if(daysSet[indexPath.row])
         {
             cell.accessoryType = .Checkmark
+            numCheckmarks++
         }
         
         return cell
@@ -59,11 +62,16 @@ class DayPickerViewController: UIViewController,UITableViewDataSource, UITableVi
         let cell = tableView.cellForRowAtIndexPath(indexPath)
         if(cell?.accessoryType == .Checkmark)
         {
-            cell?.accessoryType = .None
+            if(numCheckmarks > 1)
+            {
+                cell?.accessoryType = .None
+                numCheckmarks--
+            }
         }
         else
         {
             cell?.accessoryType = .Checkmark
+            numCheckmarks++
         }
     }
 

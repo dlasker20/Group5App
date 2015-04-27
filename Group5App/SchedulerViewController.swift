@@ -12,7 +12,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     @IBOutlet weak var tableView: UITableView!
     
-    let topics = ["Arts","Sports","Technology"]
+    let topics = ["Arts","Sports","Technology","Science"]
     
     let types = ["National","Short"]
     
@@ -47,17 +47,16 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         path = fileInDocumentsDirectory("schedule.plist")
         
         //Load data from saved file on view load (LP)
-        
         //DON'T UNARCHIVE UNLESS Day and Time sent
-        
         //don't set if nothing set/sent for day or time
+        //(Touch hour aka edit)Get days from array since can have groups (everday,weekdays,weekend). Delete all appointments based on origional data and create new appointments with new data. Create groups if more than 1 in days array but also make additional groups weekend, weekdays, and everyday based of these groups this will require adding day to appointment if similar one already exists....
         mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
         
         //Test to see if stuff saved correctly
         for(var i = 0; i < mySchedule.count; i++)
         {
-            let hi = mySchedule[i] as! Schedule
-             println(hi.topicSet)
+            let appointment = mySchedule[i] as! Schedule
+             println(appointment.topicSet)
         }
         
     }
@@ -98,6 +97,8 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                         cell = tableView.dequeueReusableCellWithIdentifier("pickDay", forIndexPath: indexPath) as! UITableViewCell
                     
                         daysPickedDetail = cell
+                    
+                        setDays()
                     
                         //need to change to day actually sent
                         //if coming from days set day to one that has not been set yet. On the days viewController make sure to throw error before coming here if try to add more than 7 days
@@ -140,6 +141,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                         cell = tableView.dequeueReusableCellWithIdentifier("notifyCell", forIndexPath: indexPath) as! SwitchTableViewCell
                     
                         notify = cell as? SwitchTableViewCell
+                    
                     
                         //Need to set notifications based of day and time sent
                         //set to default if day or time not sent
@@ -282,6 +284,13 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     @IBAction func returnToScheduler(segue: UIStoryboardSegue) {
         
+        //TODO: make exit outlet for cancel so days are not set on cancel
+        setDays()
+        
+    }
+    
+    func setDays()
+    {
         if(daysSet[0] && daysSet[1] && daysSet[2] && daysSet[3] && daysSet[4] && daysSet[5] && daysSet[6])
         {
             daysPickedDetail!.detailTextLabel?.text = "Everyday"
@@ -309,7 +318,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
             
             if(count == 1)
             {
-                 daysPickedDetail!.detailTextLabel?.text = days[index]
+                daysPickedDetail!.detailTextLabel?.text = days[index]
             }
             else
             {
@@ -325,7 +334,6 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                 daysPickedDetail!.detailTextLabel?.text = abrevString
             }
         }
-        
         
     }
     
@@ -348,11 +356,24 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
 
 //TODO: Figure out how to check if record already exist and throw an error on create. Also how to edit and delte record (should make functions for these things and to also send type and topic back to andrew via a function call)
 
+//Display error if no connection to internet and thus cannot get JSON (do on main page and UIWebView)
+//loading gif for UIWebView?
+//pull down to refresh or refresh icon or both???
+//Fix warnings
+//how to clear/delete archived file/stuff so that can have a fresh file
+//Make sure 1 always checked in day picker
+
+//Better navigation indicators
+//Add way to transition/send data to proper view when click on time or when click on a day to edit/view
+
 //Add
 //Edit
 //ERROR MESSAGE IF CREATE CONFLICTS, SO DON'T ALLOW TO SAVE
+//Add to existing appointment day is days with similar settings already exist
 //Delete(Should be in daysSelected and Days instead of here???)
-//Send type and topic back based on time(Should just create function in Articles controller instead of here???)
+//Send type and topic back based on time(Should just create function in Articles controller instead of here???)(Set default like arts if nothing scheduled for day)
 //set notifications
 //edit notifications when change
 //delete notifications when delete(hour or day) or turn off
+
+//Get developer registered so can test on actual iphone and then deploy to store
