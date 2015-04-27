@@ -649,6 +649,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="editButton" destination="ZwD-rO-QpZ" id="dTW-Tc-BbO"/>
+                        <outlet property="myTable" destination="ch9-Gm-S99" id="3Qp-Bx-Z66"/>
                         <outlet property="tabBar" destination="LjC-PG-fTN" id="tgz-6X-J5i"/>
                         <outlet property="tabHeight" destination="B8c-i7-6Vb" id="KgK-56-ZZR"/>
                         <segue destination="KXB-3e-rBX" kind="showDetail" identifier="showScheduler2" id="VgS-2B-Slj"/>

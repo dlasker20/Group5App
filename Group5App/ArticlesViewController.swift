@@ -55,6 +55,8 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         showActivityIndicator(self.view)
         articleTableView.hidden = true
         
+        articleTableView.tableFooterView = UIView(frame: CGRectZero)
+        
         parseConnect.load(urlString) {
             (companies, errorString) -> Void in
             if let unwrappedErrorString = errorString {

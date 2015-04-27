@@ -43,6 +43,8 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         
         //get times
         getTimes()
+        
+        myTable.tableFooterView = UIView(frame: CGRectZero)
 
     }
 
@@ -229,8 +231,14 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
             if(sentDaysSet.isSubsetOfSet(appointmentSet as Set<NSObject>) || appointmentSet.isSubsetOfSet(sentDaysSet as Set<NSObject>))
             {
                 timesToShow.addObject(appointment)
-                //TODO:SORT
-                //timesToShow = timesToShow.sortUsingComparator([$0.time < $1.time])
+                
+                //Sorting in ascending order by time
+                let timeSortDescriptor = NSSortDescriptor(key: "time", ascending: true)
+                let sortedByTime = (timesToShow as NSMutableArray).sortedArrayUsingDescriptors([timeSortDescriptor])
+                
+                timesToShow.removeAllObjects()
+                
+                timesToShow.addObjectsFromArray(sortedByTime)
             }
            
         }

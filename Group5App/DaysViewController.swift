@@ -10,6 +10,8 @@ import UIKit
 
 class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSource, UITableViewDelegate  {
 
+    @IBOutlet weak var myTable: UITableView!
+    
     @IBOutlet weak var tabBar: UITabBar!
     
     @IBOutlet weak var editButton: UIBarButtonItem!
@@ -28,6 +30,8 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
         
         tabBar.delegate = self
         self.tabBar.hidden = true
+        
+        myTable.tableFooterView = UIView(frame: CGRectZero)
         
         //load in data
         path = fileInDocumentsDirectory("schedule.plist")
