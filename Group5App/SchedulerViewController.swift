@@ -27,6 +27,9 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     var prevViewController = ""
     
+    var showTimePicker = false
+    var showTopicTypePicker = false
+    
     
     var mySchedule:NSMutableArray = NSMutableArray()
     
@@ -50,7 +53,11 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         //DON'T UNARCHIVE UNLESS Day and Time sent
         //don't set if nothing set/sent for day or time
         //(Touch hour aka edit)Get days from array since can have groups (everday,weekdays,weekend). Delete all appointments based on origional data and create new appointments with new data. Create groups if more than 1 in days array but also make additional groups weekend, weekdays, and everyday based of these groups this will require adding day to appointment if similar one already exists....
-        mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+        var checkValidation = NSFileManager.defaultManager()
+        if(checkValidation.fileExistsAtPath(path))
+        {
+            mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+        }
         
         //Test to see if stuff saved correctly
         for(var i = 0; i < mySchedule.count; i++)
@@ -75,10 +82,20 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         switch section
         {
             case 0:
-                return 2
-            
+                if(showTimePicker){
+                    return 3
+                }
+                else{
+                    return 2
+                }
+        
             case 1:
-                return 2
+                if(showTopicTypePicker){
+                    return 2
+                }
+                else{
+                    return 1
+                }
             
             default:
                 return 1
@@ -111,6 +128,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                         
                         datePickerCell = cell as? DatePickerTableViewCell
                         
+                        //SET DATE TO SAME DATE IN THE PAST SO IT SORTS BY TIME
                         //need to change to date/time actually sent
                         //set to default if day or time not sent
                         (cell as! DatePickerTableViewCell).datePicker.date = NSDate()
@@ -161,6 +179,36 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         {
             performSegueWithIdentifier("showDayPicker", sender: self)
         }
+        else if( indexPath.section == 1 && indexPath.row == 0)
+        {
+            if(showTopicTypePicker)
+            {
+                showTopicTypePicker = false
+                dispatch_async(dispatch_get_main_queue(), {
+                    tableView.beginUpdates()
+                    tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 1)], withRowAnimation: .Fade)
+                    tableView.endUpdates()
+                    
+                    tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+                
+                })
+                
+
+            }
+            else
+            {
+                showTopicTypePicker = true
+                dispatch_async(dispatch_get_main_queue(), {
+                    tableView.beginUpdates()
+                    tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 1)], withRowAnimation: .Fade)
+                    tableView.endUpdates()
+                    
+                    tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+                })
+
+            }
+            
+        }
 
     }
     
@@ -209,11 +257,11 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     @IBAction func cancel(sender: AnyObject) {
         if(prevViewController == "daySelected")
         {
-            performSegueWithIdentifier("backToDaySelected", sender: self)
+            performSegueWithIdentifier("returnToDaySelectedFromCancel", sender: self)
         }
         else
         {
-            performSegueWithIdentifier("backToDays", sender: self)
+            performSegueWithIdentifier("returnToDaysFromCancel", sender: self)
         }
     }
     
@@ -222,9 +270,16 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         
         var schedule: Schedule? = nil
         
-        let topicSet = topics[picker!.topicNTypePickerView.selectedRowInComponent(0)]
+        var topicCheck = 0
+        var typeCheck = 0
+        if let pickerValue = picker{
+            topicCheck = pickerValue.topicNTypePickerView.selectedRowInComponent(0)
+            typeCheck = pickerValue.topicNTypePickerView.selectedRowInComponent(1)
+        }
         
-        let typeSet = types[picker!.topicNTypePickerView.selectedRowInComponent(1)]
+        let topicSet = topics[topicCheck]
+        
+        let typeSet = types[typeCheck]
         
         var daysSelected = [String]()
         for ( var i = 0; i < 7; i++){
@@ -283,10 +338,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
 
     
     @IBAction func returnToScheduler(segue: UIStoryboardSegue) {
-        
-        //TODO: make exit outlet for cancel so days are not set on cancel
         setDays()
-        
     }
     
     func setDays()

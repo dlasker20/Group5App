@@ -18,7 +18,7 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     @IBOutlet weak var tabHeight: NSLayoutConstraint!
     
-    var tabBarShown = false
+    //var  = false
     
     //variable to hold sent days
     var sentDays:NSMutableArray = NSMutableArray()
@@ -29,11 +29,16 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     var path: String! //file path for saving data (LP)
     var mySchedule:NSMutableArray = NSMutableArray()
     
+    //var editingFlag = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tabBar.delegate = self
-        self.tabBar.hidden = true
+        
+        //self.tabBar.hidden = true
+        
+        myTable.editing = false
         
         //load in data
         getSchedule()
@@ -55,19 +60,23 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     @IBAction func edit(sender: AnyObject) {
        
-            if(self.tabBarShown == false)
+            if(myTable.editing == false)
             {
-                tabHeight.constant = 49
-                self.tabBar.hidden = false
-                self.tabBarShown = true
+                //tabHeight.constant = 49
+                //self.tabBar.hidden = false
+                //self.tabBarShown = true
                 self.editButton.title = "Done"
+                //editingFlag = true
+                myTable.editing = true
             }
             else
             {
-                tabHeight.constant = 0
-                self.tabBar.hidden = true
-                self.tabBarShown = false
+                //tabHeight.constant = 0
+                //self.tabBar.hidden = true
+                //self.tabBarShown = false
                 self.editButton.title = "Edit"
+                //editingFlag = false
+                myTable.editing = false
             }
     }
     
@@ -114,18 +123,50 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)
-        if(cell?.accessoryType == .Checkmark)
-        {
-            cell?.accessoryType = .None
-        }
-        else
-        {
-            cell?.accessoryType = .Checkmark
-        }
+        
+        
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 60
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            var removeObjIndex = mySchedule.indexOfObjectIdenticalTo(timesToShow[indexPath.row])
+            var removeObj: Schedule = mySchedule[removeObjIndex] as! Schedule
+    
+            var stillExists = true
+            for (var i = 0; i < sentDays.count; i++)
+            {
+            for(var j = 0; j < removeObj.days.count; j++)
+            {
+
+                if(sentDays[i].isEqual(removeObj.days[j]))
+                {
+                    if(removeObj.days.count == 1)
+                    {
+                        mySchedule.removeObjectAtIndex(removeObjIndex)
+                        stillExists = false
+                    }
+                    else
+                    {
+                        removeObj.days.removeAtIndex(j)
+                    }
+                }
+            }
+            }
+            
+            if(stillExists)
+            {
+                mySchedule.replaceObjectAtIndex(removeObjIndex, withObject: removeObj)
+            }
+            
+            timesToShow.removeObjectAtIndex(indexPath.row)
+            
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            NSKeyedArchiver.archiveRootObject(mySchedule, toFile:path)
+        }
     }
     
     
@@ -173,7 +214,13 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         
     }
     
+    //Canceled scheduler
+    @IBAction func returnToDaySelectedFromCancel(segue: UIStoryboardSegue) {
+        
+    }
     
+    
+    //Saved Data
     @IBAction func returnToDaySelected(segue: UIStoryboardSegue) {
         setTitle()
         getSchedule()
@@ -183,6 +230,7 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         })
     }
     
+    //Selected new day(s)
     @IBAction func returnToDaySelectedFromDays(segue: UIStoryboardSegue) {
         setTitle()
         getSchedule()
@@ -190,13 +238,19 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         dispatch_async(dispatch_get_main_queue(), {
             self.myTable.reloadData()
         })
+
     }
     
     //Get schedule
     func getSchedule()
     {
         path = fileInDocumentsDirectory("schedule.plist")
-        mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+        var checkValidation = NSFileManager.defaultManager()
+        if(checkValidation.fileExistsAtPath(path))
+        {
+            mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+        }
+        
     }
     
     //Set title
@@ -207,7 +261,11 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
                 self.title = "Today"
                 sentDays = [getToday()]
         }
-        else if(sentDays.count == 1 && sentDays[0] as! String == getToday()){}
+        else if(sentDays.count == 1 && sentDays[0] as! String == getToday())
+        {
+            sentDays.removeAllObjects()
+            sentDays = [getToday()]
+        }
         else
         {
             var title = ""
@@ -228,7 +286,7 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         {
             var appointment = mySchedule[i] as! Schedule
             var appointmentSet = NSSet(array: appointment.days as [AnyObject])
-            if(sentDaysSet.isSubsetOfSet(appointmentSet as Set<NSObject>) || appointmentSet.isSubsetOfSet(sentDaysSet as Set<NSObject>))
+            if(sentDaysSet.isSubsetOfSet(appointmentSet as Set<NSObject>))
             {
                 timesToShow.addObject(appointment)
                 
@@ -242,11 +300,6 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
             }
            
         }
-    }
-    
-    func deleteTimes()
-    {
-        
     }
     
     //Documents Directory (LP)

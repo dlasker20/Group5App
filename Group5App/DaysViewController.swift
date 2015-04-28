@@ -29,13 +29,18 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         tabBar.delegate = self
-        self.tabBar.hidden = true
+        
+        myTable.editing = false
         
         myTable.tableFooterView = UIView(frame: CGRectZero)
         
         //load in data
         path = fileInDocumentsDirectory("schedule.plist")
-        mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+        var checkValidation = NSFileManager.defaultManager()
+        if(checkValidation.fileExistsAtPath(path))
+        {
+            mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+        }
         
         getDays()
 
@@ -47,19 +52,21 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     }
     
     @IBAction func edit(sender: AnyObject) {
-        if(self.tabBarShown == false)
+        if(myTable.editing == false)
         {
-            tabHeight.constant = 49
-            self.tabBar.hidden = false
-            self.tabBarShown = true
+            //tabHeight.constant = 49
+            //self.tabBar.hidden = false
+            //self.tabBarShown = true
             self.editButton.title = "Done"
+            myTable.editing = true
         }
         else
         {
-            tabHeight.constant = 0
-            self.tabBar.hidden = true
-            self.tabBarShown = false
+            //tabHeight.constant = 0
+            //self.tabBar.hidden = true
+            //self.tabBarShown = false
             self.editButton.title = "Edit"
+            myTable.editing = false
         }
 
     }
@@ -97,16 +104,6 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         performSegueWithIdentifier("returnToDaySelectedFromDays", sender: self)
-        
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
-        if(cell?.accessoryType == .Checkmark)
-        {
-            cell?.accessoryType = .None
-        }
-        else
-        {
-            cell?.accessoryType = .Checkmark
-        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -130,7 +127,13 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
         
     }
     
+    //Data saved
     @IBAction func returnToDays(segue: UIStoryboardSegue) {
+        
+    }
+    
+    //Canceled Scheduler
+    @IBAction func returnToDaysFromCancel(segue: UIStoryboardSegue) {
         
     }
     
@@ -159,10 +162,6 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
         }*/
     }
     
-    func deleteTimes()
-    {
-        
-    }
     
     //Documents Directory (LP)
     func documentsDirectory() -> String {
