@@ -53,7 +53,6 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         articleTableView.registerNib(nib, forCellReuseIdentifier: customReuse)
         
         showActivityIndicator(self.view)
-        articleTableView.hidden = true
         
         articleTableView.tableFooterView = UIView(frame: CGRectZero)
         
@@ -63,7 +62,8 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
                 // can do something about error here
                 println(unwrappedErrorString)
             } else {
-                self.articleTableView.reloadData()
+                self.hideActivityIndicator(self.view)
+                self.articleTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
             }
         }
         
@@ -106,9 +106,6 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
                     cell.cellImage.image = UIImage(data: data)!
                     cell.setNeedsLayout()
                     cell.layoutIfNeeded()
-
-                    self.hideActivityIndicator(self.view)
-                    self.articleTableView.hidden = false
                 }
                 
         })
@@ -136,12 +133,6 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    //putting in this IBAction function gives interface builder somewhere to look when I connect the back button
-    //to the exit segue it knows where to send the app
-    @IBAction func exitSeg(sender:UIStoryboardSegue){
-        
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -150,23 +141,18 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     @IBAction func schedule(sender: AnyObject) {
         performSegueWithIdentifier("showDaySelected", sender: self)
     }
-    
-    @IBAction func returnToArticles(segue: UIStoryboardSegue) {
-        
-    }
-    
 
     func showActivityIndicator(uiView: UIView) {
         //courtesey of eranga bandara
         
         container.frame = uiView.frame
         container.center = uiView.center
-        container.backgroundColor = UIColorFromHex(0xffffff, alpha: 0.3)
+        //container.backgroundColor = UIColorFromHex(0xffffff, alpha: 0.3)
         
         
         loadingView.frame = CGRectMake(0, 0, 80, 80)
         loadingView.center = uiView.center
-        loadingView.backgroundColor = UIColorFromHex(0x444444, alpha: 0.7)
+        //loadingView.backgroundColor = UIColorFromHex(0x999999, alpha: 0.7)
         loadingView.clipsToBounds = true
         loadingView.layer.cornerRadius = 10
         
@@ -174,6 +160,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         actInd.frame = CGRectMake(0.0, 0.0, 40.0, 40.0);
         actInd.activityIndicatorViewStyle =
             UIActivityIndicatorViewStyle.WhiteLarge
+        actInd.color = self.view.tintColor
         actInd.center = CGPointMake(loadingView.frame.size.width / 2,
             loadingView.frame.size.height / 2);
         loadingView.addSubview(actInd)
