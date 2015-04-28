@@ -59,8 +59,9 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         parseConnect.load(urlString) {
             (companies, errorString) -> Void in
             if let unwrappedErrorString = errorString {
-                // can do something about error here
-                println(unwrappedErrorString)
+                self.hideActivityIndicator(self.view)
+                var alert = UIAlertView(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
+                alert.show()
             } else {
                 self.hideActivityIndicator(self.view)
                 self.articleTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
