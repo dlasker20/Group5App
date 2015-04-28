@@ -183,6 +183,25 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         
         return UIColor(red:red, green:green, blue:blue, alpha:CGFloat(alpha))
     }
+    
+    
+    func getCurrentSettings()
+    {
+        //if nothing archived at file path or nothing scheduled do default (all, 1)
+    }
+    
+    func getNewSettingOnDiff()
+    {
+        
+    }
+    
+    func loadMoreArticles()
+    {
+        
+    }
+    
+    //Need function to trigger refresh when pull down table past top or press refresh icon(need to add)
+    //On refresh reset offset back to 0
 
 
 }
