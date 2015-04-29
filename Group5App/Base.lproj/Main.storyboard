@@ -280,7 +280,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CEl-gX-CvI" id="ZZO-zy-r7l">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="15" translatesAutoresizingMaskIntoConstraints="NO" id="gW9-P0-lu1">
+                                                <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="gW9-P0-lu1">
                                                     <rect key="frame" x="145" y="8" width="320" height="162"/>
                                                     <date key="date" timeIntervalSinceReferenceDate="450291457.75985998">
                                                         <!--2015-04-09 16:57:37 +0000-->

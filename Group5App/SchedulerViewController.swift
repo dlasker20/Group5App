@@ -120,10 +120,22 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                         
                         datePickerCell = cell as? DatePickerTableViewCell
                         
+                        let currentTime = NSDate()
+                        let formatter = NSDateFormatter()
+                        formatter.dateStyle = .NoStyle
+                        formatter.timeStyle = .ShortStyle
+                    
+                        let timeString = formatter.stringFromDate(currentTime)
+                    
+                        let actualTime = formatter.dateFromString(timeString)
+                    
+                        datePickerCell?.datePicker.date = actualTime!
+                        
                         //SET DATE TO SAME DATE IN THE PAST SO IT SORTS BY TIME
                         //need to change to date/time actually sent
                         //set to default if day or time not sent
-                        datePickerCell!.datePicker.date = NSDate()
+                        //datePickerCell!.datePicker.date = NSDate()
+                        //get time from date cover to string then convert sting back into date and round to 15 minute intervals this will make the date the same for all times and make the time conform to 15 choices like on picker. Helpful code in day selected view when get time to display in cell
                 }
             
             case 1:
@@ -271,7 +283,20 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         
         let topicSet = topics[topicCheck]
         
-        let typeSet = types[typeCheck]
+        let typeStarting = types[typeCheck]
+        var typeSet = ""
+        if(typeStarting == "Day")
+        {
+            typeSet = "1"
+        }
+        else if(typeStarting == "Week")
+        {
+            typeSet = "7"
+        }
+        else
+        {
+            typeSet = "30"
+        }
         
         var daysSelected = [String]()
         for ( var i = 0; i < 7; i++){

@@ -24,6 +24,8 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     let refreshControl = UIRefreshControl()
     
+    var currentSchedule: Schedule?
+    
     
     //activity indicator variables
     var container: UIView = UIView()
@@ -45,9 +47,8 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     //cache for downloaded images
     var imageCache = [String : UIImage]()
     
-    override func viewDidAppear(animated: Bool) {
-        getArticles(false, showIndicator: true)
-    }
+    var allowAppear = false
+    var viewAppearedAgain = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +64,15 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         articleTableView.addSubview(refreshControl)
         
         getArticles(true, showIndicator: true)
-        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        if(allowAppear)
+        {
+            viewAppearedAgain = true
+            getArticles(false, showIndicator: true)
+        }
+        allowAppear = true
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -93,7 +102,17 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             else
             {
-                footerAccess.footerLabel.text = "You are all caught up on " + "technology" + " news!"
+                var topic = ""
+                if(currentSchedule != nil)
+                {
+                    topic = currentSchedule!.topicSet
+                }
+                else
+                {
+                    topic = "all"
+                }
+                topic = topic.uppercaseString
+                footerAccess.footerLabel.text = "You're caught up on " + topic + " news!"
             }
             
             return cell
@@ -111,8 +130,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         
         
         //use asynchronous request to load images from API
-        let articleImageURL = parseConnect.articles[indexPath.row].image?.url
-        println(articleImageURL)
+        let articleImageURL = (parseConnect.articles[indexPath.row] as! Article).image?.url
         var imgURL: NSURL = NSURL(string: articleImageURL!)!
         let request: NSURLRequest = NSURLRequest(URL: imgURL)
         NSURLConnection.sendAsynchronousRequest(
@@ -127,7 +145,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         })
         
         cell.cellHeadline?.text = parseConnect.articles[indexPath.row].title
-        cell.cellDetail?.text = parseConnect.articles[indexPath.row].section
+        cell.cellDetail?.text = (parseConnect.articles[indexPath.row] as! Article).section
         ArticlesViewController().hideActivityIndicator(self.view)
             return cell
     }
@@ -140,7 +158,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if(parseConnect.articles.count != indexPath.row)
         {
-            selectedArticle = parseConnect.articles[indexPath.row]
+            selectedArticle = (parseConnect.articles[indexPath.row] as! Article)
             performSegueWithIdentifier(webViewSegue, sender: self)
         }
     }
@@ -212,60 +230,110 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func getArticles(loadNew: Bool, showIndicator: Bool)
     {
-        //if old schedule diff(set as global) from new then do a refresh and set global as new
-        
-        //if nothing archived at file path or nothing scheduled do default (all, 1)
-        let daysOld = "7"
-        let topic = "all-sections"
-        let urlString = "http://api.nytimes.com/svc/mostpopular/v2/mostviewed/" + topic + "/" + daysOld + ".json?api-key=b32dcf0a887c83fe37220653ad10c91b:8:71573066"
+        var daysOld = "7"
+        var topic = "all-sections"
         
         let path = fileInDocumentsDirectory("schedule.plist")
         var checkValidation = NSFileManager.defaultManager()
         
-        //Array to hold schedule
-        var mySchedule:NSMutableArray = NSMutableArray()
+        var doLoad = loadNew
         
         if(checkValidation.fileExistsAtPath(path))
         {
-            mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
-        }
-        
-        let todaysDay = getToday()
-        //function to get object with closest time
-        for(var i = 0; i < mySchedule.count; i++)
-        {
-            for(var j = 0; j < (mySchedule[i] as! Schedule).days.count; j++)
+            var mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+            
+            let todaysDay = getToday()
+            let currentRawDateCurrent = NSDate()
+            
+            let formatter = NSDateFormatter()
+            formatter.dateStyle = .NoStyle
+            formatter.timeStyle = .ShortStyle
+            let timeString = formatter.stringFromDate(currentRawDateCurrent)
+            let currentTime = formatter.dateFromString(timeString)
+            
+            var bestSchedule: Schedule?
+            
+            //function to get object with closest time
+            for(var i = 0; i < mySchedule.count; i++)
             {
-                if()
+                for(var j = 0; j < (mySchedule[i] as! Schedule).days.count; j++)
                 {
-                    if()
+                    if((mySchedule[i] as! Schedule).days[j] == todaysDay)
                     {
-                        
+                        if((mySchedule[i] as! Schedule).time.compare(currentTime!) != NSComparisonResult.OrderedDescending)
+                        {
+                            if (bestSchedule != nil){
+                                if((mySchedule[i] as! Schedule).time.compare(bestSchedule!.time) == NSComparisonResult.OrderedDescending)
+                                {
+                                    bestSchedule = mySchedule[i] as? Schedule
+                                }
+                            }
+                            else
+                            {
+                                bestSchedule = mySchedule[i] as? Schedule
+                            }
+                        }
                     }
                 }
             }
-        }
-       
-        if(showIndicator)
-        {
-           showActivityIndicator(self.view)
-        }
-        
-        //only on refresh or loading new articles when come back from day selected and difference
-        parseConnect.articles.removeAll()
-        
-        parseConnect.load(urlString) {
-            (companies, errorString) -> Void in
-            if let unwrappedErrorString = errorString {
-                self.hideActivityIndicator(self.view)
-                var alert = UIAlertView(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
-                alert.show()
-            } else {
-                self.hideActivityIndicator(self.view)
-                self.articleTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
-                self.articleTableView.beginUpdates()
-                self.articleTableView.endUpdates()
+            
+            if(bestSchedule != nil)
+            {
+                if (currentSchedule == nil)
+                {
+                    currentSchedule = bestSchedule
+                    doLoad = true
+                }
+                else if(currentSchedule?.topicSet != bestSchedule?.topicSet || currentSchedule?.typeSet != bestSchedule?.typeSet || currentSchedule?.notifications != bestSchedule?.notifications || currentSchedule?.time != bestSchedule?.time)
+                {
+                    currentSchedule = bestSchedule
+                    doLoad = true
+                }
                 
+                topic = currentSchedule!.topicSet
+                daysOld = currentSchedule!.typeSet
+                
+            }
+            else
+            {
+                if (currentSchedule != nil)
+                {
+                    doLoad = true
+                }
+            }
+        }
+        
+        println(doLoad)
+        if(doLoad)
+        {
+            let urlString = "http://api.nytimes.com/svc/mostpopular/v2/mostviewed/" + topic + "/" + daysOld + ".json?api-key=b32dcf0a887c83fe37220653ad10c91b:8:71573066"
+           
+            if(showIndicator)
+            {
+               showActivityIndicator(self.view)
+            }
+            
+            //only on refresh or loading new articles when come back from day selected and difference
+            if(showIndicator == false || viewAppearedAgain)
+            {
+                viewAppearedAgain = false
+                parseConnect.articles.removeAllObjects()
+            }
+            
+            parseConnect.load(urlString) {
+                (companies, errorString) -> Void in
+                if let unwrappedErrorString = errorString {
+                    self.hideActivityIndicator(self.view)
+                    var alert = UIAlertView(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
+                    alert.show()
+                } else {
+                    self.hideActivityIndicator(self.view)
+                    self.articleTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+                    self.articleTableView.beginUpdates()
+                    self.articleTableView.endUpdates()
+                    //self.articleTableView.reloadData()
+                    
+                }
             }
         }
     }

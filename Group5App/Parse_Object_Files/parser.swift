@@ -11,7 +11,8 @@ import UIKit
 
 class parser{
     
-    var articles = [Article]()
+    //var articles = [Article]()
+    var articles: NSMutableArray = NSMutableArray()
     //var jsonData: NSMutableData = NSMutableData()
     
     func load(fromURLString: String, completionHandler: (parser, String?) -> Void) {
@@ -76,7 +77,7 @@ class parser{
                                                                 let imageWidth = imageInfo["width"] as? Int
                                                                 let newImage = ImageData(forURL:imageURL as String, forHeight:imageHeight!, forWidth:imageWidth!);
                                                                 newEntry.image = newImage
-                                                                articles.append(newEntry)
+                                                                articles.addObject(newEntry)
                                                             }
                                                         }
                                                     }
