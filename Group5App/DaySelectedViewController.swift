@@ -139,22 +139,22 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
             var stillExists = true
             for (var i = 0; i < sentDays.count; i++)
             {
-            for(var j = 0; j < removeObj.days.count; j++)
-            {
-
-                if(sentDays[i].isEqual(removeObj.days[j]))
+                for(var j = 0; j < removeObj.days.count; j++)
                 {
-                    if(removeObj.days.count == 1)
+
+                    if(sentDays[i].isEqual(removeObj.days[j]))
                     {
-                        mySchedule.removeObjectAtIndex(removeObjIndex)
-                        stillExists = false
-                    }
-                    else
-                    {
-                        removeObj.days.removeAtIndex(j)
+                        if(removeObj.days.count == 1)
+                        {
+                            mySchedule.removeObjectAtIndex(removeObjIndex)
+                            stillExists = false
+                        }
+                        else
+                        {
+                            removeObj.days.removeAtIndex(j)
+                        }
                     }
                 }
-            }
             }
             
             if(stillExists)
@@ -210,7 +210,8 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
         //TODO: editing one need to set object of Schedule selected
 
-
+        myTable.editing = false
+        self.editButton.title = "Edit"
         
     }
     

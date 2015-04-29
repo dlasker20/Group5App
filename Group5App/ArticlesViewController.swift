@@ -22,6 +22,8 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     @IBOutlet weak var cellImage: UIImageView!
     @IBOutlet weak var articleTableView: UITableView!
     
+    let refreshControl = UIRefreshControl()
+    
     
     //activity indicator variables
     var container: UIView = UIView()
@@ -37,13 +39,15 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     let webViewSegue = "showStory"
     
-    let urlString = "http://api.nytimes.com/svc/mostpopular/v2/mostviewed/Arts/1.json?api-key=b32dcf0a887c83fe37220653ad10c91b:8:71573066"
-    
     //article to be sent to web view
     var selectedArticle:Article? = nil
     
     //cache for downloaded images
     var imageCache = [String : UIImage]()
+    
+    override func viewDidAppear(animated: Bool) {
+        getArticles(false, showIndicator: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,21 +56,13 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         var nib = UINib(nibName: "CustomTableViewCell", bundle: nil)
         articleTableView.registerNib(nib, forCellReuseIdentifier: customReuse)
         
-        showActivityIndicator(self.view)
-        
         articleTableView.tableFooterView = UIView(frame: CGRectZero)
         
-        parseConnect.load(urlString) {
-            (companies, errorString) -> Void in
-            if let unwrappedErrorString = errorString {
-                self.hideActivityIndicator(self.view)
-                var alert = UIAlertView(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
-                alert.show()
-            } else {
-                self.hideActivityIndicator(self.view)
-                self.articleTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
-            }
-        }
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        articleTableView.addSubview(refreshControl)
+        
+        getArticles(true, showIndicator: true)
         
     }
     
@@ -76,17 +72,36 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return parseConnect.articles.count
+        return parseConnect.articles.count + 1
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        
+        if(parseConnect.articles.count == indexPath.row)
+        {
+            let cell = tableView.dequeueReusableCellWithIdentifier("footer", forIndexPath: indexPath) as! FooterTableViewCell
+            
+            cell.selectionStyle = .None
+            
+            
+            var footerAccess = cell as FooterTableViewCell
+            
+            if(parseConnect.articles.count == 0)
+            {
+                footerAccess.footerLabel.text = "No articles found matching current schedule"
+            }
+            else
+            {
+                footerAccess.footerLabel.text = "You are all caught up on " + "technology" + " news!"
+            }
+            
+            return cell
+        }
+        else{
         let cell = tableView.dequeueReusableCellWithIdentifier(customReuse, forIndexPath: indexPath) as! CustomTableViewCell
         
-        
-        self.articleTableView.estimatedRowHeight = 44.0
+        self.articleTableView.estimatedRowHeight = 96
         self.articleTableView.rowHeight = UITableViewAutomaticDimension
         
         //set default images to load before the Asynchronous Request, in case images have long load time
@@ -114,7 +129,8 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         cell.cellHeadline?.text = parseConnect.articles[indexPath.row].title
         cell.cellDetail?.text = parseConnect.articles[indexPath.row].section
         ArticlesViewController().hideActivityIndicator(self.view)
-        return cell
+            return cell
+    }
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -122,8 +138,11 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectedArticle = parseConnect.articles[indexPath.row]
-        performSegueWithIdentifier(webViewSegue, sender: self)
+        if(parseConnect.articles.count != indexPath.row)
+        {
+            selectedArticle = parseConnect.articles[indexPath.row]
+            performSegueWithIdentifier(webViewSegue, sender: self)
+        }
     }
     
     //on segue, send article object containing url for webView
@@ -148,12 +167,12 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         
         container.frame = uiView.frame
         container.center = uiView.center
-        //container.backgroundColor = UIColorFromHex(0xffffff, alpha: 0.3)
+        container.backgroundColor = UIColorFromHex(0xffffff, alpha: 0.3)
         
         
         loadingView.frame = CGRectMake(0, 0, 80, 80)
         loadingView.center = uiView.center
-        //loadingView.backgroundColor = UIColorFromHex(0x999999, alpha: 0.7)
+        loadingView.backgroundColor = UIColorFromHex(0xffffff, alpha: 1)
         loadingView.clipsToBounds = true
         loadingView.layer.cornerRadius = 10
         
@@ -185,24 +204,103 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         return UIColor(red:red, green:green, blue:blue, alpha:CGFloat(alpha))
     }
     
-    
-    func getCurrentSettings()
+    func isNewSchedule()->Bool
     {
+        //also set to new schedule if true
+        return true
+    }
+    
+    func getArticles(loadNew: Bool, showIndicator: Bool)
+    {
+        //if old schedule diff(set as global) from new then do a refresh and set global as new
+        
         //if nothing archived at file path or nothing scheduled do default (all, 1)
-    }
-    
-    func getNewSettingOnDiff()
-    {
+        let daysOld = "7"
+        let topic = "all-sections"
+        let urlString = "http://api.nytimes.com/svc/mostpopular/v2/mostviewed/" + topic + "/" + daysOld + ".json?api-key=b32dcf0a887c83fe37220653ad10c91b:8:71573066"
         
-    }
-    
-    func loadMoreArticles()
-    {
+        let path = fileInDocumentsDirectory("schedule.plist")
+        var checkValidation = NSFileManager.defaultManager()
         
+        //Array to hold schedule
+        var mySchedule:NSMutableArray = NSMutableArray()
+        
+        if(checkValidation.fileExistsAtPath(path))
+        {
+            mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+        }
+        
+        let todaysDay = getToday()
+        //function to get object with closest time
+        for(var i = 0; i < mySchedule.count; i++)
+        {
+            for(var j = 0; j < (mySchedule[i] as! Schedule).days.count; j++)
+            {
+                if()
+                {
+                    if()
+                    {
+                        
+                    }
+                }
+            }
+        }
+       
+        if(showIndicator)
+        {
+           showActivityIndicator(self.view)
+        }
+        
+        //only on refresh or loading new articles when come back from day selected and difference
+        parseConnect.articles.removeAll()
+        
+        parseConnect.load(urlString) {
+            (companies, errorString) -> Void in
+            if let unwrappedErrorString = errorString {
+                self.hideActivityIndicator(self.view)
+                var alert = UIAlertView(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
+                alert.show()
+            } else {
+                self.hideActivityIndicator(self.view)
+                self.articleTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+                self.articleTableView.beginUpdates()
+                self.articleTableView.endUpdates()
+                
+            }
+        }
     }
     
-    //Need function to trigger refresh when pull down table past top or press refresh icon(need to add)
-    //On refresh reset offset back to 0
+    
+    func refresh()
+    {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.getArticles(true, showIndicator: false)
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
+    //Get Today's Date
+    func getToday()->String {
+        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+        let formatter  = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let todayDate = NSDate()
+        let myCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        let myComponents = myCalendar.components(.CalendarUnitWeekday, fromDate: todayDate)
+        let weekDay = myComponents.weekday
+        return days[weekDay-1]
+    }
+    
+    //Documents Directory (LP)
+    func documentsDirectory() -> String {
+        let documentsFolderPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as! String
+        return documentsFolderPath
+    }
+    
+    func fileInDocumentsDirectory(filename: String) -> String {
+        return documentsDirectory().stringByAppendingPathComponent(filename)
+    }
+
 
 
 }

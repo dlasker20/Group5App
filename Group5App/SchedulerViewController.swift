@@ -12,9 +12,9 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     @IBOutlet weak var tableView: UITableView!
     
-    let topics = ["Arts","Sports","Technology","Science"]
+    let topics = ["All","Arts","Sports","Technology","Science"]
     
-    let types = ["National","Short"]
+    let types = ["Day","Week","Month"]
     
     var daysSet = Array(count: 7, repeatedValue: false)
     
@@ -58,14 +58,6 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         {
             mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
         }
-        
-        //Test to see if stuff saved correctly
-        for(var i = 0; i < mySchedule.count; i++)
-        {
-            let appointment = mySchedule[i] as! Schedule
-             println(appointment.topicSet)
-        }
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -131,7 +123,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                         //SET DATE TO SAME DATE IN THE PAST SO IT SORTS BY TIME
                         //need to change to date/time actually sent
                         //set to default if day or time not sent
-                        (cell as! DatePickerTableViewCell).datePicker.date = NSDate()
+                        datePickerCell!.datePicker.date = NSDate()
                 }
             
             case 1:

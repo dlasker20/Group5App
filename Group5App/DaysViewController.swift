@@ -26,6 +26,7 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     var mySchedule:NSMutableArray = NSMutableArray()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         tabBar.delegate = self
@@ -124,6 +125,9 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
             //destinationViewController.sentDays = daysToShow
             destinationViewController.sentDays = ["Monday","Tuesday"]
         }
+        
+        myTable.editing = false
+        self.editButton.title = "Edit"
         
     }
     
