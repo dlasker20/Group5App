@@ -87,7 +87,7 @@
                                                     </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NJB-QC-LYp">
-                                                    <rect key="frame" x="8" y="258" width="584" height="0.0"/>
+                                                    <rect key="frame" x="13" y="258" width="574" height="0.0"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="DSN-2F-SDm"/>
                                                         <constraint firstAttribute="height" constant="50" id="ENO-2r-oRf"/>
@@ -110,7 +110,7 @@
                                                 <constraint firstItem="UXc-F5-lwE" firstAttribute="top" secondItem="CAf-Zp-hRu" secondAttribute="topMargin" id="40c-pT-37Y"/>
                                                 <constraint firstAttribute="centerX" secondItem="UXc-F5-lwE" secondAttribute="centerX" id="4PI-hf-S8d"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="NJB-QC-LYp" secondAttribute="trailing" id="7Va-LG-9g3"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="NJB-QC-LYp" secondAttribute="trailing" id="8ls-Zj-sdM"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="NJB-QC-LYp" secondAttribute="trailing" constant="5" id="8ls-Zj-sdM"/>
                                                 <constraint firstItem="UXc-F5-lwE" firstAttribute="top" secondItem="CAf-Zp-hRu" secondAttribute="topMargin" id="GF3-Wk-d93"/>
                                                 <constraint firstAttribute="centerX" secondItem="UXc-F5-lwE" secondAttribute="centerX" id="Gl4-5u-LX2"/>
                                                 <constraint firstItem="NJB-QC-LYp" firstAttribute="top" secondItem="UXc-F5-lwE" secondAttribute="bottom" constant="5" id="J0X-51-OFw"/>
@@ -132,7 +132,7 @@
                                                 <constraint firstItem="UXc-F5-lwE" firstAttribute="leading" secondItem="CAf-Zp-hRu" secondAttribute="leadingMargin" id="qg4-2y-WjI"/>
                                                 <constraint firstItem="UXc-F5-lwE" firstAttribute="bottom" secondItem="NJB-QC-LYp" secondAttribute="bottom" constant="-5" id="stR-uC-obI"/>
                                                 <constraint firstItem="UXc-F5-lwE" firstAttribute="leading" secondItem="CAf-Zp-hRu" secondAttribute="leadingMargin" id="t9j-KN-kh8"/>
-                                                <constraint firstItem="NJB-QC-LYp" firstAttribute="leading" secondItem="CAf-Zp-hRu" secondAttribute="leadingMargin" id="xH4-rg-OuE"/>
+                                                <constraint firstItem="NJB-QC-LYp" firstAttribute="leading" secondItem="CAf-Zp-hRu" secondAttribute="leadingMargin" constant="5" id="xH4-rg-OuE"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -241,6 +241,27 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="nothingScheduled" rowHeight="60" id="b3U-tQ-2fN">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b3U-tQ-2fN" id="J54-en-tZT">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nothing currently scheduled" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bgW-Rm-Uqp">
+                                                    <rect key="frame" x="13" y="13" width="574" height="33"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="bgW-Rm-Uqp" firstAttribute="leading" secondItem="J54-en-tZT" secondAttribute="leadingMargin" constant="5" id="JJI-sg-b6t"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="bgW-Rm-Uqp" secondAttribute="trailing" constant="5" id="S8a-pI-FRe"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="bgW-Rm-Uqp" secondAttribute="bottom" constant="5" id="UxY-ZD-bM9"/>
+                                                <constraint firstItem="bgW-Rm-Uqp" firstAttribute="top" secondItem="J54-en-tZT" secondAttribute="topMargin" constant="5" id="Yd4-Yf-vKP"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>

@@ -29,6 +29,8 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     var path: String! //file path for saving data (LP)
     var mySchedule:NSMutableArray = NSMutableArray()
     
+    var scheduleInUse: Int?
+    
     //var editingFlag = false
     
     override func viewDidLoad() {
@@ -50,6 +52,14 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         getTimes()
         
         myTable.tableFooterView = UIView(frame: CGRectZero)
+
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        checkMarkInUse()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.myTable.reloadData()
+        })
 
     }
 
@@ -101,10 +111,23 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if(timesToShow.count == 0)
+        {
+            return timesToShow.count + 1
+        }
         return timesToShow.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        if(timesToShow.count == 0)
+        {
+            let cell = tableView.dequeueReusableCellWithIdentifier("nothingScheduled", forIndexPath: indexPath) as! UITableViewCell
+            
+            cell.selectionStyle = .None
+            
+            return cell
+        }
         let cell = tableView.dequeueReusableCellWithIdentifier("timeCell", forIndexPath: indexPath) as! UITableViewCell
         
         var appointment = timesToShow[indexPath.row] as! Schedule
@@ -117,6 +140,25 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         cell.textLabel?.text = formatter.stringFromDate(appointment.time)
         
         cell.detailTextLabel?.text = appointment.topicSet
+        
+        if(scheduleInUse != nil)
+        {
+            if(scheduleInUse == indexPath.row)
+            {
+                cell.accessoryType = .Checkmark
+                cell.editingAccessoryType = .Checkmark
+            }
+            else
+            {
+                cell.accessoryType = .None
+                cell.editingAccessoryType = .None
+            }
+        }
+        else
+        {
+            cell.accessoryType = .None
+            cell.editingAccessoryType = .None
+        }
     
         return cell
     }
@@ -163,9 +205,21 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
             }
             
             timesToShow.removeObjectAtIndex(indexPath.row)
-            
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+           
             NSKeyedArchiver.archiveRootObject(mySchedule, toFile:path)
+            
+            checkMarkInUse()
+            
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.myTable.reloadData()
+                })
+            })
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            CATransaction.commit()
+
         }
     }
     
@@ -217,7 +271,10 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     //Canceled scheduler
     @IBAction func returnToDaySelectedFromCancel(segue: UIStoryboardSegue) {
-        
+        checkMarkInUse()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.myTable.reloadData()
+        })
     }
     
     
@@ -299,7 +356,45 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
                 
                 timesToShow.addObjectsFromArray(sortedByTime)
             }
-           
+        }
+        
+       checkMarkInUse()
+
+    }
+    
+    func checkMarkInUse()
+    {
+        //Checkmark schdule in use
+        scheduleInUse = nil
+        
+        let currentRawDateCurrent = NSDate()
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .NoStyle
+        formatter.timeStyle = .ShortStyle
+        let timeString = formatter.stringFromDate(currentRawDateCurrent)
+        let currentTime = formatter.dateFromString(timeString)
+        
+        var bestSchedule: Schedule?
+        
+        for(var i = 0; i < timesToShow.count; i++)
+        {
+            
+            if(timesToShow[i].time.compare(currentTime!) != NSComparisonResult.OrderedDescending)
+            {
+                if (bestSchedule != nil){
+                    if(timesToShow[i].time.compare(bestSchedule!.time) == NSComparisonResult.OrderedDescending)
+                    {
+                        bestSchedule = timesToShow[i] as? Schedule
+                        scheduleInUse = i
+                    }
+                }
+                else
+                {
+                    bestSchedule = timesToShow[i] as? Schedule
+                    scheduleInUse = i
+                }
+            }
+            
         }
     }
     
