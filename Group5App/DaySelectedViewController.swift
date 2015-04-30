@@ -18,7 +18,7 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     @IBOutlet weak var tabHeight: NSLayoutConstraint!
     
-    //var  = false
+    let refreshControl = UIRefreshControl()
     
     //variable to hold sent days
     var sentDays:NSMutableArray = NSMutableArray()
@@ -31,7 +31,10 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     var scheduleInUse: Int?
     
-    //var editingFlag = false
+    var nothingToShow = false
+    var deletionComplete = false
+    
+    var allowEdit = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +55,10 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         getTimes()
         
         myTable.tableFooterView = UIView(frame: CGRectZero)
+        
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        myTable.addSubview(refreshControl)
 
     }
     
@@ -69,33 +76,23 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     }
     
     @IBAction func edit(sender: AnyObject) {
-       
+        if(allowEdit)
+        {
             if(myTable.editing == false)
             {
-                //tabHeight.constant = 49
-                //self.tabBar.hidden = false
-                //self.tabBarShown = true
                 self.editButton.title = "Done"
-                //editingFlag = true
                 myTable.editing = true
             }
             else
             {
-                //tabHeight.constant = 0
-                //self.tabBar.hidden = true
-                //self.tabBarShown = false
                 self.editButton.title = "Edit"
-                //editingFlag = false
                 myTable.editing = false
             }
+        }
     }
     
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
-        if(item.title == "Delete")
-        {
-            
-        }
-        else if(item.title == "Add")
+        if(item.title == "Add")
         {
             performSegueWithIdentifier("showScheduler1", sender: self)
         }
@@ -111,23 +108,38 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(timesToShow.count == 0)
+        
+        if(deletionComplete)
         {
+            deletionComplete = false
+            allowEdit = true
+            return timesToShow.count
+            
+        }
+        else if(timesToShow.count == 0)
+        {
+            nothingToShow = true
+            allowEdit = false
+            self.editButton.title = "Edit"
+            myTable.editing = false
             return timesToShow.count + 1
         }
+        allowEdit = true
         return timesToShow.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        if(timesToShow.count == 0)
+        if(nothingToShow)
         {
+            nothingToShow = false
+            
             let cell = tableView.dequeueReusableCellWithIdentifier("nothingScheduled", forIndexPath: indexPath) as! UITableViewCell
             
             cell.selectionStyle = .None
             
             return cell
         }
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("timeCell", forIndexPath: indexPath) as! UITableViewCell
         
         var appointment = timesToShow[indexPath.row] as! Schedule
@@ -162,6 +174,7 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
         return cell
     }
+    
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)
@@ -210,6 +223,8 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
             
             checkMarkInUse()
             
+            deletionComplete = true
+            
             CATransaction.begin()
             CATransaction.setCompletionBlock({
                 
@@ -219,6 +234,12 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
             })
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
             CATransaction.commit()
+            
+            
+            if(timesToShow.count == 0)
+            {
+                nothingToShow = true
+            }
 
         }
     }
@@ -395,6 +416,15 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
                 }
             }
             
+        }
+    }
+    
+    func refresh()
+    {
+        checkMarkInUse()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.myTable.reloadData()
+            self.refreshControl.endRefreshing()
         }
     }
     
