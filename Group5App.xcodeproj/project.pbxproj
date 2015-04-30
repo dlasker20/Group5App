@@ -18,6 +18,7 @@
 		3724E37C1AD840ED004FE06D /* DaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3724E37B1AD840ED004FE06D /* DaysViewController.swift */; };
 		3724E37E1AD84105004FE06D /* SchedulerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3724E37D1AD84105004FE06D /* SchedulerViewController.swift */; };
 		3724E3801AD84124004FE06D /* DayPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3724E37F1AD84124004FE06D /* DayPickerViewController.swift */; };
+		376100661AF1D304005EE2E6 /* NothingScheduledTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376100651AF1D304005EE2E6 /* NothingScheduledTableViewCell.swift */; };
 		37A75D371AE9851500DE5E4B /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A75D361AE9851500DE5E4B /* DatePickerTableViewCell.swift */; };
 		37A75D391AE9852400DE5E4B /* PickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A75D381AE9852400DE5E4B /* PickerTableViewCell.swift */; };
 		37A75D3B1AE9853400DE5E4B /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A75D3A1AE9853400DE5E4B /* SwitchTableViewCell.swift */; };
@@ -57,6 +58,7 @@
 		3724E37B1AD840ED004FE06D /* DaysViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DaysViewController.swift; sourceTree = "<group>"; };
 		3724E37D1AD84105004FE06D /* SchedulerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerViewController.swift; sourceTree = "<group>"; };
 		3724E37F1AD84124004FE06D /* DayPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayPickerViewController.swift; sourceTree = "<group>"; };
+		376100651AF1D304005EE2E6 /* NothingScheduledTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NothingScheduledTableViewCell.swift; sourceTree = "<group>"; };
 		37A75D361AE9851500DE5E4B /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
 		37A75D381AE9852400DE5E4B /* PickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
 		37A75D3A1AE9853400DE5E4B /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				37A75D381AE9852400DE5E4B /* PickerTableViewCell.swift */,
 				37A75D3A1AE9853400DE5E4B /* SwitchTableViewCell.swift */,
 				37A75D3C1AF022E300DE5E4B /* FooterTableViewCell.swift */,
+				376100651AF1D304005EE2E6 /* NothingScheduledTableViewCell.swift */,
 			);
 			name = cells;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				536C50931AE6C2F0007D6940 /* Schedule.swift in Sources */,
 				37A75D391AE9852400DE5E4B /* PickerTableViewCell.swift in Sources */,
 				499A53B21ADC6983006C916B /* ImageData.swift in Sources */,
+				376100661AF1D304005EE2E6 /* NothingScheduledTableViewCell.swift in Sources */,
 				3724E3781AD840B7004FE06D /* WebViewController.swift in Sources */,
 				3724E3761AD8409D004FE06D /* ArticlesViewController.swift in Sources */,
 				499A53B31ADC6983006C916B /* parser.swift in Sources */,

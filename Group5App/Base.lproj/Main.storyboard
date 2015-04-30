@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="f7N-AA-pET">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -58,47 +59,111 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="footer" rowHeight="97" id="3BK-qK-wFx" customClass="FooterTableViewCell" customModule="Group5App" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="footer" rowHeight="277" id="3BK-qK-wFx" customClass="FooterTableViewCell" customModule="Group5App" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3BK-qK-wFx" id="CAf-Zp-hRu">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="happy" translatesAutoresizingMaskIntoConstraints="NO" id="UXc-F5-lwE">
-                                                    <rect key="frame" x="8" y="8" width="584" height="25"/>
-                                                    <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UXc-F5-lwE">
+                                                    <rect key="frame" x="300" y="8" width="0.0" height="245"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="1Oh-B0-3M3"/>
+                                                        <constraint firstAttribute="width" secondItem="UXc-F5-lwE" secondAttribute="height" multiplier="1:1" id="Wry-Mm-uJm"/>
+                                                        <constraint firstAttribute="height" constant="25" id="boT-sW-htS"/>
+                                                        <constraint firstAttribute="width" constant="25" id="fmu-5e-feP"/>
+                                                        <constraint firstAttribute="width" constant="25" id="kCt-OH-MqT"/>
+                                                        <constraint firstAttribute="width" constant="50" id="skc-cM-8QN"/>
                                                     </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="1Oh-B0-3M3"/>
+                                                            <exclude reference="Wry-Mm-uJm"/>
+                                                            <exclude reference="boT-sW-htS"/>
+                                                            <exclude reference="fmu-5e-feP"/>
+                                                            <exclude reference="kCt-OH-MqT"/>
+                                                            <exclude reference="skc-cM-8QN"/>
+                                                        </mask>
+                                                    </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NJB-QC-LYp">
-                                                    <rect key="frame" x="8" y="38" width="584" height="45"/>
+                                                    <rect key="frame" x="8" y="258" width="584" height="0.0"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="DSN-2F-SDm"/>
+                                                        <constraint firstAttribute="height" constant="50" id="ENO-2r-oRf"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="DSN-2F-SDm"/>
+                                                            <exclude reference="ENO-2r-oRf"/>
+                                                        </mask>
+                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="centerX" secondItem="UXc-F5-lwE" secondAttribute="centerX" id="06U-ZV-KcW"/>
                                                 <constraint firstAttribute="centerY" secondItem="NJB-QC-LYp" secondAttribute="centerY" id="2QE-U2-wPK"/>
+                                                <constraint firstItem="UXc-F5-lwE" firstAttribute="bottom" secondItem="NJB-QC-LYp" secondAttribute="bottom" constant="-117" id="2qu-sQ-wlE"/>
+                                                <constraint firstItem="UXc-F5-lwE" firstAttribute="top" secondItem="CAf-Zp-hRu" secondAttribute="topMargin" id="40c-pT-37Y"/>
+                                                <constraint firstAttribute="centerX" secondItem="UXc-F5-lwE" secondAttribute="centerX" id="4PI-hf-S8d"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="NJB-QC-LYp" secondAttribute="trailing" id="7Va-LG-9g3"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="NJB-QC-LYp" secondAttribute="trailing" id="8ls-Zj-sdM"/>
                                                 <constraint firstItem="UXc-F5-lwE" firstAttribute="top" secondItem="CAf-Zp-hRu" secondAttribute="topMargin" id="GF3-Wk-d93"/>
+                                                <constraint firstAttribute="centerX" secondItem="UXc-F5-lwE" secondAttribute="centerX" id="Gl4-5u-LX2"/>
+                                                <constraint firstItem="NJB-QC-LYp" firstAttribute="top" secondItem="UXc-F5-lwE" secondAttribute="bottom" constant="5" id="J0X-51-OFw"/>
                                                 <constraint firstItem="UXc-F5-lwE" firstAttribute="height" secondItem="NJB-QC-LYp" secondAttribute="height" id="N1w-ku-dhg"/>
                                                 <constraint firstItem="NJB-QC-LYp" firstAttribute="leading" secondItem="CAf-Zp-hRu" secondAttribute="leadingMargin" id="QPl-WQ-ZTu"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="NJB-QC-LYp" secondAttribute="bottom" constant="5" id="du4-6s-HVB"/>
+                                                <constraint firstItem="UXc-F5-lwE" firstAttribute="centerX" secondItem="NJB-QC-LYp" secondAttribute="centerX" id="WzG-Vz-IKu"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="UXc-F5-lwE" secondAttribute="bottom" constant="122" id="aiu-eu-4Rl"/>
+                                                <constraint firstItem="NJB-QC-LYp" firstAttribute="top" secondItem="UXc-F5-lwE" secondAttribute="bottom" constant="5" id="cG7-fk-khc"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="NJB-QC-LYp" secondAttribute="bottom" constant="10" id="du4-6s-HVB"/>
+                                                <constraint firstItem="NJB-QC-LYp" firstAttribute="top" secondItem="UXc-F5-lwE" secondAttribute="bottom" constant="5" id="f20-IL-yLi"/>
                                                 <constraint firstItem="NJB-QC-LYp" firstAttribute="top" secondItem="UXc-F5-lwE" secondAttribute="bottom" constant="5" id="fZl-ql-v3S"/>
                                                 <constraint firstItem="NJB-QC-LYp" firstAttribute="top" secondItem="CAf-Zp-hRu" secondAttribute="topMargin" id="hWa-Md-Lzb"/>
+                                                <constraint firstAttribute="centerX" secondItem="UXc-F5-lwE" secondAttribute="centerX" id="hbI-hW-1AA"/>
+                                                <constraint firstAttribute="centerX" secondItem="NJB-QC-LYp" secondAttribute="centerX" id="i2c-0W-cT0"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="UXc-F5-lwE" secondAttribute="trailing" id="lcV-8e-EyP"/>
+                                                <constraint firstItem="NJB-QC-LYp" firstAttribute="top" secondItem="UXc-F5-lwE" secondAttribute="bottom" constant="50" id="mXi-rg-XHO"/>
+                                                <constraint firstItem="UXc-F5-lwE" firstAttribute="bottom" secondItem="NJB-QC-LYp" secondAttribute="bottom" constant="5" id="p54-Rp-USh"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="UXc-F5-lwE" secondAttribute="trailing" id="qEv-De-lHS"/>
+                                                <constraint firstItem="UXc-F5-lwE" firstAttribute="leading" secondItem="CAf-Zp-hRu" secondAttribute="leadingMargin" id="qg4-2y-WjI"/>
+                                                <constraint firstItem="UXc-F5-lwE" firstAttribute="bottom" secondItem="NJB-QC-LYp" secondAttribute="bottom" constant="-5" id="stR-uC-obI"/>
                                                 <constraint firstItem="UXc-F5-lwE" firstAttribute="leading" secondItem="CAf-Zp-hRu" secondAttribute="leadingMargin" id="t9j-KN-kh8"/>
+                                                <constraint firstItem="NJB-QC-LYp" firstAttribute="leading" secondItem="CAf-Zp-hRu" secondAttribute="leadingMargin" id="xH4-rg-OuE"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="N1w-ku-dhg"/>
                                                     <exclude reference="2QE-U2-wPK"/>
+                                                    <exclude reference="7Va-LG-9g3"/>
+                                                    <exclude reference="QPl-WQ-ZTu"/>
+                                                    <exclude reference="cG7-fk-khc"/>
+                                                    <exclude reference="f20-IL-yLi"/>
+                                                    <exclude reference="fZl-ql-v3S"/>
                                                     <exclude reference="hWa-Md-Lzb"/>
+                                                    <exclude reference="i2c-0W-cT0"/>
+                                                    <exclude reference="mXi-rg-XHO"/>
+                                                    <exclude reference="06U-ZV-KcW"/>
+                                                    <exclude reference="2qu-sQ-wlE"/>
+                                                    <exclude reference="4PI-hf-S8d"/>
+                                                    <exclude reference="GF3-Wk-d93"/>
+                                                    <exclude reference="N1w-ku-dhg"/>
+                                                    <exclude reference="WzG-Vz-IKu"/>
+                                                    <exclude reference="aiu-eu-4Rl"/>
+                                                    <exclude reference="hbI-hW-1AA"/>
+                                                    <exclude reference="lcV-8e-EyP"/>
+                                                    <exclude reference="p54-Rp-USh"/>
+                                                    <exclude reference="qEv-De-lHS"/>
+                                                    <exclude reference="qg4-2y-WjI"/>
+                                                    <exclude reference="stR-uC-obI"/>
+                                                    <exclude reference="t9j-KN-kh8"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="footerImage" destination="UXc-F5-lwE" id="Tdx-vB-lxO"/>
                                             <outlet property="footerLabel" destination="NJB-QC-LYp" id="3Qn-b5-MUO"/>
                                         </connections>
                                     </tableViewCell>
@@ -699,7 +764,6 @@
         <image name="calendar" width="25" height="25"/>
         <image name="cancel" width="25" height="25"/>
         <image name="days" width="25" height="25"/>
-        <image name="happy" width="25" height="25"/>
         <image name="save" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>

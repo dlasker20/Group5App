@@ -48,6 +48,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     var imageCache = [String : UIImage]()
     
     var allowAppear = false
+    
     var viewAppearedAgain = false
     
     override func viewDidLoad() {
@@ -72,7 +73,10 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
             viewAppearedAgain = true
             getArticles(false, showIndicator: true)
         }
-        allowAppear = true
+        else
+        {
+            allowAppear = true
+        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -81,7 +85,14 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return parseConnect.articles.count + 1
+        if(allowAppear)
+        {
+            return parseConnect.articles.count + 1
+        }
+        else
+        {
+            return parseConnect.articles.count
+        }
     }
     
     
@@ -98,6 +109,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
             
             if(parseConnect.articles.count == 0)
             {
+                footerAccess.footerImage.image = UIImage(named:"sad")
                 footerAccess.footerLabel.text = "No articles found matching current schedule"
             }
             else
@@ -111,6 +123,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
                 {
                     topic = "all"
                 }
+                footerAccess.footerImage.image = UIImage(named:"happy")
                 topic = topic.uppercaseString
                 footerAccess.footerLabel.text = "You're caught up on " + topic + " news!"
             }
@@ -118,41 +131,40 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
             return cell
         }
         else{
-        let cell = tableView.dequeueReusableCellWithIdentifier(customReuse, forIndexPath: indexPath) as! CustomTableViewCell
-        
-        self.articleTableView.estimatedRowHeight = 96
-        self.articleTableView.rowHeight = UITableViewAutomaticDimension
-        
-        //set default images to load before the Asynchronous Request, in case images have long load time
-        var rnum = 1+(arc4random()%4)
-        let pic = UIImage(named: "dummy\(rnum)")
-        cell.cellImage.image = pic
-        
-        
-        //use asynchronous request to load images from API
-        let articleImageURL = (parseConnect.articles[indexPath.row] as! Article).image?.url
-        var imgURL: NSURL = NSURL(string: articleImageURL!)!
-        let request: NSURLRequest = NSURLRequest(URL: imgURL)
-        NSURLConnection.sendAsynchronousRequest(
-            request, queue: NSOperationQueue.mainQueue(),
-            completionHandler: {(response: NSURLResponse!,data: NSData!,error: NSError!) -> Void in
-                if error == nil {
-                    cell.cellImage.image = UIImage(data: data)!
-                    cell.setNeedsLayout()
-                    cell.layoutIfNeeded()
-                }
+            let cell = tableView.dequeueReusableCellWithIdentifier(customReuse, forIndexPath: indexPath) as! CustomTableViewCell
+            
+            self.articleTableView.estimatedRowHeight = 96
                 
-        })
-        
-        cell.cellHeadline?.text = parseConnect.articles[indexPath.row].title
-        cell.cellDetail?.text = (parseConnect.articles[indexPath.row] as! Article).section
-        ArticlesViewController().hideActivityIndicator(self.view)
+            //set default images to load before the Asynchronous Request, in case images have long load time
+            var rnum = 1+(arc4random()%4)
+            let pic = UIImage(named: "dummy\(rnum)")
+            cell.cellImage.image = pic
+            
+            
+            //use asynchronous request to load images from API
+            let articleImageURL = (parseConnect.articles[indexPath.row] as! Article).image?.url
+            var imgURL: NSURL = NSURL(string: articleImageURL!)!
+            let request: NSURLRequest = NSURLRequest(URL: imgURL)
+            NSURLConnection.sendAsynchronousRequest(
+                request, queue: NSOperationQueue.mainQueue(),
+                completionHandler: {(response: NSURLResponse!,data: NSData!,error: NSError!) -> Void in
+                    if error == nil {
+                        cell.cellImage.image = UIImage(data: data)!
+                        cell.setNeedsLayout()
+                        cell.layoutIfNeeded()
+                    }
+                    
+            })
+            
+            cell.cellHeadline?.text = parseConnect.articles[indexPath.row].title
+            cell.cellDetail?.text = (parseConnect.articles[indexPath.row] as! Article).section
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.refreshControl.endRefreshing()
+            }
+            
             return cell
-    }
-    }
-    
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -222,11 +234,6 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         return UIColor(red:red, green:green, blue:blue, alpha:CGFloat(alpha))
     }
     
-    func isNewSchedule()->Bool
-    {
-        //also set to new schedule if true
-        return true
-    }
     
     func getArticles(loadNew: Bool, showIndicator: Bool)
     {
@@ -281,31 +288,50 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
             {
                 if (currentSchedule == nil)
                 {
-                    currentSchedule = bestSchedule
-                    doLoad = true
+                    if(bestSchedule?.topicSet != "All" || bestSchedule?.typeSet != "7")
+                    {
+                        currentSchedule = bestSchedule
+                        doLoad = true
+                        
+                        topic = currentSchedule!.topicSet
+                        daysOld = currentSchedule!.typeSet
+                    }
                 }
-                else if(currentSchedule?.topicSet != bestSchedule?.topicSet || currentSchedule?.typeSet != bestSchedule?.typeSet || currentSchedule?.notifications != bestSchedule?.notifications || currentSchedule?.time != bestSchedule?.time)
+                else if(currentSchedule?.topicSet != bestSchedule?.topicSet || currentSchedule?.typeSet != bestSchedule?.typeSet || currentSchedule?.notifications != bestSchedule?.notifications)
                 {
                     currentSchedule = bestSchedule
                     doLoad = true
+                    
+                    topic = currentSchedule!.topicSet
+                    daysOld = currentSchedule!.typeSet
+                }
+                else
+                {
+                    topic = currentSchedule!.topicSet
+                    daysOld = currentSchedule!.typeSet
                 }
                 
-                topic = currentSchedule!.topicSet
-                daysOld = currentSchedule!.typeSet
                 
             }
             else
             {
                 if (currentSchedule != nil)
                 {
-                    doLoad = true
+                    if(currentSchedule!.topicSet != "All" || currentSchedule!.typeSet != "7")
+                    {
+                        doLoad = true
+                    }
+                    currentSchedule = nil
                 }
             }
         }
         
-        println(doLoad)
         if(doLoad)
         {
+            if(topic == "All")
+            {
+                topic = "all-sections"
+            }
             let urlString = "http://api.nytimes.com/svc/mostpopular/v2/mostviewed/" + topic + "/" + daysOld + ".json?api-key=b32dcf0a887c83fe37220653ad10c91b:8:71573066"
            
             if(showIndicator)
@@ -316,8 +342,10 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
             //only on refresh or loading new articles when come back from day selected and difference
             if(showIndicator == false || viewAppearedAgain)
             {
+                
                 viewAppearedAgain = false
                 parseConnect.articles.removeAllObjects()
+                
             }
             
             parseConnect.load(urlString) {
@@ -328,10 +356,13 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
                     alert.show()
                 } else {
                     self.hideActivityIndicator(self.view)
+                    if(self.allowAppear)
+                    {
+                        self.articleTableView.contentOffset = CGPointMake(0, 0 - self.articleTableView.contentInset.top);
+                    }
                     self.articleTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
                     self.articleTableView.beginUpdates()
                     self.articleTableView.endUpdates()
-                    //self.articleTableView.reloadData()
                     
                 }
             }
@@ -341,10 +372,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func refresh()
     {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.getArticles(true, showIndicator: false)
-            self.refreshControl.endRefreshing()
-        }
+        self.getArticles(true, showIndicator: false)
     }
     
     //Get Today's Date

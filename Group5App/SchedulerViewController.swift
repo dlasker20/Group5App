@@ -304,6 +304,8 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                daysSelected.append(days[i])
             }
         }
+        
+        //sort days before save?
     
         let date = datePickerCell!.datePicker.date
         
