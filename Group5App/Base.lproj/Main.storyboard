@@ -91,14 +91,16 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="DSN-2F-SDm"/>
                                                         <constraint firstAttribute="height" constant="50" id="ENO-2r-oRf"/>
+                                                        <constraint firstAttribute="height" constant="100" id="OCx-Dk-fxL"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="DSN-2F-SDm"/>
                                                             <exclude reference="ENO-2r-oRf"/>
+                                                            <exclude reference="OCx-Dk-fxL"/>
                                                         </mask>
                                                     </variation>
                                                 </label>
@@ -251,7 +253,7 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nothing currently scheduled" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bgW-Rm-Uqp">
                                                     <rect key="frame" x="13" y="13" width="574" height="33"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>

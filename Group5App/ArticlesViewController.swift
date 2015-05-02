@@ -55,6 +55,8 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         super.viewDidLoad()
         //tell table to use custom cell described in CustomTableViewCell.xib
         
+        self.navigationController!.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Superclarendon-Bold", size: 22)!]
+        
         var nib = UINib(nibName: "CustomTableViewCell", bundle: nil)
         articleTableView.registerNib(nib, forCellReuseIdentifier: customReuse)
         

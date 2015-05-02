@@ -36,23 +36,16 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     var allowEdit = false
     
+    var isToday = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tabBar.delegate = self
         
-        //self.tabBar.hidden = true
+        isToday = true
         
-        myTable.editing = false
-        
-        //load in data
-        getSchedule()
-        
-        //Set title
-        setTitle()
-        
-        //get times
-        getTimes()
+        reRunStuff()
         
         myTable.tableFooterView = UIView(frame: CGRectZero)
         
@@ -63,13 +56,7 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     }
     
     override func viewDidAppear(animated: Bool) {
-        setTitle()
-        getSchedule()
-        getTimes()
-        dispatch_async(dispatch_get_main_queue(), {
-            self.myTable.reloadData()
-        })
-
+       reRunStuff()
     }
 
     override func didReceiveMemoryWarning() {
@@ -294,34 +281,18 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     //Canceled scheduler
     @IBAction func returnToDaySelectedFromCancel(segue: UIStoryboardSegue) {
-        setTitle()
-        getSchedule()
-        getTimes()
-        dispatch_async(dispatch_get_main_queue(), {
-            self.myTable.reloadData()
-        })
+        reRunStuff()
     }
     
     
     //Saved Data
     @IBAction func returnToDaySelected(segue: UIStoryboardSegue) {
-        setTitle()
-        getSchedule()
-        getTimes()
-        dispatch_async(dispatch_get_main_queue(), {
-            self.myTable.reloadData()
-        })
+        reRunStuff()
     }
     
     //Selected new day(s)
     @IBAction func returnToDaySelectedFromDays(segue: UIStoryboardSegue) {
-        setTitle()
-        getSchedule()
-        getTimes()
-        dispatch_async(dispatch_get_main_queue(), {
-            self.myTable.reloadData()
-        })
-
+        reRunStuff()
     }
     
     //Get schedule
@@ -341,14 +312,18 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     {
         if(sentDays.count == 0)
         {
-                //TODO:add day of week with today like Today:Wednesday
                 self.title = "Today"
                 sentDays = [getToday()]
+                isToday = true
+        }
+        else if(sentDays.count == 1 && isToday && sentDays[0] as! String != getToday())
+        {
+            sentDays = [getToday()]
         }
         else if(sentDays.count == 1 && sentDays[0] as! String == getToday())
         {
-            sentDays.removeAllObjects()
-            sentDays = [getToday()]
+            self.title = "Today"
+            isToday = true
         }
         else
         {
@@ -358,10 +333,9 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
                 title = title + " " + (sentDays[i] as! String)
             }
             self.title = title
+            isToday = false
         }
     }
-    
-    //TODO:refactor code should only need to reload stuff on viewDidAppear and refresh not at every instance or even in viewDidLoad
     
     //Functions for data
     func getTimes()
@@ -443,6 +417,17 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
             self.myTable.reloadData()
             self.refreshControl.endRefreshing()
         }
+    }
+    
+    func reRunStuff()
+    {
+        setTitle()
+        getSchedule()
+        getTimes()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.myTable.reloadData()
+        })
+
     }
     
     //Documents Directory (LP)

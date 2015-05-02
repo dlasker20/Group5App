@@ -123,7 +123,8 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
         {
             let destinationViewController = segue.destinationViewController as! DaySelectedViewController
             //destinationViewController.sentDays = daysToShow
-            destinationViewController.sentDays = ["Monday","Tuesday"]
+            destinationViewController.sentDays = ["Friday"]
+            destinationViewController.isToday = false
         }
         
         myTable.editing = false
