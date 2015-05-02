@@ -110,7 +110,11 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
             if(parseConnect.articles.count == 0)
             {
                 footerAccess.footerImage.image = UIImage(named:"sad")
-                footerAccess.footerLabel.text = "No articles found matching current schedule"
+                footerAccess.footerLabel.text = "No articles matching current schedule"
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.refreshControl.endRefreshing()
+                }
             }
             else
             {
@@ -132,8 +136,6 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         else{
             let cell = tableView.dequeueReusableCellWithIdentifier(customReuse, forIndexPath: indexPath) as! CustomTableViewCell
-            
-            self.articleTableView.estimatedRowHeight = 96
                 
             //set default images to load before the Asynchronous Request, in case images have long load time
             var rnum = 1+(arc4random()%4)
@@ -165,6 +167,10 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
             
             return cell
         }
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

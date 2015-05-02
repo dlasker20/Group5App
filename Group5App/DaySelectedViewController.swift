@@ -63,7 +63,9 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     }
     
     override func viewDidAppear(animated: Bool) {
-        checkMarkInUse()
+        setTitle()
+        getSchedule()
+        getTimes()
         dispatch_async(dispatch_get_main_queue(), {
             self.myTable.reloadData()
         })
@@ -292,7 +294,9 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     //Canceled scheduler
     @IBAction func returnToDaySelectedFromCancel(segue: UIStoryboardSegue) {
-        checkMarkInUse()
+        setTitle()
+        getSchedule()
+        getTimes()
         dispatch_async(dispatch_get_main_queue(), {
             self.myTable.reloadData()
         })
@@ -337,6 +341,7 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     {
         if(sentDays.count == 0)
         {
+                //TODO:add day of week with today like Today:Wednesday
                 self.title = "Today"
                 sentDays = [getToday()]
         }
@@ -355,6 +360,8 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
             self.title = title
         }
     }
+    
+    //TODO:refactor code should only need to reload stuff on viewDidAppear and refresh not at every instance or even in viewDidLoad
     
     //Functions for data
     func getTimes()
@@ -395,24 +402,32 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         let timeString = formatter.stringFromDate(currentRawDateCurrent)
         let currentTime = formatter.dateFromString(timeString)
         
+        let todaysDay = getToday()
+        
         var bestSchedule: Schedule?
         
         for(var i = 0; i < timesToShow.count; i++)
         {
-            
-            if(timesToShow[i].time.compare(currentTime!) != NSComparisonResult.OrderedDescending)
+            for(var j = 0; j < timesToShow[i].days.count; j++)
             {
-                if (bestSchedule != nil){
-                    if(timesToShow[i].time.compare(bestSchedule!.time) == NSComparisonResult.OrderedDescending)
-                    {
-                        bestSchedule = timesToShow[i] as? Schedule
-                        scheduleInUse = i
-                    }
-                }
-                else
+                if(timesToShow[i].days[j] == todaysDay)
                 {
-                    bestSchedule = timesToShow[i] as? Schedule
-                    scheduleInUse = i
+            
+                    if(timesToShow[i].time.compare(currentTime!) != NSComparisonResult.OrderedDescending)
+                    {
+                        if (bestSchedule != nil){
+                            if(timesToShow[i].time.compare(bestSchedule!.time) == NSComparisonResult.OrderedDescending)
+                            {
+                                bestSchedule = timesToShow[i] as? Schedule
+                                scheduleInUse = i
+                            }
+                        }
+                        else
+                        {
+                            bestSchedule = timesToShow[i] as? Schedule
+                            scheduleInUse = i
+                        }
+                    }
                 }
             }
             
@@ -421,7 +436,9 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     func refresh()
     {
-        checkMarkInUse()
+        setTitle()
+        getSchedule()
+        getTimes()
         dispatch_async(dispatch_get_main_queue()) {
             self.myTable.reloadData()
             self.refreshControl.endRefreshing()
