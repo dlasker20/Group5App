@@ -515,6 +515,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="tYB-so-4k1"/>
                                 </constraints>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" name="Superclarendon-Bold" family="Superclarendon" pointSize="22"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Scheduler" id="C7a-4x-J5f">
                                         <barButtonItem key="leftBarButtonItem" image="cancel" id="mh2-D3-o75">
@@ -579,6 +582,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="RQ3-GS-h1N"/>
                                 </constraints>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" name="Superclarendon-Bold" family="Superclarendon" pointSize="22"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Day Picker" id="l31-rl-Usg">
                                         <barButtonItem key="leftBarButtonItem" image="cancel" id="SL4-v2-oaY">

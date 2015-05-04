@@ -20,10 +20,12 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
      var tabBarShown = false
     
     //variable to hold days to show
-    var daysToShow:NSMutableArray = NSMutableArray()
+    var daysToShow: NSMutableArray = NSMutableArray()
     
     var path: String! //file path for saving data (LP)
     var mySchedule:NSMutableArray = NSMutableArray()
+    
+    var selectedDayData = NSMutableArray()
     
     override func viewDidLoad() {
         
@@ -31,17 +33,9 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
         
         tabBar.delegate = self
         
-        myTable.editing = false
-        
         myTable.tableFooterView = UIView(frame: CGRectZero)
         
-        //load in data
-        path = fileInDocumentsDirectory("schedule.plist")
-        var checkValidation = NSFileManager.defaultManager()
-        if(checkValidation.fileExistsAtPath(path))
-        {
-            mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
-        }
+        getSchedule()
         
         getDays()
 
@@ -55,17 +49,11 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     @IBAction func edit(sender: AnyObject) {
         if(myTable.editing == false)
         {
-            //tabHeight.constant = 49
-            //self.tabBar.hidden = false
-            //self.tabBarShown = true
             self.editButton.title = "Done"
             myTable.editing = true
         }
         else
         {
-            //tabHeight.constant = 0
-            //self.tabBar.hidden = true
-            //self.tabBarShown = false
             self.editButton.title = "Edit"
             myTable.editing = false
         }
@@ -89,21 +77,59 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+        return daysToShow.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("dayCell", forIndexPath: indexPath) as! UITableViewCell
         
-        cell.textLabel?.text = "Monday"
-        cell.detailTextLabel?.text = "6:00AM 10:00AM 8:15PM 9:00PM 10:00PM 11:00PM 6:00AM 10:00AM 8:15PM 9:00PM 10:00PM 11:00PM"
+        cell.selectionStyle = .None
+        
+        if (daysToShow.count == 0)
+        {
+            
+        }
+        else
+        {
+            
+            var daysTitle = ""
+            
+            var day = daysToShow[indexPath.row][0] as! Schedule
+            
+            for(var i = 0; i < day.days.count; i++)
+            {
+                daysTitle = daysTitle + " " + day.days[i]
+            }
+            
+            let formatter = NSDateFormatter()
+            formatter.dateStyle = .NoStyle
+            formatter.timeStyle = .ShortStyle
+            
+            var times = ""
+            var time: [Schedule] = daysToShow[indexPath.row] as! [Schedule]
+            for(var i = 0; i < time.count; i++)
+            {
+                times = times + " " + formatter.stringFromDate(time[i].time).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                
+            }
+
+            
+            cell.textLabel?.text = daysTitle
+            cell.detailTextLabel?.text = times
+        }
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        selectedDayData.removeAllObjects()
+        var days = (daysToShow[indexPath.row][0] as! Schedule).days
+        for(var i = 0; i < days.count; i++)
+        {
+            selectedDayData.addObject(days[i])
+            
+        }
         performSegueWithIdentifier("returnToDaySelectedFromDays", sender: self)
     }
     
@@ -122,8 +148,7 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
         else
         {
             let destinationViewController = segue.destinationViewController as! DaySelectedViewController
-            //destinationViewController.sentDays = daysToShow
-            destinationViewController.sentDays = ["Friday"]
+            destinationViewController.sentDays = selectedDayData
             destinationViewController.isToday = false
         }
         
@@ -134,37 +159,90 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     
     //Data saved
     @IBAction func returnToDays(segue: UIStoryboardSegue) {
+        getSchedule()
+        
+        getDays()
         
     }
     
     //Canceled Scheduler
     @IBAction func returnToDaysFromCancel(segue: UIStoryboardSegue) {
+        getSchedule()
+        
+        getDays()
         
     }
     
+    //Get schedule
+    func getSchedule()
+    {
+        path = fileInDocumentsDirectory("schedule.plist")
+        var checkValidation = NSFileManager.defaultManager()
+        if(checkValidation.fileExistsAtPath(path))
+        {
+            mySchedule = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as! NSMutableArray
+        }
+        
+    }
+    
+    //Write get days
+    //write function to sort days
+    //show days in order (Every,week,end,M,T...groups(will be alphabetical when store))
+    //show times in ascending order
+    //show message if none
+    //send day to add(could be next available or just default???)
+    //delete day
+    //checkmark days with active times or today???
     
     //Functions for data
     func getDays()
     {
-        /*var weekDays = ["Monday","Tuesday","Wednesday","Thursday","Friday"]
-        var weekEnds = ["Saturday","Sunday"]
+        daysToShow.removeAllObjects()
+        
         for(var i = 0; i < mySchedule.count; i++)
         {
-             //TODO:SORT
-            var appointment = mySchedule[i] as! Schedule
-            var appointmentSet = NSSet(array: appointment.days as [AnyObject])
-            if(sentDaysSet.isSubsetOfSet(appointmentSet as Set<NSObject>) || appointmentSet.isSubsetOfSet(sentDaysSet as Set<NSObject>))
+            var same = false
+            if(daysToShow.count == 0)
             {
-                daysToShow.addObject(appointment)
-                //daysToShow = daysToSend.sortUsingComparator([$0.time < $1.time])
+                var toAdd = NSMutableArray()
+                toAdd.addObject(mySchedule[i])
+                daysToShow.addObject(toAdd)
             }
-            //Checks for Everyday
-            if(appointmentSet.count == 7)
+            else
             {
-                daysToShow.addObject(appointment)
+                for(var j = 0; j < daysToShow.count; j++)
+                {
+                    println(j)
+                    var count = 0
+                    var indivSchedule: Schedule = mySchedule[i] as! Schedule
+                    
+                    var daysToShowElement = (daysToShow[j][0] as! Schedule)
+                    
+                    for(var k = 0; k < indivSchedule.days.count; k++)
+                    {
+                        for(var z = 0; z < daysToShowElement.days.count; z++)
+                        {
+                            if(indivSchedule.days[k] == daysToShowElement.days[z])
+                            {
+                                count++
+                            }
+                        }
+                    }
+                    if(count == indivSchedule.days.count && indivSchedule.days.count == daysToShowElement.days.count)
+                    {
+                        println("HI")
+                        daysToShow[j].addObject(indivSchedule)
+                    }
+                    else
+                    {
+                        println("BYE")
+                        var toAdd = NSMutableArray()
+                        toAdd.addObject(indivSchedule)
+                        daysToShow.addObject(toAdd)
+                    }
+                }
             }
-            
-        }*/
+        }
     }
     
     

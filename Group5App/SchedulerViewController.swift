@@ -130,6 +130,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                         let actualTime = formatter.dateFromString(timeString)
                     
                         datePickerCell?.datePicker.date = actualTime!
+                    
                         
                         //SET DATE TO SAME DATE IN THE PAST SO IT SORTS BY TIME
                         //need to change to date/time actually sent
@@ -308,6 +309,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         //sort days before save?
     
         let date = datePickerCell!.datePicker.date
+        println(date)
         
         let notifySetting = notify!.notifySwitch.on
         
