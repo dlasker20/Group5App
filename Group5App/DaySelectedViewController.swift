@@ -45,7 +45,9 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         
         isToday = true
         
-        reRunStuff()
+        setTitle()
+        getSchedule()
+        getTimes()
         
         myTable.tableFooterView = UIView(frame: CGRectZero)
         
@@ -166,7 +168,10 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        if(!nothingToShow)
+        {
+            //create new segue called editSelected and send the object to the scheduler
+        }
         
         
     }

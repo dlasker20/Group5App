@@ -305,7 +305,7 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
                         daysOld = currentSchedule!.typeSet
                     }
                 }
-                else if(currentSchedule?.topicSet != bestSchedule?.topicSet || currentSchedule?.typeSet != bestSchedule?.typeSet || currentSchedule?.notifications != bestSchedule?.notifications)
+                else if(currentSchedule?.topicSet != bestSchedule?.topicSet || currentSchedule?.typeSet != bestSchedule?.typeSet)
                 {
                     currentSchedule = bestSchedule
                     doLoad = true

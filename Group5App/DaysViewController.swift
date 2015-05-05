@@ -27,17 +27,20 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     
     var selectedDayData = NSMutableArray()
     
+    var nothingToShow = false
+    var deletionComplete = false
+    var allowEdit = false
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
         tabBar.delegate = self
         
-        myTable.tableFooterView = UIView(frame: CGRectZero)
-        
         getSchedule()
-        
         getDays()
+        
+        myTable.tableFooterView = UIView(frame: CGRectZero)
 
     }
 
@@ -47,28 +50,25 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     }
     
     @IBAction func edit(sender: AnyObject) {
-        if(myTable.editing == false)
+        if(allowEdit)
         {
-            self.editButton.title = "Done"
-            myTable.editing = true
-        }
-        else
-        {
-            self.editButton.title = "Edit"
-            myTable.editing = false
+            if(myTable.editing == false)
+            {
+                self.editButton.title = "Done"
+                myTable.editing = true
+            }
+            else
+            {
+                self.editButton.title = "Edit"
+                myTable.editing = false
+            }
         }
 
     }
     
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
-        if(item.title == "Delete")
-        {
-            
-        }
-        else
-        {
-            performSegueWithIdentifier("showScheduler2", sender: self)
-        }
+        
+        performSegueWithIdentifier("showScheduler2", sender: self)
     }
     
     //Code for table
@@ -77,64 +77,89 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if(deletionComplete)
+        {
+            deletionComplete = false
+            allowEdit = true
+            return daysToShow.count
+            
+        }
+        else if(daysToShow.count == 0)
+        {
+            nothingToShow = true
+            allowEdit = false
+            self.editButton.title = "Edit"
+            myTable.editing = false
+            return daysToShow.count + 1
+        }
+        allowEdit = true
         return daysToShow.count
+
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("dayCell", forIndexPath: indexPath) as! UITableViewCell
-        
-        cell.selectionStyle = .None
-        
-        if (daysToShow.count == 0)
+        if(nothingToShow)
         {
+            nothingToShow = false
             
+            let cell = tableView.dequeueReusableCellWithIdentifier("noDaysScheduled", forIndexPath: indexPath) as! UITableViewCell
+            
+            cell.selectionStyle = .None
+            
+            return cell
         }
-        else
-        {
-            
-            var daysTitle = ""
-            
-            var day = daysToShow[indexPath.row][0] as! Schedule
-            
-            for(var i = 0; i < day.days.count; i++)
-            {
-                daysTitle = daysTitle + " " + day.days[i]
-            }
-            
-            let formatter = NSDateFormatter()
-            formatter.dateStyle = .NoStyle
-            formatter.timeStyle = .ShortStyle
-            
-            var times = ""
-            var time: [Schedule] = daysToShow[indexPath.row] as! [Schedule]
-            for(var i = 0; i < time.count; i++)
-            {
-                times = times + " " + formatter.stringFromDate(time[i].time).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                
-            }
 
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("dayCell", forIndexPath: indexPath) as! UITableViewCell
             
-            cell.textLabel?.text = daysTitle
-            cell.detailTextLabel?.text = times
+        var daysTitle = ""
+        
+        var day = daysToShow[indexPath.row][0] as! Schedule
+        
+        for(var i = 0; i < day.days.count; i++)
+        {
+            daysTitle = daysTitle + " " + day.days[i]
         }
+        
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .NoStyle
+        formatter.timeStyle = .ShortStyle
+        
+        var times = ""
+        var time: [Schedule] = daysToShow[indexPath.row] as! [Schedule]
+        for(var i = 0; i < time.count; i++)
+        {
+            times = times + " " + formatter.stringFromDate(time[i].time).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            
+        }
+        
+        cell.textLabel?.text = daysTitle
+        cell.detailTextLabel?.text = times
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectedDayData.removeAllObjects()
-        var days = (daysToShow[indexPath.row][0] as! Schedule).days
-        for(var i = 0; i < days.count; i++)
+        if(daysToShow.count > 0)
         {
-            selectedDayData.addObject(days[i])
-            
+            selectedDayData.removeAllObjects()
+            var days = (daysToShow[indexPath.row][0] as! Schedule).days
+            for(var i = 0; i < days.count; i++)
+            {
+                selectedDayData.addObject(days[i])
+                
+            }
+            performSegueWithIdentifier("returnToDaySelectedFromDays", sender: self)
         }
-        performSegueWithIdentifier("returnToDaySelectedFromDays", sender: self)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 60
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
     }
 
     
@@ -144,6 +169,7 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
         {
             let destinationViewController = segue.destinationViewController as! SchedulerViewController
             destinationViewController.prevViewController = "days"
+            destinationViewController.daysSet[0] = true
         }
         else
         {
@@ -159,18 +185,24 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     
     //Data saved
     @IBAction func returnToDays(segue: UIStoryboardSegue) {
-        getSchedule()
-        
-        getDays()
+        reRunStuff()
         
     }
     
     //Canceled Scheduler
     @IBAction func returnToDaysFromCancel(segue: UIStoryboardSegue) {
+        reRunStuff()
+    }
+    
+    func reRunStuff()
+    {
         getSchedule()
         
         getDays()
         
+        dispatch_async(dispatch_get_main_queue(), {
+            self.myTable.reloadData()
+        })
     }
     
     //Get schedule
@@ -243,6 +275,11 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
                 }
             }
         }
+        
+        //order by time for loop through days to show and sort by ascending
+        
+        //sort by groups (Every,week,end,M,T...groups(will be alphabetical when store)) give enumeration with values and use to determine order by theselves or add up
+        
     }
     
     
