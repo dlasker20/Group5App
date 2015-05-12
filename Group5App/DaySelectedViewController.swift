@@ -276,8 +276,12 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
             }
             
         }
-    
-        //TODO: editing one need to set object of Schedule selected
+        else if(segue.identifier == "showDays")
+        {
+            self.title = "Today"
+            sentDays.removeAllObjects()
+            timesToShow.removeAllObjects()
+        }
 
         myTable.editing = false
         self.editButton.title = "Edit"

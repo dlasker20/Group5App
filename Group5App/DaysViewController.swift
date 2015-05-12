@@ -130,8 +130,7 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
         var time: [Schedule] = daysToShow[indexPath.row] as! [Schedule]
         for(var i = 0; i < time.count; i++)
         {
-            times = times + " " + formatter.stringFromDate(time[i].time).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            
+            times = times + " " + formatter.stringFromDate(time[i].time).stringByReplacingOccurrencesOfString(" ", withString: "")
         }
         
         cell.textLabel?.text = daysTitle
@@ -233,21 +232,53 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
         
         for(var i = 0; i < mySchedule.count; i++)
         {
-            var same = false
             if(daysToShow.count == 0)
             {
+                var indivSchedule = (mySchedule[i] as! Schedule)
+                if(indivSchedule.days.count > 1)
+                {
+                    for(var j = 0; j < indivSchedule.days.count; j++)
+                    {
+                        var toAdd = NSMutableArray()
+                        toAdd.addObject(Schedule(days: [indivSchedule.days[j]], time: indivSchedule.time, topicSet: indivSchedule.topicSet, typeSet: indivSchedule.typeSet))
+                        daysToShow.addObject(toAdd)
+                        
+                    }
+                }
                 var toAdd = NSMutableArray()
                 toAdd.addObject(mySchedule[i])
                 daysToShow.addObject(toAdd)
             }
             else
             {
+                var indivSchedule: Schedule = mySchedule[i] as! Schedule
+                var match = false
+                
+                if(indivSchedule.days.count > 1)
+                {
+                    var alreadyThere = false
+                    for(var b = 0; b < daysToShow.count; b++)
+                    {
+                        var daysToShowElement = (daysToShow[b][0] as! Schedule)
+                        var daysSet = NSSet(array:daysToShowElement.days as [String])
+                        var schSet = NSSet(array: indivSchedule.days as [String])
+                        if(daysSet.isSubsetOfSet(schSet as Set<NSObject>) )
+                        {
+                            daysToShow[b].addObject(indivSchedule)
+                            alreadyThere = true
+                        }
+                    }
+                    if(alreadyThere == false)
+                    {
+                        var toAdd = NSMutableArray()
+                        toAdd.addObject(indivSchedule)
+                        daysToShow.addObject(toAdd)
+                    }
+                }
+
                 for(var j = 0; j < daysToShow.count; j++)
                 {
-                    println(j)
                     var count = 0
-                    var indivSchedule: Schedule = mySchedule[i] as! Schedule
-                    
                     var daysToShowElement = (daysToShow[j][0] as! Schedule)
                     
                     for(var k = 0; k < indivSchedule.days.count; k++)
@@ -262,23 +293,31 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
                     }
                     if(count == indivSchedule.days.count && indivSchedule.days.count == daysToShowElement.days.count)
                     {
-                        println("HI")
                         daysToShow[j].addObject(indivSchedule)
+                        match = true
                     }
-                    else
-                    {
-                        println("BYE")
-                        var toAdd = NSMutableArray()
-                        toAdd.addObject(indivSchedule)
-                        daysToShow.addObject(toAdd)
-                    }
+                }
+                
+                if(!match)
+                {
+                    var toAdd = NSMutableArray()
+                    toAdd.addObject(indivSchedule)
+                    daysToShow.addObject(toAdd)
                 }
             }
         }
         
-        //order by time for loop through days to show and sort by ascending
+        //Sort all times in each row of daysToShow 2D array(used to show times for day(s) in ascending order)
+        for(var i = 0; i < daysToShow.count; i++)
+        {
+            let timeSortDescriptor = NSSortDescriptor(key: "time", ascending: true)
+            let sortedByTime = (daysToShow[i] as! NSMutableArray).sortedArrayUsingDescriptors([timeSortDescriptor])
+            daysToShow.replaceObjectAtIndex(i, withObject: sortedByTime)
+        }
         
         //sort by groups (Every,week,end,M,T...groups(will be alphabetical when store)) give enumeration with values and use to determine order by theselves or add up
+        
+        //DELETION AND THEN DONE
         
     }
     

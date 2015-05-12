@@ -20,7 +20,6 @@
 		3724E3801AD84124004FE06D /* DayPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3724E37F1AD84124004FE06D /* DayPickerViewController.swift */; };
 		37A75D371AE9851500DE5E4B /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A75D361AE9851500DE5E4B /* DatePickerTableViewCell.swift */; };
 		37A75D391AE9852400DE5E4B /* PickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A75D381AE9852400DE5E4B /* PickerTableViewCell.swift */; };
-		37A75D3B1AE9853400DE5E4B /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A75D3A1AE9853400DE5E4B /* SwitchTableViewCell.swift */; };
 		37A75D3D1AF022E300DE5E4B /* FooterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A75D3C1AF022E300DE5E4B /* FooterTableViewCell.swift */; };
 		499A53B11ADC6983006C916B /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499A53AE1ADC6983006C916B /* Article.swift */; };
 		499A53B21ADC6983006C916B /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499A53AF1ADC6983006C916B /* ImageData.swift */; };
@@ -59,7 +58,6 @@
 		3724E37F1AD84124004FE06D /* DayPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayPickerViewController.swift; sourceTree = "<group>"; };
 		37A75D361AE9851500DE5E4B /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
 		37A75D381AE9852400DE5E4B /* PickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
-		37A75D3A1AE9853400DE5E4B /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		37A75D3C1AF022E300DE5E4B /* FooterTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterTableViewCell.swift; sourceTree = "<group>"; };
 		499A53AE1ADC6983006C916B /* Article.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		499A53AF1ADC6983006C916B /* ImageData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 			children = (
 				37A75D361AE9851500DE5E4B /* DatePickerTableViewCell.swift */,
 				37A75D381AE9852400DE5E4B /* PickerTableViewCell.swift */,
-				37A75D3A1AE9853400DE5E4B /* SwitchTableViewCell.swift */,
 				37A75D3C1AF022E300DE5E4B /* FooterTableViewCell.swift */,
 			);
 			name = cells;
@@ -280,7 +277,6 @@
 			files = (
 				3724E37A1AD840E0004FE06D /* DaySelectedViewController.swift in Sources */,
 				3724E3541AD0A605004FE06D /* AppDelegate.swift in Sources */,
-				37A75D3B1AE9853400DE5E4B /* SwitchTableViewCell.swift in Sources */,
 				49E380E31ADDC54F001CFEFD /* asciiConvert.swift in Sources */,
 				3724E37E1AD84105004FE06D /* SchedulerViewController.swift in Sources */,
 				3724E3801AD84124004FE06D /* DayPickerViewController.swift in Sources */,

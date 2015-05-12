@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SchedulerViewController: UIViewController,UITableViewDataSource, UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate {
+class SchedulerViewController: UIViewController,UITableViewDataSource, UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -27,7 +27,6 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     var prevViewController = ""
     
-    var showTimePicker = false
     var showTopicTypePicker = false
     
     
@@ -39,7 +38,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     var daysPickedDetail: UITableViewCell?
     var datePickerCell: DatePickerTableViewCell?
     var picker: PickerTableViewCell?
-    var notify: SwitchTableViewCell?
+    var pickerContentDetail: UITableViewCell?
     
     
     
@@ -67,30 +66,22 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     //Table view stuff
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section
         {
             case 0:
-                if(showTimePicker){
-                    return 3
-                }
-                else{
-                    return 2
-                }
+                return 2
         
-            case 1:
+            default:
                 if(showTopicTypePicker){
                     return 2
                 }
                 else{
                     return 1
                 }
-            
-            default:
-                return 1
         }
     }
     
@@ -139,11 +130,17 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                         //get time from date cover to string then convert sting back into date and round to 15 minute intervals this will make the date the same for all times and make the time conform to 15 choices like on picker. Helpful code in day selected view when get time to display in cell
                 }
             
-            case 1:
+            default:
                 switch indexPath.row
                 {
                     case 0:
                         cell = tableView.dequeueReusableCellWithIdentifier("topicTypeTitle", forIndexPath: indexPath) as! UITableViewCell
+                    
+                        pickerContentDetail = cell
+                    
+                        pickerContentDetail?.detailTextLabel?.text = topics[0] + " (" + types[0].lowercaseString + " old)"
+                    
+                        //set differently if editing
                     
                     default:
                         cell = tableView.dequeueReusableCellWithIdentifier("topicTypeCell", forIndexPath: indexPath) as! PickerTableViewCell
@@ -154,20 +151,6 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
                         //set to default if day or time not sent
                     
                     
-                }
-            
-            default:
-                switch indexPath.row
-                {
-                    
-                    default:
-                        cell = tableView.dequeueReusableCellWithIdentifier("notifyCell", forIndexPath: indexPath) as! SwitchTableViewCell
-                    
-                        notify = cell as? SwitchTableViewCell
-                    
-                    
-                        //Need to set notifications based of day and time sent
-                        //set to default if day or time not sent
                 }
         }
 
@@ -247,14 +230,10 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        if(component == topicsPicker)
-        {
-            
-        }
-        else
-        {
-            
-        }
+        var topic = picker?.topicNTypePickerView.selectedRowInComponent(0)
+        var type = picker?.topicNTypePickerView.selectedRowInComponent(1)
+        
+        pickerContentDetail?.detailTextLabel?.text = topics[topic!] + " (" + types[type!].lowercaseString + " old)"
         
     }
 
@@ -311,9 +290,7 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
         let date = datePickerCell!.datePicker.date
         println(date)
         
-        let notifySetting = notify!.notifySwitch.on
-        
-        schedule = Schedule(days: daysSelected, time: date, topicSet: topicSet, typeSet: typeSet, notifications: notifySetting)
+        schedule = Schedule(days: daysSelected, time: date, topicSet: topicSet, typeSet: typeSet)
         
         return schedule
     }
