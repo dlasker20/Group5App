@@ -403,27 +403,3 @@ class SchedulerViewController: UIViewController,UITableViewDataSource, UITableVi
 
 }
 
-
-//TODO: Figure out how to check if record already exist and throw an error on create. Also how to edit and delte record (should make functions for these things and to also send type and topic back to andrew via a function call)
-
-//Display error if no connection to internet and thus cannot get JSON (do on main page and UIWebView)
-//loading gif for UIWebView?
-//pull down to refresh or refresh icon or both???
-//Fix warnings
-//how to clear/delete archived file/stuff so that can have a fresh file
-//Make sure 1 always checked in day picker
-
-//Better navigation indicators
-//Add way to transition/send data to proper view when click on time or when click on a day to edit/view
-
-//Add
-//Edit
-//ERROR MESSAGE IF CREATE CONFLICTS, SO DON'T ALLOW TO SAVE
-//Add to existing appointment day is days with similar settings already exist
-//Delete(Should be in daysSelected and Days instead of here???)
-//Send type and topic back based on time(Should just create function in Articles controller instead of here???)(Set default like arts if nothing scheduled for day)
-//set notifications
-//edit notifications when change
-//delete notifications when delete(hour or day) or turn off
-
-//Get developer registered so can test on actual iphone and then deploy to store

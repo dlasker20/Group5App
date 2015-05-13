@@ -337,10 +337,27 @@ class DaySelectedViewController: UIViewController,UITabBarDelegate, UITableViewD
         else
         {
             var title = ""
-            for(var i = 0; i < sentDays.count; i++)
+            
+            if(sentDays.containsObject("Monday") && sentDays.containsObject("Tuesday") && sentDays.containsObject("Wednesday") && sentDays.containsObject("Thursday") && sentDays.containsObject("Friday") && sentDays.containsObject("Saturday") && sentDays.containsObject("Sunday") && sentDays.count == 7)
             {
-                title = title + " " + (sentDays[i] as! String)
+                title = "Everyday"
             }
+            else if(sentDays.containsObject("Monday") && sentDays.containsObject("Tuesday") && sentDays.containsObject("Wednesday") && sentDays.containsObject("Thursday") && sentDays.containsObject("Friday") && sentDays.count == 5)
+            {
+                title = "Weekdays"
+            }
+            else if(sentDays.containsObject("Saturday") && sentDays.containsObject("Sunday") && sentDays.count == 2)
+            {
+                title = "Weekends"
+            }
+            else
+            {
+                for(var i = 0; i < sentDays.count; i++)
+                {
+                    title = title + " " + (sentDays[i] as! String)
+                }
+            }
+            
             self.title = title
             isToday = false
         }

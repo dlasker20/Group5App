@@ -54,31 +54,9 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Notifications Load View (LP)
-        var dateComp:NSDateComponents = NSDateComponents()
-        dateComp.year = 2015;
-        dateComp.month = 05;
-        dateComp.day = 07;
-        dateComp.hour = 12;
-        dateComp.minute = 30;
-        dateComp.timeZone = NSTimeZone.systemTimeZone()
-        
-        var calender:NSCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
-        var date:NSDate = calender.dateFromComponents(dateComp)!
-        
-        
-        var notification:UILocalNotification = UILocalNotification()
-        notification.category = "FIRST_CATEGORY"
-        notification.alertBody = "You have scheduled news for this time! Swipe now to take a look!"
-        notification.fireDate = date
-        
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
-        
-        
-        //tell table to use custom cell described in CustomTableViewCell.xib
-        
         self.navigationController!.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Superclarendon-Bold", size: 22)!]
         
+        //tell table to use custom cell described in CustomTableViewCell.xib
         var nib = UINib(nibName: "CustomTableViewCell", bundle: nil)
         articleTableView.registerNib(nib, forCellReuseIdentifier: customReuse)
         

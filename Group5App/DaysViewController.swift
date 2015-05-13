@@ -31,6 +31,8 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
     var deletionComplete = false
     var allowEdit = false
     
+    var sortLookup: [String: Int] = ["Everyday": -2, "Weekdays": -1, "Weekends": 0, "Monday": 1, "Tuesday": 2, "Wednesday": 4, "Thursday": 8, "Friday": 16, "Saturday": 32, "Sunday": 64]
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -115,11 +117,30 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
             
         var daysTitle = ""
         
+        
         var day = daysToShow[indexPath.row][0] as! Schedule
         
-        for(var i = 0; i < day.days.count; i++)
+        var totalDays = NSMutableArray(array: day.days)
+        
+        
+        if(totalDays.containsObject("Monday") && totalDays.containsObject("Tuesday") && totalDays.containsObject("Wednesday") && totalDays.containsObject("Thursday") && totalDays.containsObject("Friday") && totalDays.containsObject("Saturday") && totalDays.containsObject("Sunday") && totalDays.count == 7)
         {
-            daysTitle = daysTitle + " " + day.days[i]
+            daysTitle = "Everyday"
+        }
+        else if(totalDays.containsObject("Monday") && totalDays.containsObject("Tuesday") && totalDays.containsObject("Wednesday") && totalDays.containsObject("Thursday") && totalDays.containsObject("Friday") && totalDays.count == 5)
+        {
+            daysTitle = "Weekdays"
+        }
+        else if(totalDays.containsObject("Saturday") && totalDays.containsObject("Sunday") && totalDays.count == 2)
+        {
+            daysTitle = "Weekends"
+        }
+        else
+        {
+            for(var i = 0; i < day.days.count; i++)
+            {
+                daysTitle = daysTitle + " " + day.days[i]
+            }
         }
         
         let formatter = NSDateFormatter()
@@ -253,52 +274,58 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
             {
                 var indivSchedule: Schedule = mySchedule[i] as! Schedule
                 var match = false
-                
-                if(indivSchedule.days.count > 1)
+                var same = false
+                var sameAlsoSize = false
+                var prevIsLargerSet = false
+                var prevIndex = 0
+
+                var schSetRemaining = NSMutableSet(array: indivSchedule.days as [String])
+                for(var b = 0; b < daysToShow.count; b++)
                 {
-                    var alreadyThere = false
-                    for(var b = 0; b < daysToShow.count; b++)
+                    var daysToShowElement = (daysToShow[b][0] as! Schedule)
+                    var daysSet = NSSet(array:daysToShowElement.days as [String])
+                    var schSet = NSSet(array: indivSchedule.days as [String])
+                    if(daysSet.isSubsetOfSet(schSet as Set<NSObject>) )
                     {
-                        var daysToShowElement = (daysToShow[b][0] as! Schedule)
-                        var daysSet = NSSet(array:daysToShowElement.days as [String])
-                        var schSet = NSSet(array: indivSchedule.days as [String])
-                        if(daysSet.isSubsetOfSet(schSet as Set<NSObject>) )
+                        daysToShow[b].addObject(indivSchedule)
+                        same = true
+                        if(daysSet.count == schSet.count)
                         {
-                            daysToShow[b].addObject(indivSchedule)
-                            alreadyThere = true
+                            sameAlsoSize = true
                         }
                     }
-                    if(alreadyThere == false)
+                    
+                    schSetRemaining.minusSet(daysSet as Set<NSObject>)
+                    
+                }
+                if(same == false)
+                {
+                    for(var c = 0; c < indivSchedule.days.count; c++)
                     {
                         var toAdd = NSMutableArray()
-                        toAdd.addObject(indivSchedule)
+                        toAdd.addObject(Schedule(days: [indivSchedule.days[c]], time: indivSchedule.time, topicSet: indivSchedule.topicSet, typeSet: indivSchedule.typeSet))
                         daysToShow.addObject(toAdd)
                     }
-                }
-
-                for(var j = 0; j < daysToShow.count; j++)
-                {
-                    var count = 0
-                    var daysToShowElement = (daysToShow[j][0] as! Schedule)
                     
-                    for(var k = 0; k < indivSchedule.days.count; k++)
-                    {
-                        for(var z = 0; z < daysToShowElement.days.count; z++)
-                        {
-                            if(indivSchedule.days[k] == daysToShowElement.days[z])
-                            {
-                                count++
-                            }
-                        }
-                    }
-                    if(count == indivSchedule.days.count && indivSchedule.days.count == daysToShowElement.days.count)
-                    {
-                        daysToShow[j].addObject(indivSchedule)
-                        match = true
-                    }
+                    var toAdd = NSMutableArray()
+                    toAdd.addObject(indivSchedule)
+                    daysToShow.addObject(toAdd)
                 }
-                
-                if(!match)
+                else if(schSetRemaining.count > 0 && same)
+                {
+                    for(var c = 0; c < schSetRemaining.count; c++)
+                    {
+                        var toAdd = NSMutableArray()
+                        var days = Array(schSetRemaining)
+                        toAdd.addObject(Schedule(days: [(days[c] as! String)], time: indivSchedule.time, topicSet: indivSchedule.topicSet, typeSet: indivSchedule.typeSet))
+                        daysToShow.addObject(toAdd)
+                    }
+                    
+                    var toAdd = NSMutableArray()
+                    toAdd.addObject(indivSchedule)
+                    daysToShow.addObject(toAdd)
+                }
+                else if(sameAlsoSize == false)
                 {
                     var toAdd = NSMutableArray()
                     toAdd.addObject(indivSchedule)
@@ -314,6 +341,8 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
             let sortedByTime = (daysToShow[i] as! NSMutableArray).sortedArrayUsingDescriptors([timeSortDescriptor])
             daysToShow.replaceObjectAtIndex(i, withObject: sortedByTime)
         }
+        
+        //daysToShow.sortUsingComparator(<#cmptr: NSComparator##(AnyObject!, AnyObject!) -> NSComparisonResult#>)
         
         //sort by groups (Every,week,end,M,T...groups(will be alphabetical when store)) give enumeration with values and use to determine order by theselves or add up
         
