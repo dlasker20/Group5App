@@ -51,6 +51,8 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     var viewAppearedAgain = false
     
+    //var allowActiveLoad = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,7 +68,9 @@ class ArticlesViewController: UIViewController, UITableViewDataSource, UITableVi
         refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         articleTableView.addSubview(refreshControl)
         
+ 
         getArticles(true, showIndicator: true)
+
     }
     
     override func viewDidAppear(animated: Bool) {

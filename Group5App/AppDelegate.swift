@@ -168,7 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 dateComp.year = components.year
                 dateComp.month = components.month
                 dateComp.day = components.day
-                dateComp.hour = (hours + 12)
+                dateComp.hour = hours
                 dateComp.minute = minutes
                 dateComp.timeZone = NSTimeZone.systemTimeZone()
                 
@@ -214,7 +214,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var root: UIViewController = window!.rootViewController!
         var navController:UINavigationController = root as! UINavigationController
         var myContoller:ArticlesViewController = navController.viewControllers[0] as! ArticlesViewController
+
         myContoller.viewDidLoad()
+        
         
         //Remove all notifications
         var app:UIApplication = UIApplication.sharedApplication()
