@@ -148,8 +148,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if(bestSchedule != nil)
             {
-                let date: NSDate = NSDate()
-                let cal: NSCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+                let cal = NSCalendar.currentCalendar()
+                
+                var components: NSDateComponents = cal.components(NSCalendarUnit.CalendarUnitDay | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitYear, fromDate: NSDate())
+            
                 
                 let formatter = NSDateFormatter()
                 formatter.dateStyle = .NoStyle
@@ -159,19 +161,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let fullString = timeString.componentsSeparatedByString(" ")
                 let actualTimeString = fullString[0].componentsSeparatedByString(":")
                 
-                println(actualTimeString[0])
-                println(actualTimeString[1])
-                
                 var hours = NSNumberFormatter().numberFromString(actualTimeString[0]) as! Int
                 var minutes = NSNumberFormatter().numberFromString(actualTimeString[1]) as! Int
                 
-                let newDate: NSDate = cal.dateBySettingHour(15, minute: minutes, second: 0, ofDate: date, options: NSCalendarOptions())!
+                var dateComp:NSDateComponents = NSDateComponents()
+                dateComp.year = components.year
+                dateComp.month = components.month
+                dateComp.day = components.day
+                dateComp.hour = (hours + 12)
+                dateComp.minute = minutes
+                dateComp.timeZone = NSTimeZone.systemTimeZone()
+                
+                var date:NSDate = cal.dateFromComponents(dateComp)!
                 
                 var notification:UILocalNotification = UILocalNotification()
                 notification.category = "FIRST_CATEGORY"
-                notification.alertBody = "You have scheduled news for this time! Swipe now to take a look!" + actualTimeString[1]
-                println(newDate)
-                notification.fireDate = newDate
+                notification.alertBody = "You have news scheduled! Swipe now to take a look!"
+                notification.fireDate = date
                 
                 UIApplication.sharedApplication().scheduleLocalNotification(notification)
                 

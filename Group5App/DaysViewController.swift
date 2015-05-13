@@ -174,12 +174,61 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
         }
     }
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            
+            for(var i = 0; i < mySchedule.count; i++)
+            {
+                var sch = (mySchedule[i] as! Schedule)
+                for(var j = 0; j < sch.days.count; j++)
+                {
+                    var day = (daysToShow[indexPath.row][0] as! Schedule)
+                    for( var k = 0; k < day.days.count; k++)
+                    {
+                        if(sch.days[j] == day.days[k])
+                        {
+                            if(sch.days.count == 1)
+                            {
+                                mySchedule.removeObjectAtIndex(1)
+                            }
+                            else
+                            {
+                                (mySchedule[i] as! Schedule).days.removeAtIndex(j)
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            
+            daysToShow.removeObjectAtIndex(indexPath.row)
+            
+             NSKeyedArchiver.archiveRootObject(mySchedule, toFile:path)
+            
+            deletionComplete = true
+            
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.myTable.reloadData()
+                })
+            })
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            CATransaction.commit()
+            
+            
+            if(daysToShow.count == 0)
+            {
+                nothingToShow = true
+            }
+            
+        }
+    }
+
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 60
-    }
-    
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        
     }
 
     
@@ -300,13 +349,15 @@ class DaysViewController: UIViewController,UITabBarDelegate, UITableViewDataSour
                 }
                 if(same == false)
                 {
-                    for(var c = 0; c < indivSchedule.days.count; c++)
+                    if(indivSchedule.days.count > 1)
                     {
-                        var toAdd = NSMutableArray()
-                        toAdd.addObject(Schedule(days: [indivSchedule.days[c]], time: indivSchedule.time, topicSet: indivSchedule.topicSet, typeSet: indivSchedule.typeSet))
-                        daysToShow.addObject(toAdd)
+                        for(var c = 0; c < indivSchedule.days.count; c++)
+                        {
+                            var toAdd = NSMutableArray()
+                            toAdd.addObject(Schedule(days: [indivSchedule.days[c]], time: indivSchedule.time, topicSet: indivSchedule.topicSet, typeSet: indivSchedule.typeSet))
+                            daysToShow.addObject(toAdd)
+                        }
                     }
-                    
                     var toAdd = NSMutableArray()
                     toAdd.addObject(indivSchedule)
                     daysToShow.addObject(toAdd)
